@@ -1,0 +1,19 @@
+{
+  "name": "peace-haven-portfolio",
+  "version": "1.0.0",
+  "description": "Peace Haven - Cinematic Enterprise Portfolio & Inquiry Management Platform",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev:client",
+    "dev:all": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "npm --prefix server run dev",
+    "build": "npm --prefix client run build",
+    "build:server": "npm --prefix server run build",
+    "test": "npm --prefix client run test && npm --prefix server run test",
+    "lint": "npm --prefix client run lint"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
