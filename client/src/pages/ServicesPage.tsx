@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, CheckCircle2, Sparkles, Layers, ShieldCheck, Compass, Search } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Sparkles, Layers, Search } from 'lucide-react';
 import { SEO } from '../components/common/SEO';
 import { Button } from '../components/common/Button';
 import { servicesData } from '../data/servicesData';
@@ -62,8 +62,8 @@ export const ServicesPage: React.FC = () => {
 
       {/* Hero Header */}
       <div className="text-center max-w-3xl mx-auto space-y-5">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono">
-          <Layers className="w-3.5 h-3.5 text-cyan-400" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-warm-200/10 border border-champagne-500/30 text-champagne-400 text-xs font-mono">
+          <Layers className="w-3.5 h-3.5 text-champagne-400" />
           <span>Eight Integrated Engineering Divisions</span>
         </div>
         
@@ -77,7 +77,7 @@ export const ServicesPage: React.FC = () => {
       </div>
 
       {/* Filter Tabs & Search Controls */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-800 pb-6">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-sage-500/20 pb-6">
         
         {/* Filter Pills */}
         <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Service category filters">
@@ -87,10 +87,10 @@ export const ServicesPage: React.FC = () => {
               role="tab"
               aria-selected={selectedFilter === tab.id}
               onClick={() => setSelectedFilter(tab.id)}
-              className={`px-4 py-2 rounded-xl text-xs font-mono transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
+              className={`px-4 py-2 rounded-xl text-xs font-mono transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-champagne-400 ${
                 selectedFilter === tab.id
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-semibold shadow-lg shadow-cyan-950/50'
-                  : 'bg-navy-900/60 text-slate-400 border border-slate-800 hover:text-white hover:border-slate-700'
+                  ? 'bg-teal-700 text-white border border-teal-600/50 font-semibold shadow-sm'
+                  : 'bg-charcoal-850/80 text-slate-300 border border-sage-500/20 hover:text-white hover:border-sage-500/40'
               }`}
             >
               {tab.label}
@@ -107,7 +107,7 @@ export const ServicesPage: React.FC = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search capabilities..."
             aria-label="Search service capabilities"
-            className="w-full bg-navy-950/80 border border-slate-800 rounded-xl pl-9 pr-4 py-2 text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-400"
+            className="w-full bg-charcoal-850/80 border border-sage-500/25 rounded-xl pl-9 pr-4 py-2 text-xs font-mono text-warm-100 placeholder-slate-400 focus:outline-none focus:border-champagne-500/60 focus:ring-1 focus:ring-champagne-400"
           />
         </div>
 
@@ -122,28 +122,28 @@ export const ServicesPage: React.FC = () => {
             variants={cardVariants}
             initial="hidden"
             animate="visible"
-            className="glass-card rounded-2xl p-8 border border-slate-800 flex flex-col justify-between hover:border-cyan-500/40 hover:-translate-y-1 transition-all duration-300 group shadow-xl shadow-black/20"
+            className="glass-card bg-charcoal-850/85 rounded-2xl p-8 border border-sage-500/20 flex flex-col justify-between hover:border-champagne-500/40 hover:-translate-y-1 transition-all duration-300 group shadow-card-dark"
           >
             <div className="space-y-6">
               
               {/* Header: Division Counter + Deliverable Count */}
               <div className="flex items-center justify-between">
-                <span className="text-xs font-mono text-cyan-400 font-bold">
+                <span className="text-xs font-mono text-champagne-400 font-bold">
                   Division 0{index + 1}
                 </span>
-                <span className="text-[11px] font-mono px-2.5 py-1 rounded bg-navy-900 border border-slate-700/80 text-slate-300">
+                <span className="text-[11px] font-mono px-2.5 py-1 rounded bg-charcoal-900 border border-sage-500/30 text-slate-300">
                   {service.capabilities.length} Capabilities
                 </span>
               </div>
 
               {/* Title & Tagline */}
               <div>
-                <Link to={`/services/${service.slug}`} className="group-hover:text-cyan-300 transition-colors">
+                <Link to={`/services/${service.slug}`} className="group-hover:text-champagne-300 transition-colors">
                   <h2 className="font-heading text-2xl font-bold text-white tracking-wide">
                     {service.title}
                   </h2>
                 </Link>
-                <p className="text-cyan-400/90 font-mono text-xs mt-1">
+                <p className="text-champagne-400/90 font-mono text-xs mt-1">
                   {service.tagline}
                 </p>
               </div>
@@ -154,14 +154,14 @@ export const ServicesPage: React.FC = () => {
               </p>
 
               {/* Capabilities checklist */}
-              <div className="space-y-2.5 pt-4 border-t border-slate-800/80">
+              <div className="space-y-2.5 pt-4 border-t border-sage-500/20">
                 <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block">
                   Core Engineering Capabilities:
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {service.capabilities.slice(0, 4).map((cap, i) => (
                     <div key={i} className="flex items-start gap-2 text-xs text-slate-300">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-champagne-400 shrink-0 mt-0.5" />
                       <span className="truncate">{cap.title}</span>
                     </div>
                   ))}
@@ -170,10 +170,10 @@ export const ServicesPage: React.FC = () => {
             </div>
 
             {/* Bottom Actions & Technology Tags */}
-            <div className="pt-6 flex flex-wrap items-center justify-between gap-4 border-t border-slate-800/80 mt-6">
+            <div className="pt-6 flex flex-wrap items-center justify-between gap-4 border-t border-sage-500/20 mt-6">
               <div className="flex flex-wrap gap-1.5 max-w-[65%]">
                 {service.techStack.slice(0, 3).map((tech) => (
-                  <span key={tech} className="text-[10px] font-mono px-2 py-0.5 rounded bg-navy-900 border border-slate-800 text-slate-400">
+                  <span key={tech} className="text-[10px] font-mono px-2 py-0.5 rounded bg-charcoal-900 border border-sage-500/20 text-slate-400">
                     {tech}
                   </span>
                 ))}
@@ -193,8 +193,8 @@ export const ServicesPage: React.FC = () => {
       </div>
 
       {/* Inquiry Callout Banner */}
-      <div className="rounded-3xl p-10 lg:p-12 glass-card border border-cyan-500/30 text-center space-y-6 max-w-4xl mx-auto bg-gradient-to-b from-navy-900/95 to-navy-950/95 shadow-2xl">
-        <Sparkles className="w-10 h-10 text-cyan-400 mx-auto" />
+      <div className="rounded-3xl p-10 lg:p-12 glass-card border border-sage-500/25 text-center space-y-6 max-w-4xl mx-auto bg-gradient-to-b from-charcoal-850 to-charcoal-900 shadow-xl">
+        <Sparkles className="w-10 h-10 text-champagne-400 mx-auto" />
         
         <div className="space-y-2">
           <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-white">

@@ -6,12 +6,12 @@ import { ScrollToTop } from './ScrollToTop';
 
 export const RootLayout: React.FC = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-navy-950 text-slate-100 selection:bg-cyan-500/25 selection:text-cyan-200">
+    <div className="min-h-screen flex flex-col bg-charcoal-900 text-warm-200 selection:bg-teal-700/30 selection:text-champagne-300">
       
       {/* Skip to Main Content Link for WCAG Keyboard Accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-[9999] px-4 py-2 bg-cyan-400 text-navy-950 font-bold rounded shadow-lg focus:outline-none"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-[9999] px-4 py-2 bg-champagne-500 text-charcoal-900 font-bold rounded-lg shadow-lg focus:outline-none"
       >
         Skip to main content
       </a>

@@ -8,7 +8,7 @@ export const PrivacyPolicyPage: React.FC = () => {
       <SEO title="Privacy Policy" description="Peace Haven enterprise data privacy, security, and governance standards." />
 
       <div className="space-y-4 mb-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-mono">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-champagne-500/10 border border-champagne-500/30 text-champagne-400 text-xs font-mono">
           <Shield className="w-3.5 h-3.5" />
           <span>Data Governance & Security Standard</span>
         </div>
@@ -20,10 +20,10 @@ export const PrivacyPolicyPage: React.FC = () => {
         </p>
       </div>
 
-      <div className="glass-card p-8 rounded-2xl border border-slate-800 space-y-8 text-slate-300 text-sm leading-relaxed">
+      <div className="bg-charcoal-850/90 p-8 rounded-2xl border border-sage-700/40 space-y-8 text-slate-300 text-sm leading-relaxed shadow-lg">
         <section className="space-y-3">
           <h2 className="font-heading text-xl font-semibold text-white flex items-center gap-2">
-            <Lock className="w-5 h-5 text-cyan-400" />
+            <Lock className="w-5 h-5 text-champagne-400" />
             1. Commitment to Data Integrity & Confidentiality
           </h2>
           <p>
@@ -33,7 +33,7 @@ export const PrivacyPolicyPage: React.FC = () => {
 
         <section className="space-y-3">
           <h2 className="font-heading text-xl font-semibold text-white flex items-center gap-2">
-            <FileText className="w-5 h-5 text-cyan-400" />
+            <FileText className="w-5 h-5 text-champagne-400" />
             2. Information We Collect
           </h2>
           <p>
@@ -48,7 +48,7 @@ export const PrivacyPolicyPage: React.FC = () => {
 
         <section className="space-y-3">
           <h2 className="font-heading text-xl font-semibold text-white flex items-center gap-2">
-            <CheckCircle className="w-5 h-5 text-cyan-400" />
+            <CheckCircle className="w-5 h-5 text-champagne-400" />
             3. Use of Information
           </h2>
           <p>
@@ -59,7 +59,7 @@ export const PrivacyPolicyPage: React.FC = () => {
             <li>Direct communication regarding active engagements or technical deliverables.</li>
             <li>Ensuring the operational security and availability of our web applications and API endpoints.</li>
           </ul>
-          <p className="font-medium text-cyan-300">
+          <p className="font-medium text-champagne-300">
             Peace Haven does not sell, rent, monetize, or broker commercial client data to any third-party marketing entities.
           </p>
         </section>
@@ -80,7 +80,7 @@ export const PrivacyPolicyPage: React.FC = () => {
           <p>
             For data privacy inquiries, deletion requests, or compliance audits, contact our security office directly at:
           </p>
-          <div className="p-4 rounded-xl bg-navy-900 border border-slate-700/60 font-mono text-xs text-slate-200">
+          <div className="p-4 rounded-xl bg-charcoal-900 border border-sage-700/40 font-mono text-xs text-slate-200">
             Peace Haven Technologies Inc. &bull; Enterprise Compliance Division<br />
             Email: privacy@peacehaven.tech<br />
             Global Response Time: Within 24-48 business hours

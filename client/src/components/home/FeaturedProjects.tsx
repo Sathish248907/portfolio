@@ -26,13 +26,14 @@ export const FeaturedProjects: React.FC = () => {
     : projectsData.filter((p) => p.serviceId === selectedCategory);
 
   return (
-    <section className="py-20 relative border-t border-slate-800/80" aria-labelledby="portfolio-heading">
+    <section className="py-24 relative bg-warm-100 border-t border-sage-300/60" aria-labelledby="portfolio-heading">
       <Container size="lg" className="space-y-12">
         
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <Reveal direction="left">
             <SectionHeading
               align="left"
+              theme="light"
               eyebrow="Demonstration Prototypes"
               title="Ideas made tangible."
               subtitle="Explore selected work demonstrating how technology and engineering can solve real problems."
@@ -57,10 +58,10 @@ export const FeaturedProjects: React.FC = () => {
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-mono transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-mono transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-champagne-400 ${
                 selectedCategory === cat.id
-                  ? 'bg-cyan-500 text-navy-950 font-bold shadow-neon-cyan'
-                  : 'bg-navy-900/80 text-slate-300 border border-slate-800 hover:border-slate-700'
+                  ? 'bg-teal-700 text-white font-semibold shadow-sm'
+                  : 'bg-white text-slate-700 border border-sage-300 hover:border-slate-400'
               }`}
             >
               {cat.label}
@@ -78,12 +79,12 @@ export const FeaturedProjects: React.FC = () => {
         </div>
 
         {/* Laboratory Transparency Banner */}
-        <div className="glass-card p-4 rounded-xl border border-slate-800 flex items-center justify-between text-xs font-mono text-slate-400">
-          <div className="flex items-center gap-2 text-slate-300">
-            <Terminal className="w-4 h-4 text-cyan-400 shrink-0" />
+        <div className="bg-white p-4 rounded-2xl border border-sage-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-slate-600 shadow-subtle">
+          <div className="flex items-center gap-2 text-slate-700">
+            <Terminal className="w-4 h-4 text-teal-700 shrink-0" />
             <span>Honest Demonstration Designation: Benchmarks & reference prototypes built by Peace Haven engineers.</span>
           </div>
-          <Link to="/about" className="text-cyan-400 hover:underline hidden sm:inline-block">
+          <Link to="/about" className="text-teal-700 hover:text-teal-900 font-semibold underline underline-offset-4 shrink-0">
             Our Principles &rarr;
           </Link>
         </div>

@@ -12,30 +12,30 @@ export const AdminSettingsPage: React.FC = () => {
 
       <div className="grid grid-cols-1 gap-6">
         {/* Environment Status */}
-        <div className="glass-card p-6 rounded-2xl border border-slate-800 space-y-4">
-          <div className="flex items-center gap-2 text-cyan-400">
+        <div className="bg-charcoal-850/90 p-6 rounded-2xl border border-sage-700/30 space-y-4 shadow-md">
+          <div className="flex items-center gap-2 text-champagne-400">
             <Server className="w-5 h-5" />
             <h2 className="font-heading text-base font-bold text-white">API Gateway Status</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
-            <div className="p-3 rounded-xl bg-navy-900 border border-slate-800">
+            <div className="p-3 rounded-xl bg-charcoal-900 border border-sage-700/30">
               <span className="text-slate-500 block text-[10px]">BACKEND STATUS</span>
               <span className="text-emerald-400 font-bold">Node.js / Express</span>
             </div>
-            <div className="p-3 rounded-xl bg-navy-900 border border-slate-800">
+            <div className="p-3 rounded-xl bg-charcoal-900 border border-sage-700/30">
               <span className="text-slate-500 block text-[10px]">API VERSION</span>
-              <span className="text-cyan-300 font-bold">v1 (/api/v1)</span>
+              <span className="text-champagne-400 font-bold">v1 (/api/v1)</span>
             </div>
-            <div className="p-3 rounded-xl bg-navy-900 border border-slate-800">
+            <div className="p-3 rounded-xl bg-charcoal-900 border border-sage-700/30">
               <span className="text-slate-500 block text-[10px]">DATABASE ENGINE</span>
-              <span className="text-cyan-300 font-bold">MongoDB / Mongoose</span>
+              <span className="text-champagne-400 font-bold">MongoDB / Mongoose</span>
             </div>
           </div>
         </div>
 
         {/* Security & Access Policy */}
-        <div className="glass-card p-6 rounded-2xl border border-slate-800 space-y-4">
-          <div className="flex items-center gap-2 text-cyan-400">
+        <div className="bg-charcoal-850/90 p-6 rounded-2xl border border-sage-700/30 space-y-4 shadow-md">
+          <div className="flex items-center gap-2 text-champagne-400">
             <ShieldCheck className="w-5 h-5" />
             <h2 className="font-heading text-base font-bold text-white">Security & Audit Policies</h2>
           </div>

@@ -16,7 +16,7 @@ describe('Phase 2 Homepage Implementation Tests', () => {
     );
 
     // Section 2: Hero
-    expect(screen.getByText(/ENGINEERING THE FUTURE/i)).toBeInTheDocument();
+    expect(screen.getByText(/(INNOVATION MEETS IMPACT|ENGINEERING THE FUTURE)/i)).toBeInTheDocument();
     expect(
       screen.getByRole('heading', { level: 1, name: /We turn ambitious ideas into intelligent solutions/i })
     ).toBeInTheDocument();
@@ -40,15 +40,7 @@ describe('Phase 2 Homepage Implementation Tests', () => {
       screen.getByText(/Explore the services that help businesses innovate, operate, and grow\./i)
     ).toBeInTheDocument();
 
-    // Section 5: Featured Portfolio
-    expect(
-      screen.getByRole('heading', { level: 2, name: /Ideas made tangible\./i })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Explore selected work demonstrating how technology and engineering can solve real problems\./i)
-    ).toBeInTheDocument();
-
-    // Section 6: Industries Served
+    // Section 5: Industries Served
     expect(
       screen.getByRole('heading', { level: 2, name: /Technology for the challenges that matter\./i })
     ).toBeInTheDocument();

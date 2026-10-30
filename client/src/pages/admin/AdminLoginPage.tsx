@@ -54,10 +54,10 @@ export const AdminLoginPage: React.FC = () => {
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-16">
       <SEO title="Administrative Authentication | Peace Haven" description="Secure staff portal access." />
 
-      <div className="max-w-md w-full glass-card p-8 rounded-3xl border border-slate-800 shadow-2xl space-y-6">
+      <div className="max-w-md w-full bg-charcoal-850/90 p-8 rounded-3xl border border-sage-700/40 shadow-2xl space-y-6">
         
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 mx-auto flex items-center justify-center">
+          <div className="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-500/30 text-champagne-400 mx-auto flex items-center justify-center">
             <Lock className="w-6 h-6" />
           </div>
           <h1 className="font-heading text-2xl font-bold text-white">Administrative Portal</h1>
@@ -82,7 +82,7 @@ export const AdminLoginPage: React.FC = () => {
               type="email"
               {...register('email')}
               placeholder="admin@peacehaven.tech"
-              className="w-full px-4 py-2.5 rounded-lg bg-navy-900 border border-slate-700 focus:border-cyan-400 focus:outline-none text-slate-100 text-sm"
+              className="w-full px-4 py-2.5 rounded-lg bg-charcoal-900 border border-sage-700/50 focus:border-champagne-400 focus:outline-none text-slate-100 text-sm"
             />
             {errors.email && <p className="text-red-400 text-xs">{errors.email.message}</p>}
           </div>
@@ -95,13 +95,13 @@ export const AdminLoginPage: React.FC = () => {
               type="password"
               {...register('password')}
               placeholder="••••••••••••"
-              className="w-full px-4 py-2.5 rounded-lg bg-navy-900 border border-slate-700 focus:border-cyan-400 focus:outline-none text-slate-100 text-sm"
+              className="w-full px-4 py-2.5 rounded-lg bg-charcoal-900 border border-sage-700/50 focus:border-champagne-400 focus:outline-none text-slate-100 text-sm"
             />
             {errors.password && <p className="text-red-400 text-xs">{errors.password.message}</p>}
           </div>
 
-          <div className="p-3 rounded-xl bg-navy-900 border border-slate-800 text-[11px] text-slate-400 font-mono space-y-1">
-            <div className="text-cyan-400 font-semibold flex items-center gap-1">
+          <div className="p-3 rounded-xl bg-charcoal-900 border border-sage-700/30 text-[11px] text-slate-400 font-mono space-y-1">
+            <div className="text-champagne-400 font-semibold flex items-center gap-1">
               <KeyRound className="w-3.5 h-3.5" />
               <span>Initial Admin Credentials</span>
             </div>
@@ -111,7 +111,7 @@ export const AdminLoginPage: React.FC = () => {
 
           <Button
             type="submit"
-            variant="cyan"
+            variant="champagne"
             size="md"
             isLoading={isSubmitting}
             rightIcon={<ArrowRight className="w-4 h-4" />}

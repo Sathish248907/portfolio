@@ -15,12 +15,7 @@ import {
   CheckCircle2, 
   AlertCircle,
   Clock,
-  DollarSign,
-  User,
-  Building,
-  Mail,
-  Phone,
-  FileText
+  DollarSign
 } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { SEO } from '../components/common/SEO';
@@ -177,6 +172,7 @@ export const StartProjectPage: React.FC = () => {
             particleCount: 80,
             spread: 70,
             origin: { y: 0.6 },
+            colors: ['#C4A77D', '#344B50', '#A8B5AE', '#E8E5DC']
           });
         } catch {}
       } else {
@@ -206,27 +202,27 @@ export const StartProjectPage: React.FC = () => {
   return (
     <div className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-12">
       <SEO
-        title="Start a Project | Guided Engineering Inquiry"
+        title="Start a Project | Guided Engineering Inquiry | Peace Haven"
         description="Configure your project requirements, scope, budget, and timeline to receive an architectural evaluation and proposal from Peace Haven."
       />
 
       {/* Header */}
       <div className="text-center space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-mono">
-          <Sparkles className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-warm-200/10 border border-champagne-500/30 text-champagne-400 text-xs font-mono">
+          <Sparkles className="w-3.5 h-3.5 text-champagne-400" />
           <span>Multi-Step Engineering Intake</span>
         </div>
         <h1 className="font-heading text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
           Initiate a Project Engagement
         </h1>
-        <p className="text-slate-400 text-sm max-w-xl mx-auto">
+        <p className="text-slate-300 text-sm max-w-xl mx-auto font-light leading-relaxed">
           Complete this guided workflow to connect directly with our engineering teams. Submissions receive an official reference tracking code.
         </p>
       </div>
 
       {/* Progress Steps Header */}
       {!submissionResult && (
-        <div className="glass-card p-4 rounded-2xl border border-slate-800">
+        <div className="glass-card bg-charcoal-850/85 p-4 rounded-2xl border border-sage-500/20 shadow-card-dark">
           <div className="flex items-center justify-between">
             {steps.map((s, idx) => (
               <React.Fragment key={s.num}>
@@ -234,17 +230,17 @@ export const StartProjectPage: React.FC = () => {
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold font-mono transition-all ${
                       currentStep === s.num
-                        ? 'bg-cyan-500 text-navy-950 ring-4 ring-cyan-500/20'
+                        ? 'bg-champagne-500 text-charcoal-900 ring-4 ring-champagne-400/20'
                         : currentStep > s.num
-                        ? 'bg-emerald-500 text-navy-950'
-                        : 'bg-navy-900 text-slate-500 border border-slate-700'
+                        ? 'bg-teal-700 text-white'
+                        : 'bg-charcoal-900 text-slate-400 border border-sage-500/30'
                     }`}
                   >
                     {currentStep > s.num ? <Check className="w-4 h-4" /> : s.num}
                   </div>
                   <span
                     className={`text-[10px] font-mono mt-1 hidden sm:block ${
-                      currentStep === s.num ? 'text-cyan-300 font-semibold' : 'text-slate-500'
+                      currentStep === s.num ? 'text-champagne-300 font-semibold' : 'text-slate-400'
                     }`}
                   >
                     {s.label}
@@ -253,7 +249,7 @@ export const StartProjectPage: React.FC = () => {
                 {idx < steps.length - 1 && (
                   <div
                     className={`flex-1 h-[2px] mx-2 transition-colors ${
-                      currentStep > s.num ? 'bg-emerald-500/60' : 'bg-slate-800'
+                      currentStep > s.num ? 'bg-teal-700/60' : 'bg-charcoal-800'
                     }`}
                   />
                 )}
@@ -264,44 +260,44 @@ export const StartProjectPage: React.FC = () => {
       )}
 
       {/* Form Container */}
-      <div className="glass-card p-6 sm:p-10 rounded-3xl border border-slate-800 shadow-2xl relative">
+      <div className="glass-card bg-charcoal-850/85 p-6 sm:p-10 rounded-3xl border border-sage-500/20 shadow-card-dark relative">
         
         {/* SUCCESS STATE */}
         {submissionResult ? (
           <div className="text-center py-8 space-y-6 animate-in fade-in zoom-in-95">
-            <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 mx-auto flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full bg-teal-900/40 border border-teal-500/30 text-teal-300 mx-auto flex items-center justify-center">
               <CheckCircle2 className="w-9 h-9" />
             </div>
 
             <div className="space-y-2">
-              <span className="text-xs font-mono uppercase tracking-widest text-cyan-400">Inquiry Confirmed</span>
+              <span className="text-xs font-mono uppercase tracking-widest text-champagne-400 font-semibold">Inquiry Confirmed</span>
               <h2 className="font-heading text-3xl font-bold text-white">
                 Project Intake Successfully Registered
               </h2>
-              <p className="text-slate-300 text-sm max-w-lg mx-auto">
+              <p className="text-slate-300 text-sm max-w-lg mx-auto font-light leading-relaxed">
                 Your project specification has been logged into our engineering dispatch queue. A confirmation has been transmitted and our senior technical lead is reviewing your requirements.
               </p>
             </div>
 
             {/* Reference Number Box */}
-            <div className="p-6 rounded-2xl bg-navy-900 border border-cyan-500/40 max-w-md mx-auto space-y-3">
-              <span className="text-xs font-mono text-slate-400 uppercase tracking-wider block">
+            <div className="p-6 rounded-2xl bg-charcoal-900 border border-champagne-500/40 max-w-md mx-auto space-y-3">
+              <span className="text-xs font-mono text-slate-400 uppercase tracking-wider block font-medium">
                 Official Tracking Reference
               </span>
               <div className="flex items-center justify-center gap-3">
-                <span className="font-mono text-2xl font-bold text-cyan-300 tracking-wider">
+                <span className="font-mono text-2xl font-bold text-champagne-300 tracking-wider">
                   {submissionResult.referenceNumber}
                 </span>
                 <button
                   type="button"
                   onClick={copyReference}
-                  className="p-2 rounded-lg bg-navy-800 hover:bg-navy-750 text-slate-300 hover:text-white transition-colors"
+                  className="p-2 rounded-lg bg-charcoal-800 hover:bg-charcoal-750 text-slate-300 hover:text-white transition-colors"
                   title="Copy Reference"
                 >
-                  {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                  {copied ? <Check className="w-4 h-4 text-teal-300" /> : <Copy className="w-4 h-4" />}
                 </button>
               </div>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-slate-400 font-light">
                 Please retain this code for all subsequent correspondence with Peace Haven.
               </p>
             </div>
@@ -332,7 +328,7 @@ export const StartProjectPage: React.FC = () => {
                   <h3 className="font-heading text-xl font-bold text-white">
                     Step 1: Select Primary Engineering Discipline
                   </h3>
-                  <p className="text-slate-400 text-xs">
+                  <p className="text-slate-400 text-xs font-light">
                     Choose the primary category that best aligns with your project objectives.
                   </p>
                 </div>
@@ -344,8 +340,8 @@ export const StartProjectPage: React.FC = () => {
                       onClick={() => setValue('service', opt.id, { shouldValidate: true })}
                       className={`cursor-pointer p-4 rounded-xl border transition-all flex flex-col justify-between ${
                         selectedService === opt.id
-                          ? 'bg-navy-850 border-cyan-400 ring-2 ring-cyan-400/20'
-                          : 'bg-navy-900/60 border-slate-800 hover:border-slate-700'
+                          ? 'bg-charcoal-800 border-champagne-400 ring-2 ring-champagne-400/20'
+                          : 'bg-charcoal-900/60 border-sage-500/20 hover:border-sage-500/40'
                       }`}
                     >
                       <input
@@ -364,14 +360,14 @@ export const StartProjectPage: React.FC = () => {
                           <div
                             className={`w-4 h-4 rounded-full border flex items-center justify-center ${
                               selectedService === opt.id
-                                ? 'border-cyan-400 bg-cyan-400 text-navy-950'
+                                ? 'border-champagne-400 bg-champagne-400 text-charcoal-900'
                                 : 'border-slate-600'
                             }`}
                           >
                             {selectedService === opt.id && <Check className="w-3 h-3" />}
                           </div>
                         </div>
-                        <p className="text-slate-400 text-xs leading-relaxed">
+                        <p className="text-slate-400 text-xs leading-relaxed font-light">
                           {opt.desc}
                         </p>
                       </div>
@@ -389,7 +385,7 @@ export const StartProjectPage: React.FC = () => {
                   <h3 className="font-heading text-xl font-bold text-white">
                     Step 2: Describe Project Scope & Technical Requirements
                   </h3>
-                  <p className="text-slate-400 text-xs">
+                  <p className="text-slate-400 text-xs font-light">
                     Detail the operational goals, target user scale, hardware specifications, or integration points.
                   </p>
                 </div>
@@ -403,7 +399,7 @@ export const StartProjectPage: React.FC = () => {
                     rows={6}
                     {...register('projectRequirements')}
                     placeholder="E.g., We require a multi-agent AMR fleet orchestrator integrated with our SAP warehouse management system, managing up to 30 mobile robots with LiDAR obstacle avoidance..."
-                    className="w-full px-4 py-3 rounded-xl bg-navy-900 border border-slate-700 focus:border-cyan-400 focus:outline-none text-slate-100 text-sm resize-none"
+                    className="w-full px-4 py-3 rounded-xl bg-charcoal-900 border border-sage-500/30 focus:border-champagne-400 focus:outline-none text-warm-100 text-sm resize-none"
                   />
                   {errors.projectRequirements && (
                     <p className="text-red-400 text-xs">{errors.projectRequirements.message}</p>
@@ -422,7 +418,7 @@ export const StartProjectPage: React.FC = () => {
                   <h3 className="font-heading text-xl font-bold text-white">
                     Step 3: Approximate Investment & Desired Timeline
                   </h3>
-                  <p className="text-slate-400 text-xs">
+                  <p className="text-slate-400 text-xs font-light">
                     Accurate parameters enable us to allocate the appropriate senior engineering leads and tooling.
                   </p>
                 </div>
@@ -430,7 +426,7 @@ export const StartProjectPage: React.FC = () => {
                 {/* Budget */}
                 <div className="space-y-2">
                   <label className="block text-xs font-mono text-slate-300 flex items-center gap-1.5">
-                    <DollarSign className="w-3.5 h-3.5 text-cyan-400" />
+                    <DollarSign className="w-3.5 h-3.5 text-champagne-400" />
                     <span>Target Budget Range *</span>
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -440,12 +436,12 @@ export const StartProjectPage: React.FC = () => {
                         onClick={() => setValue('budgetRange', b, { shouldValidate: true })}
                         className={`cursor-pointer px-4 py-3 rounded-xl border text-xs font-mono flex items-center justify-between ${
                           watchedBudget === b
-                            ? 'bg-navy-850 border-cyan-400 text-cyan-300 font-bold'
-                            : 'bg-navy-900/60 border-slate-800 text-slate-300 hover:border-slate-700'
+                            ? 'bg-charcoal-800 border-champagne-400 text-champagne-300 font-bold'
+                            : 'bg-charcoal-900/60 border-sage-500/20 text-slate-300 hover:border-sage-500/40'
                         }`}
                       >
                         <span>{b}</span>
-                        {watchedBudget === b && <Check className="w-3.5 h-3.5 text-cyan-400" />}
+                        {watchedBudget === b && <Check className="w-3.5 h-3.5 text-champagne-400" />}
                       </label>
                     ))}
                   </div>
@@ -455,7 +451,7 @@ export const StartProjectPage: React.FC = () => {
                 {/* Timeline */}
                 <div className="space-y-2 pt-4">
                   <label className="block text-xs font-mono text-slate-300 flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-cyan-400" />
+                    <Clock className="w-3.5 h-3.5 text-champagne-400" />
                     <span>Target Deployment Window *</span>
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -465,12 +461,12 @@ export const StartProjectPage: React.FC = () => {
                         onClick={() => setValue('timeline', t, { shouldValidate: true })}
                         className={`cursor-pointer px-4 py-3 rounded-xl border text-xs font-mono flex items-center justify-between ${
                           watchedTimeline === t
-                            ? 'bg-navy-850 border-cyan-400 text-cyan-300 font-bold'
-                            : 'bg-navy-900/60 border-slate-800 text-slate-300 hover:border-slate-700'
+                            ? 'bg-charcoal-800 border-champagne-400 text-champagne-300 font-bold'
+                            : 'bg-charcoal-900/60 border-sage-500/20 text-slate-300 hover:border-sage-500/40'
                         }`}
                       >
                         <span>{t}</span>
-                        {watchedTimeline === t && <Check className="w-3.5 h-3.5 text-cyan-400" />}
+                        {watchedTimeline === t && <Check className="w-3.5 h-3.5 text-champagne-400" />}
                       </label>
                     ))}
                   </div>
@@ -486,7 +482,7 @@ export const StartProjectPage: React.FC = () => {
                   <h3 className="font-heading text-xl font-bold text-white">
                     Step 4: Contact & Organization Details
                   </h3>
-                  <p className="text-slate-400 text-xs">
+                  <p className="text-slate-400 text-xs font-light">
                     Where our principal architect should address the initial proposal.
                   </p>
                 </div>
@@ -501,7 +497,7 @@ export const StartProjectPage: React.FC = () => {
                       type="text"
                       {...register('clientName')}
                       placeholder="e.g. Dr. Jennifer Hayes"
-                      className="w-full px-4 py-2.5 rounded-lg bg-navy-900 border border-slate-700 focus:border-cyan-400 focus:outline-none text-slate-100 text-sm"
+                      className="w-full px-4 py-2.5 rounded-xl bg-charcoal-900 border border-sage-500/30 focus:border-champagne-400 focus:outline-none text-warm-100 text-sm"
                     />
                     {errors.clientName && <p className="text-red-400 text-xs">{errors.clientName.message}</p>}
                   </div>
@@ -515,7 +511,7 @@ export const StartProjectPage: React.FC = () => {
                       type="text"
                       {...register('companyName')}
                       placeholder="e.g. Apex Industrial Systems"
-                      className="w-full px-4 py-2.5 rounded-lg bg-navy-900 border border-slate-700 focus:border-cyan-400 focus:outline-none text-slate-100 text-sm"
+                      className="w-full px-4 py-2.5 rounded-xl bg-charcoal-900 border border-sage-500/30 focus:border-champagne-400 focus:outline-none text-warm-100 text-sm"
                     />
                     {errors.companyName && <p className="text-red-400 text-xs">{errors.companyName.message}</p>}
                   </div>
@@ -529,7 +525,7 @@ export const StartProjectPage: React.FC = () => {
                       type="email"
                       {...register('email')}
                       placeholder="jennifer@apexindustrial.com"
-                      className="w-full px-4 py-2.5 rounded-lg bg-navy-900 border border-slate-700 focus:border-cyan-400 focus:outline-none text-slate-100 text-sm"
+                      className="w-full px-4 py-2.5 rounded-xl bg-charcoal-900 border border-sage-500/30 focus:border-champagne-400 focus:outline-none text-warm-100 text-sm"
                     />
                     {errors.email && <p className="text-red-400 text-xs">{errors.email.message}</p>}
                   </div>
@@ -543,7 +539,7 @@ export const StartProjectPage: React.FC = () => {
                       type="tel"
                       {...register('phoneNumber')}
                       placeholder="+1 (555) 234-5678"
-                      className="w-full px-4 py-2.5 rounded-lg bg-navy-900 border border-slate-700 focus:border-cyan-400 focus:outline-none text-slate-100 text-sm"
+                      className="w-full px-4 py-2.5 rounded-xl bg-charcoal-900 border border-sage-500/30 focus:border-champagne-400 focus:outline-none text-warm-100 text-sm"
                     />
                   </div>
                 </div>
@@ -553,11 +549,11 @@ export const StartProjectPage: React.FC = () => {
                     <input
                       type="checkbox"
                       {...register('consent')}
-                      className="mt-0.5 rounded bg-navy-900 border-slate-700 text-cyan-400 focus:ring-cyan-400"
+                      className="mt-0.5 rounded bg-charcoal-900 border-sage-500/40 text-champagne-400 focus:ring-champagne-400"
                     />
                     <span>
                       I consent to Peace Haven evaluating these requirements in accordance with our{' '}
-                      <a href="/privacy" target="_blank" className="text-cyan-400 hover:underline">
+                      <a href="/privacy" target="_blank" className="text-champagne-400 hover:underline">
                         Privacy Policy
                       </a>
                       . We collect only necessary personal data.
@@ -575,56 +571,56 @@ export const StartProjectPage: React.FC = () => {
                   <h3 className="font-heading text-xl font-bold text-white">
                     Step 5: Review Project Specification
                   </h3>
-                  <p className="text-slate-400 text-xs">
+                  <p className="text-slate-400 text-xs font-light">
                     Please verify your submission parameters before transmission.
                   </p>
                 </div>
 
-                <div className="p-6 rounded-2xl bg-navy-900/90 border border-slate-800 space-y-4 text-xs font-mono">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-slate-800">
+                <div className="p-6 rounded-2xl bg-charcoal-900/90 border border-sage-500/20 space-y-4 text-xs font-mono">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-sage-500/20">
                     <div>
-                      <span className="text-slate-500 uppercase block">Selected Service</span>
-                      <span className="text-cyan-300 font-bold text-sm">{selectedService}</span>
+                      <span className="text-slate-500 uppercase block font-medium">Selected Service</span>
+                      <span className="text-champagne-300 font-bold text-sm">{selectedService}</span>
                     </div>
                     <div>
-                      <span className="text-slate-500 uppercase block">Contact / Organization</span>
+                      <span className="text-slate-500 uppercase block font-medium">Contact / Organization</span>
                       <span className="text-white font-bold">{watchedName} &bull; {watchedCompany}</span>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-slate-800">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-sage-500/20">
                     <div>
-                      <span className="text-slate-500 uppercase block">Target Budget</span>
+                      <span className="text-slate-500 uppercase block font-medium">Target Budget</span>
                       <span className="text-slate-200">{watchedBudget}</span>
                     </div>
                     <div>
-                      <span className="text-slate-500 uppercase block">Target Timeline</span>
+                      <span className="text-slate-500 uppercase block font-medium">Target Timeline</span>
                       <span className="text-slate-200">{watchedTimeline}</span>
                     </div>
                   </div>
 
                   <div>
-                    <span className="text-slate-500 uppercase block">Project Requirements Summary</span>
-                    <p className="text-slate-300 text-xs font-sans leading-relaxed mt-1">
+                    <span className="text-slate-500 uppercase block font-medium">Project Requirements Summary</span>
+                    <p className="text-slate-300 text-xs font-sans leading-relaxed mt-1 font-light">
                       {watchedRequirements}
                     </p>
                   </div>
 
                   <div>
-                    <span className="text-slate-500 uppercase block">Confirmation Delivery Address</span>
-                    <span className="text-cyan-400">{watchedEmail}</span>
+                    <span className="text-slate-500 uppercase block font-medium">Confirmation Delivery Address</span>
+                    <span className="text-champagne-400">{watchedEmail}</span>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-xs text-cyan-300 flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 shrink-0" />
+                <div className="p-4 rounded-xl bg-warm-200/10 border border-champagne-500/30 text-xs text-champagne-300 flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 shrink-0 text-champagne-400" />
                   <span>Submissions are encrypted and assigned an immutable tracking reference number.</span>
                 </div>
               </div>
             )}
 
             {/* Navigation buttons */}
-            <div className="pt-4 flex items-center justify-between border-t border-slate-800">
+            <div className="pt-4 flex items-center justify-between border-t border-sage-500/20">
               {currentStep > 1 ? (
                 <Button
                   type="button"

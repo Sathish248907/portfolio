@@ -6,6 +6,7 @@ interface SectionHeadingProps {
   title: string;
   subtitle?: string;
   align?: 'left' | 'center';
+  theme?: 'light' | 'dark';
   className?: string;
   titleClassName?: string;
 }
@@ -15,9 +16,12 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   title,
   subtitle,
   align = 'center',
+  theme = 'dark',
   className,
   titleClassName,
 }) => {
+  const isLight = theme === 'light';
+
   return (
     <div
       className={cn(
@@ -28,21 +32,34 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
     >
       {eyebrow && (
         <div className={cn('flex items-center', align === 'center' ? 'justify-center' : 'justify-start')}>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/25 text-cyan-300 text-xs font-mono uppercase tracking-widest">
+          <span
+            className={cn(
+              'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-widest border transition-colors',
+              isLight
+                ? 'bg-warm-100 text-teal-800 border-sage-300/80'
+                : 'bg-charcoal-850/80 text-champagne-400 border-sage-500/25'
+            )}
+          >
             {eyebrow}
           </span>
         </div>
       )}
       <h2
         className={cn(
-          'font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight',
+          'font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight',
+          isLight ? 'text-charcoal-900' : 'text-white',
           titleClassName
         )}
       >
         {title}
       </h2>
       {subtitle && (
-        <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-light">
+        <p
+          className={cn(
+            'text-sm sm:text-base leading-relaxed font-light',
+            isLight ? 'text-slate-600' : 'text-slate-300'
+          )}
+        >
           {subtitle}
         </p>
       )}

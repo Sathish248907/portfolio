@@ -1,0 +1,46 @@
+/* Peace Haven — Cinematic Animated Particle Constellation Background (Reference Match) */
+
+.ph-particle-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse 95% 85% at 50% 30%, #0d232e 0%, #07151e 52%, #030a0f 100%);
+}
+
+.ph-particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+/* Subtle atmospheric lighting to match reference */
+.ph-particle-ambient-gold {
+  position: absolute;
+  top: 25%;
+  left: 65%;
+  transform: translate(-50%, -50%);
+  width: 650px;
+  height: 380px;
+  background: radial-gradient(ellipse at center, rgba(223, 165, 97, 0.08) 0%, rgba(223, 165, 97, 0.02) 45%, transparent 70%);
+  filter: blur(50px);
+  pointer-events: none;
+}
+
+.ph-particle-ambient-blue {
+  position: absolute;
+  top: 40%;
+  left: 32%;
+  transform: translate(-50%, -50%);
+  width: 750px;
+  height: 440px;
+  background: radial-gradient(ellipse at center, rgba(16, 42, 54, 0.45) 0%, rgba(7, 21, 30, 0.1) 50%, transparent 75%);
+  filter: blur(60px);
+  pointer-events: none;
+}

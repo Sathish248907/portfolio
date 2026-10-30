@@ -3,6 +3,7 @@ import { Target, Layers, TrendingUp } from 'lucide-react';
 import { Container } from '../common/Container';
 import { SectionHeading } from '../common/SectionHeading';
 import { Reveal } from '../common/Reveal';
+import { ParticleBackground } from '../effects/ParticleBackground';
 
 interface PrincipleItem {
   icon: React.ComponentType<{ className?: string }>;
@@ -30,11 +31,21 @@ const principles: PrincipleItem[] = [
 
 export const WhyPeaceHaven: React.FC = () => {
   return (
-    <section className="py-20 relative" aria-labelledby="why-heading">
-      <Container size="lg" className="space-y-14">
+    <section className="py-24 relative overflow-hidden bg-[#07151e] border-t border-[#1b3240]" aria-labelledby="why-heading">
+      {/* Cinematic Animated Particle Constellation Background */}
+      <ParticleBackground
+        particleCount={45}
+        connectionDistance={110}
+        particleSpeed={0.7}
+        enableGlow={true}
+        enableMouseInteraction={true}
+      />
+
+      <Container size="lg" className="space-y-14 relative z-10">
         
         <Reveal direction="up">
           <SectionHeading
+            theme="dark"
             eyebrow="Core Philosophy"
             title="Engineering with purpose. Technology with direction."
             subtitle="How we approach technology partnerships, system reliability, and long-term business value."
@@ -47,12 +58,12 @@ export const WhyPeaceHaven: React.FC = () => {
             const Icon = item.icon;
             return (
               <Reveal key={item.title} direction="up" delay={idx * 0.1}>
-                <div className="glass-card p-8 rounded-2xl border border-slate-800 space-y-4 h-full flex flex-col justify-between group hover:border-cyan-500/40 transition-colors">
+                <div className="bg-[#0b1c26]/90 p-8 rounded-3xl border border-sage-500/25 space-y-4 h-full flex flex-col justify-between group hover:border-[#dfa561]/50 shadow-xl backdrop-blur-md transition-all">
                   <div className="space-y-4">
-                    <div className="w-12 h-12 rounded-xl bg-navy-900 border border-slate-700/80 flex items-center justify-center text-cyan-400 group-hover:bg-electric-600 group-hover:text-white transition-colors">
+                    <div className="w-12 h-12 rounded-xl bg-charcoal-850 border border-sage-500/30 flex items-center justify-center text-[#dfa561] group-hover:bg-[#dfa561] group-hover:text-[#08151e] transition-colors shadow-sm">
                       <Icon className="w-6 h-6" />
                     </div>
-                    <h3 className="font-heading text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
+                    <h3 className="font-heading text-xl font-bold text-white group-hover:text-[#dfa561] transition-colors">
                       {item.title}
                     </h3>
                     <p className="text-slate-300 text-sm leading-relaxed font-light">

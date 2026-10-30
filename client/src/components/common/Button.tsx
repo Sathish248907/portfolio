@@ -4,7 +4,7 @@ import { Loader2 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'cyan';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'cyan' | 'champagne' | 'teal';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
   to?: string;
@@ -24,13 +24,20 @@ export const Button: React.FC<ButtonProps> = ({
   rightIcon,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 active:scale-[0.98] select-none';
+  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-champagne-400/80 active:scale-[0.99] select-none';
 
   const variants = {
-    primary: 'bg-gradient-to-r from-electric-600 to-electric-500 hover:from-electric-500 hover:to-cyan-500 text-white shadow-lg shadow-electric-600/30 hover:shadow-cyan-500/30 border border-electric-400/30',
-    secondary: 'bg-navy-900/80 hover:bg-navy-850 text-slate-100 border border-slate-700/60 hover:border-cyan-400/40 shadow-sm backdrop-blur-md',
-    cyan: 'bg-gradient-to-r from-cyan-500 to-cyan-400 hover:from-cyan-400 hover:to-electric-400 text-navy-950 font-semibold shadow-lg shadow-cyan-500/25',
-    outline: 'border border-cyan-400/50 hover:border-cyan-400 text-cyan-300 hover:text-white hover:bg-cyan-500/10 backdrop-blur-sm',
+    // Primary: Muted Teal with white text
+    primary: 'bg-teal-700 hover:bg-teal-800 text-white shadow-sm border border-teal-600/40',
+    // Secondary: Deep Charcoal Navy with subtle sage border
+    secondary: 'bg-charcoal-900/90 hover:bg-charcoal-800 text-warm-200 border border-sage-500/30 shadow-sm backdrop-blur-md',
+    // Accent CTA: Muted Champagne with dark charcoal text (or backward-compatible 'cyan')
+    cyan: 'bg-champagne-500 hover:bg-champagne-400 text-charcoal-900 font-semibold shadow-sm border border-champagne-400/40',
+    champagne: 'bg-champagne-500 hover:bg-champagne-400 text-charcoal-900 font-semibold shadow-sm border border-champagne-400/40',
+    teal: 'bg-teal-700 hover:bg-teal-600 text-white font-medium shadow-sm border border-teal-500/40',
+    // Outline: Subtle Sage/Champagne border
+    outline: 'border border-sage-500/40 hover:border-champagne-500/60 text-warm-200 hover:text-white hover:bg-white/5 backdrop-blur-sm',
+    // Ghost: Restrained text hover
     ghost: 'text-slate-300 hover:text-white hover:bg-white/5',
   };
 

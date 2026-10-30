@@ -2,6 +2,7 @@ import React from 'react';
 import { Container } from '../common/Container';
 import { SectionHeading } from '../common/SectionHeading';
 import { Reveal } from '../common/Reveal';
+import { ParticleBackground } from '../effects/ParticleBackground';
 
 interface ProcessStep {
   number: string;
@@ -44,11 +45,21 @@ const steps: ProcessStep[] = [
 
 export const ProcessSection: React.FC = () => {
   return (
-    <section className="py-20 relative border-t border-slate-800/80" aria-labelledby="process-heading">
-      <Container size="lg" className="space-y-16">
+    <section className="py-24 relative overflow-hidden bg-[#07151e] border-t border-[#1b3240]" aria-labelledby="process-heading">
+      {/* Cinematic Animated Particle Constellation Background */}
+      <ParticleBackground
+        particleCount={50}
+        connectionDistance={105}
+        particleSpeed={0.7}
+        enableGlow={true}
+        enableMouseInteraction={true}
+      />
+
+      <Container size="lg" className="space-y-16 relative z-10">
         
         <Reveal direction="up">
           <SectionHeading
+            theme="dark"
             eyebrow="Our Methodology"
             title="From first conversation to real-world impact."
             subtitle="A structured, transparent engineering lifecycle designed to turn ambitious concepts into reliable, production-ready systems."
@@ -58,21 +69,21 @@ export const ProcessSection: React.FC = () => {
         {/* Desktop Connected Process Line & Responsive Grid */}
         <div className="relative">
           
-          {/* Subtle connected horizontal progress bar on desktop */}
-          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500/10 via-cyan-500/40 to-electric-500/20 -translate-y-8 pointer-events-none" />
+          {/* Subtle connected horizontal progress line on desktop */}
+          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-sage-500/20 via-[#dfa561]/35 to-sage-500/20 -translate-y-8 pointer-events-none" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 relative z-10">
             {steps.map((step, idx) => (
               <Reveal key={step.number} direction="up" delay={idx * 0.08}>
-                <div className="glass-card p-6 rounded-2xl border border-slate-800 space-y-3 flex flex-col justify-between h-full group hover:border-cyan-500/40 transition-colors">
+                <div className="bg-[#0b1c26]/90 p-6 rounded-2xl border border-sage-500/25 space-y-3 flex flex-col justify-between h-full group hover:border-[#dfa561]/50 shadow-xl backdrop-blur-md transition-all">
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="font-heading font-extrabold text-2xl text-gradient-cyan block">
+                      <span className="font-heading font-extrabold text-2xl text-[#dfa561] block">
                         {step.number}
                       </span>
-                      <div className="w-2.5 h-2.5 rounded-full bg-cyan-400/40 group-hover:bg-cyan-400 group-hover:shadow-neon-cyan transition-all" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#dfa561]/40 group-hover:bg-[#dfa561] transition-all" />
                     </div>
-                    <h3 className="font-heading text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
+                    <h3 className="font-heading text-base font-bold text-white group-hover:text-[#dfa561] transition-colors">
                       {step.title}
                     </h3>
                   </div>

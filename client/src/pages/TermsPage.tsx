@@ -8,7 +8,7 @@ export const TermsPage: React.FC = () => {
       <SEO title="Terms of Service" description="Peace Haven commercial terms, engineering demonstration disclosures, and usage guidelines." />
 
       <div className="space-y-4 mb-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-mono">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-champagne-500/10 border border-champagne-500/30 text-champagne-400 text-xs font-mono">
           <Scale className="w-3.5 h-3.5" />
           <span>Commercial Terms & Disclosures</span>
         </div>
@@ -20,10 +20,10 @@ export const TermsPage: React.FC = () => {
         </p>
       </div>
 
-      <div className="glass-card p-8 rounded-2xl border border-slate-800 space-y-8 text-slate-300 text-sm leading-relaxed">
+      <div className="bg-charcoal-850/90 p-8 rounded-2xl border border-sage-700/40 space-y-8 text-slate-300 text-sm leading-relaxed shadow-lg">
         <section className="space-y-3">
           <h2 className="font-heading text-xl font-semibold text-white flex items-center gap-2">
-            <Cpu className="w-5 h-5 text-cyan-400" />
+            <Cpu className="w-5 h-5 text-champagne-400" />
             1. Scope of Engagement
           </h2>
           <p>
@@ -33,11 +33,11 @@ export const TermsPage: React.FC = () => {
 
         <section className="space-y-3">
           <h2 className="font-heading text-xl font-semibold text-white flex items-center gap-2">
-            <ShieldAlert className="w-5 h-5 text-cyan-400" />
+            <ShieldAlert className="w-5 h-5 text-champagne-400" />
             2. Engineering Demonstrations & Transparency Disclosure
           </h2>
-          <div className="p-4 rounded-xl bg-navy-900 border border-cyan-500/30 text-xs text-slate-300 space-y-2">
-            <p className="font-semibold text-cyan-300 uppercase tracking-wider font-mono">
+          <div className="p-4 rounded-xl bg-charcoal-900 border border-sage-700/40 text-xs text-slate-300 space-y-2">
+            <p className="font-semibold text-champagne-400 uppercase tracking-wider font-mono">
               Genuine Engineering Disclosure
             </p>
             <p>
@@ -48,7 +48,7 @@ export const TermsPage: React.FC = () => {
 
         <section className="space-y-3">
           <h2 className="font-heading text-xl font-semibold text-white flex items-center gap-2">
-            <Terminal className="w-5 h-5 text-cyan-400" />
+            <Terminal className="w-5 h-5 text-champagne-400" />
             3. Intellectual Property
           </h2>
           <p>

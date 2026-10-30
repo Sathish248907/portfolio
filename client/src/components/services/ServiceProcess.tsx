@@ -65,21 +65,21 @@ export const ServiceProcess: React.FC<ServiceProcessProps> = ({ approach, servic
   };
 
   return (
-    <section id="approach" className="py-20 border-b border-slate-800/60 relative scroll-mt-20">
+    <section id="approach" className="py-24 bg-warm-200 border-b border-sage-300/70 relative scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-mono">
-            <Workflow className="w-3.5 h-3.5 text-cyan-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-warm-100 border border-sage-300 text-teal-800 text-xs font-mono">
+            <Workflow className="w-3.5 h-3.5 text-teal-700" />
             <span>Structured Methodology</span>
           </div>
 
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-charcoal-900 tracking-tight">
             Our Approach
           </h2>
 
-          <p className="text-slate-400 text-base leading-relaxed">
+          <p className="text-slate-600 text-base leading-relaxed font-light">
             A disciplined five-stage engineering sequence from initial requirements discovery to production handover.
           </p>
         </div>
@@ -87,9 +87,9 @@ export const ServiceProcess: React.FC<ServiceProcessProps> = ({ approach, servic
         {/* Desktop Connecting Line & 5-Step Cards */}
         <div className="relative">
           
-          {/* Subtle glowing connecting line on desktop */}
+          {/* Subtle connecting line on desktop */}
           <div 
-            className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500/10 via-cyan-500/40 to-electric-500/10 -translate-y-8 z-0" 
+            className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-sage-300 via-teal-700/30 to-sage-300 -translate-y-8 z-0 pointer-events-none" 
             aria-hidden="true" 
           />
 
@@ -102,13 +102,13 @@ export const ServiceProcess: React.FC<ServiceProcessProps> = ({ approach, servic
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-40px' }}
-                className="glass-card rounded-2xl p-6 border border-slate-800 flex flex-col justify-between hover:border-cyan-500/30 transition-all duration-300 relative group"
+                className="bg-white rounded-2xl p-6 border border-sage-300/80 flex flex-col justify-between hover:border-teal-700/50 shadow-subtle hover:shadow-card transition-all duration-300 relative group"
               >
                 <div className="space-y-4">
                   
                   {/* Step Badge */}
                   <div className="flex items-center justify-between">
-                    <span className="w-8 h-8 rounded-lg bg-navy-900 border border-cyan-500/40 text-cyan-400 font-mono text-xs font-bold flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <span className="w-8 h-8 rounded-lg bg-warm-100 border border-champagne-400/50 text-champagne-700 font-mono text-xs font-bold flex items-center justify-center group-hover:scale-105 transition-transform">
                       {stepItem.step}
                     </span>
                     <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">
@@ -118,27 +118,27 @@ export const ServiceProcess: React.FC<ServiceProcessProps> = ({ approach, servic
 
                   {/* Title & Phase */}
                   <div>
-                    <h3 className="font-heading text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
+                    <h3 className="font-heading text-lg font-bold text-charcoal-900 group-hover:text-teal-800 transition-colors">
                       {stepItem.title}
                     </h3>
-                    <p className="text-xs font-mono text-cyan-400/90 mt-0.5">
+                    <p className="text-xs font-mono text-teal-700 mt-0.5 font-medium">
                       {stepItem.phase}
                     </p>
                   </div>
 
                   {/* Description */}
-                  <p className="text-slate-300 text-xs leading-relaxed font-light">
+                  <p className="text-slate-600 text-xs leading-relaxed font-normal">
                     {stepItem.description}
                   </p>
                 </div>
 
                 {/* Deliverable Pill */}
                 {stepItem.deliverable && (
-                  <div className="pt-4 mt-4 border-t border-slate-800/80">
-                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-1">
+                  <div className="pt-4 mt-4 border-t border-sage-200/80">
+                    <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider block mb-1">
                       Key Milestone:
                     </span>
-                    <span className="text-[11px] text-slate-300 font-mono block leading-snug">
+                    <span className="text-[11px] text-slate-700 font-mono block leading-snug">
                       {stepItem.deliverable}
                     </span>
                   </div>
@@ -150,8 +150,8 @@ export const ServiceProcess: React.FC<ServiceProcessProps> = ({ approach, servic
         </div>
 
         {/* Scope Disclaimer Callout */}
-        <div className="rounded-xl p-4 bg-navy-950/80 border border-slate-800 text-slate-400 text-xs font-mono flex items-center gap-3 max-w-2xl mx-auto">
-          <Info className="w-4 h-4 text-cyan-400 shrink-0" />
+        <div className="rounded-2xl p-4 bg-white border border-sage-300 text-slate-600 text-xs font-mono flex items-center gap-3 max-w-2xl mx-auto shadow-subtle">
+          <Info className="w-4 h-4 text-teal-700 shrink-0" />
           <span>
             Note: Specific engineering deliverables, sprint intervals, and milestones are tailored to the agreed project scope for each engagement.
           </span>

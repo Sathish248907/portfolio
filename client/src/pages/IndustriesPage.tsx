@@ -6,9 +6,7 @@ import {
   TrendingUp, 
   Zap, 
   Plane, 
-  ShieldCheck, 
-  Truck,
-  ArrowRight
+  Truck
 } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { SEO } from '../components/common/SEO';
@@ -56,20 +54,20 @@ export const IndustriesPage: React.FC = () => {
   return (
     <div className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
       <SEO
-        title="Industries Served & Mission-Critical Sectors"
+        title="Industries Served & Mission-Critical Sectors | Peace Haven"
         description="Peace Haven engineers advanced systems for manufacturing, capital markets, energy, healthcare, and logistics."
       />
 
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-mono">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-warm-200/10 border border-champagne-500/30 text-champagne-400 text-xs font-mono">
           <Building2 className="w-3.5 h-3.5" />
           <span>Industrial Sector Coverage</span>
         </div>
         <h1 className="font-heading text-4xl sm:text-5xl font-bold text-white tracking-tight">
           Engineering for High-Stakes Sectors
         </h1>
-        <p className="text-slate-400 text-base leading-relaxed">
+        <p className="text-slate-300 text-base leading-relaxed font-light">
           Where zero-downtime, sub-millisecond precision, and rigorous regulatory compliance are operational mandates.
         </p>
       </div>
@@ -81,25 +79,25 @@ export const IndustriesPage: React.FC = () => {
           return (
             <div
               key={i}
-              className="glass-card rounded-2xl p-8 border border-slate-800 space-y-4 hover:border-cyan-500/40 transition-all group flex flex-col justify-between"
+              className="glass-card bg-charcoal-850/85 rounded-2xl p-8 border border-sage-500/20 space-y-4 hover:border-champagne-500/40 transition-all duration-300 group flex flex-col justify-between shadow-card-dark"
             >
               <div className="space-y-4">
-                <div className="w-12 h-12 rounded-xl bg-navy-900 border border-slate-700/80 flex items-center justify-center text-cyan-400 group-hover:bg-electric-600 group-hover:text-white transition-colors">
+                <div className="w-12 h-12 rounded-xl bg-charcoal-900 border border-sage-500/30 flex items-center justify-center text-champagne-400 group-hover:bg-teal-700 group-hover:text-white transition-colors">
                   <Icon className="w-6 h-6" />
                 </div>
-                <h3 className="font-heading text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
+                <h3 className="font-heading text-xl font-bold text-white group-hover:text-champagne-300 transition-colors">
                   {ind.title}
                 </h3>
-                <p className="text-slate-400 text-xs leading-relaxed">
+                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-light">
                   {ind.description}
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-slate-800 space-y-2">
-                <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-wider block">Key Implementations:</span>
+              <div className="pt-4 border-t border-sage-500/20 space-y-2">
+                <span className="text-[10px] font-mono text-champagne-400 uppercase tracking-wider block font-semibold">Key Implementations:</span>
                 <div className="flex flex-wrap gap-1.5">
                   {ind.relevance.map((rel, rIdx) => (
-                    <span key={rIdx} className="text-[10px] font-mono px-2 py-0.5 rounded bg-navy-900 border border-slate-800 text-slate-300">
+                    <span key={rIdx} className="text-[10px] font-mono px-2 py-0.5 rounded bg-charcoal-900 border border-sage-500/20 text-slate-300">
                       {rel}
                     </span>
                   ))}
@@ -111,11 +109,11 @@ export const IndustriesPage: React.FC = () => {
       </div>
 
       {/* Cross-sector CTA */}
-      <div className="glass-card p-10 rounded-3xl border border-cyan-500/30 text-center space-y-4 max-w-4xl mx-auto bg-gradient-to-r from-navy-900 via-navy-850 to-navy-900">
+      <div className="glass-card bg-charcoal-850 p-10 rounded-3xl border border-sage-500/25 text-center space-y-4 max-w-4xl mx-auto shadow-xl">
         <h3 className="font-heading text-2xl font-bold text-white">
           Deploying in a Specialized Industrial Sector?
         </h3>
-        <p className="text-slate-300 text-sm max-w-xl mx-auto">
+        <p className="text-slate-300 text-sm max-w-xl mx-auto font-light leading-relaxed">
           Our teams bring deep domain experience across ISO standards, FAA airspace regulations, PCI-DSS compliance, and HIPAA mandates.
         </p>
         <Button to="/start-a-project" variant="cyan" size="lg">

@@ -14,7 +14,7 @@ export const ServiceBreadcrumbs: React.FC<ServiceBreadcrumbsProps> = ({ currentT
     >
       <Link 
         to="/" 
-        className="flex items-center gap-1.5 hover:text-cyan-300 transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 rounded px-1"
+        className="flex items-center gap-1.5 hover:text-champagne-300 transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-champagne-400 rounded px-1"
         aria-label="Home"
       >
         <Home className="w-3.5 h-3.5 text-slate-400" />
@@ -25,14 +25,14 @@ export const ServiceBreadcrumbs: React.FC<ServiceBreadcrumbsProps> = ({ currentT
 
       <Link 
         to="/services" 
-        className="hover:text-cyan-300 transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 rounded px-1"
+        className="hover:text-champagne-300 transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-champagne-400 rounded px-1"
       >
         Services
       </Link>
 
       <ChevronRight className="w-3.5 h-3.5 text-slate-600 shrink-0" aria-hidden="true" />
 
-      <span className="text-cyan-400 font-medium px-1 truncate max-w-[240px] sm:max-w-none" aria-current="page">
+      <span className="text-champagne-400 font-medium px-1 truncate max-w-[240px] sm:max-w-none" aria-current="page">
         {currentTitle}
       </span>
     </nav>

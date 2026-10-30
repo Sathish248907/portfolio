@@ -9,15 +9,15 @@ export const NotFoundPage: React.FC = () => {
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-20 relative">
       <SEO title="404 - Node Not Found | Peace Haven" description="The requested engineering resource or endpoint does not exist." />
       
-      {/* Background glow */}
-      <div className="absolute inset-0 bg-hero-glow pointer-events-none" />
+      {/* Background warmth */}
+      <div className="absolute inset-0 bg-radial-vignette opacity-50 pointer-events-none" />
 
-      <div className="max-w-md w-full glass-card p-8 rounded-2xl border border-slate-700/80 text-center relative z-10 shadow-2xl">
-        <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 mx-auto flex items-center justify-center mb-6">
+      <div className="max-w-md w-full bg-charcoal-850/90 p-8 rounded-2xl border border-sage-700/40 text-center relative z-10 shadow-2xl">
+        <div className="w-16 h-16 rounded-2xl bg-champagne-500/10 border border-champagne-500/30 text-champagne-400 mx-auto flex items-center justify-center mb-6">
           <Terminal className="w-8 h-8" />
         </div>
 
-        <div className="inline-block px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-mono mb-3">
+        <div className="inline-block px-3 py-1 rounded-full bg-champagne-500/10 border border-champagne-500/30 text-champagne-400 text-xs font-mono mb-3">
           ERR_ENDPOINT_UNRESOLVED: 404
         </div>
 
@@ -32,7 +32,7 @@ export const NotFoundPage: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Button
             to="/"
-            variant="cyan"
+            variant="champagne"
             size="md"
             leftIcon={<Home className="w-4 h-4" />}
             className="w-full sm:w-auto"

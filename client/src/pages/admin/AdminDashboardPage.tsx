@@ -60,7 +60,7 @@ export const AdminDashboardPage: React.FC = () => {
           >
             Refresh Data
           </Button>
-          <Button to="/admin/inquiries" variant="cyan" size="sm">
+          <Button to="/admin/inquiries" variant="champagne" size="sm">
             Manage Inquiries
           </Button>
         </div>
@@ -68,16 +68,16 @@ export const AdminDashboardPage: React.FC = () => {
 
       {/* Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="glass-card p-5 rounded-2xl border border-slate-800 space-y-1">
+        <div className="bg-charcoal-850/90 p-5 rounded-2xl border border-sage-700/30 space-y-1 shadow-md">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-xs font-mono">TOTAL INQUIRIES</span>
-            <Inbox className="w-4 h-4 text-cyan-400" />
+            <Inbox className="w-4 h-4 text-champagne-400" />
           </div>
           <span className="font-heading text-3xl font-bold text-white block">{inquiries.length}</span>
-          <span className="text-[11px] text-cyan-400 font-mono">All-time logged</span>
+          <span className="text-[11px] text-champagne-400 font-mono">All-time logged</span>
         </div>
 
-        <div className="glass-card p-5 rounded-2xl border border-slate-800 space-y-1">
+        <div className="bg-charcoal-850/90 p-5 rounded-2xl border border-sage-700/30 space-y-1 shadow-md">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-xs font-mono">NEW ACTION REQUIRED</span>
             <AlertCircle className="w-4 h-4 text-amber-400" />
@@ -86,49 +86,49 @@ export const AdminDashboardPage: React.FC = () => {
           <span className="text-[11px] text-slate-400 font-mono">Awaiting lead review</span>
         </div>
 
-        <div className="glass-card p-5 rounded-2xl border border-slate-800 space-y-1">
+        <div className="bg-charcoal-850/90 p-5 rounded-2xl border border-sage-700/30 space-y-1 shadow-md">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-xs font-mono">ACTIVE PIPELINE</span>
-            <Clock className="w-4 h-4 text-electric-400" />
+            <Clock className="w-4 h-4 text-teal-400" />
           </div>
-          <span className="font-heading text-3xl font-bold text-electric-300 block">{inProgressCount}</span>
+          <span className="font-heading text-3xl font-bold text-teal-300 block">{inProgressCount}</span>
           <span className="text-[11px] text-slate-400 font-mono">Proposal / Scoping stage</span>
         </div>
 
-        <div className="glass-card p-5 rounded-2xl border border-slate-800 space-y-1">
+        <div className="bg-charcoal-850/90 p-5 rounded-2xl border border-sage-700/30 space-y-1 shadow-md">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-xs font-mono">LAB PROTOTYPES</span>
-            <Briefcase className="w-4 h-4 text-emerald-400" />
+            <Briefcase className="w-4 h-4 text-champagne-400" />
           </div>
-          <span className="font-heading text-3xl font-bold text-emerald-300 block">{projectsData.length}</span>
+          <span className="font-heading text-3xl font-bold text-champagne-300 block">{projectsData.length}</span>
           <span className="text-[11px] text-slate-400 font-mono">Published Case Studies</span>
         </div>
       </div>
 
       {/* Recent Inquiries List */}
-      <div className="glass-card rounded-2xl border border-slate-800 p-6 space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+      <div className="bg-charcoal-850/90 rounded-2xl border border-sage-700/30 p-6 space-y-4 shadow-md">
+        <div className="flex items-center justify-between border-b border-sage-700/30 pb-4">
           <div className="space-y-0.5">
             <h2 className="font-heading text-lg font-bold text-white">Recent Project Inquiries</h2>
             <p className="text-slate-400 text-xs">Direct inbound leads submitted via the multi-step intake flow.</p>
           </div>
-          <Link to="/admin/inquiries" className="text-xs text-cyan-400 hover:text-cyan-300 font-mono flex items-center gap-1">
+          <Link to="/admin/inquiries" className="text-xs text-champagne-400 hover:text-champagne-300 font-mono flex items-center gap-1">
             <span>View All &rarr;</span>
           </Link>
         </div>
 
         {inquiries.length === 0 ? (
           <div className="text-center py-12 text-slate-500 text-xs font-mono">
-            No inquiries recorded yet. Test by submitting one through <Link to="/start-a-project" className="text-cyan-400 underline">Start a Project</Link>.
+            No inquiries recorded yet. Test by submitting one through <Link to="/start-a-project" className="text-champagne-400 underline">Start a Project</Link>.
           </div>
         ) : (
-          <div className="divide-y divide-slate-800/80">
+          <div className="divide-y divide-sage-700/20">
             {inquiries.slice(0, 5).map((inquiry) => (
               <div key={inquiry.referenceNumber} className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-cyan-300 font-semibold">{inquiry.referenceNumber}</span>
-                    <span className="px-2 py-0.5 rounded bg-navy-900 border border-slate-700 text-slate-300 text-[10px] font-mono">
+                    <span className="font-mono text-champagne-400 font-semibold">{inquiry.referenceNumber}</span>
+                    <span className="px-2 py-0.5 rounded bg-charcoal-900 border border-sage-700/40 text-slate-300 text-[10px] font-mono">
                       {inquiry.service}
                     </span>
                     <span className={`px-2 py-0.5 rounded text-[10px] font-mono ${
@@ -136,7 +136,7 @@ export const AdminDashboardPage: React.FC = () => {
                         ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                         : inquiry.status === 'Won'
                         ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                        : 'bg-electric-500/10 text-electric-300 border border-electric-500/20'
+                        : 'bg-teal-500/10 text-teal-300 border border-teal-500/20'
                     }`}>
                       {inquiry.status}
                     </span>
@@ -153,7 +153,7 @@ export const AdminDashboardPage: React.FC = () => {
                   </span>
                   <Link
                     to="/admin/inquiries"
-                    className="p-1.5 rounded-lg bg-navy-850 hover:bg-navy-800 border border-slate-700 text-slate-300 hover:text-white"
+                    className="p-1.5 rounded-lg bg-charcoal-900 hover:bg-charcoal-800 border border-sage-700/40 text-slate-300 hover:text-white"
                   >
                     <Eye className="w-3.5 h-3.5" />
                   </Link>

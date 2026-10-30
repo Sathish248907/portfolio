@@ -90,19 +90,19 @@ export const ServicesDropdown: React.FC<ServicesDropdownProps> = ({ isOpen, onCl
 
   return (
     <div 
-      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[740px] rounded-2xl glass-card bg-navy-950/95 border border-slate-700/80 shadow-2xl shadow-black/80 p-5 grid grid-cols-2 gap-3 animate-in fade-in slide-in-from-top-2 duration-200 z-50"
+      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[740px] rounded-2xl glass-card bg-charcoal-900/98 border border-sage-500/25 shadow-2xl p-5 grid grid-cols-2 gap-3 animate-in fade-in slide-in-from-top-2 duration-200 z-50"
       role="menu"
       aria-label="Services Menu"
     >
-      <div className="col-span-2 pb-2 mb-1 border-b border-slate-800/80 flex items-center justify-between">
-        <span className="text-xs font-mono uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
-          <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+      <div className="col-span-2 pb-2 mb-1 border-b border-sage-500/20 flex items-center justify-between">
+        <span className="text-xs font-mono uppercase tracking-wider text-champagne-400 flex items-center gap-1.5">
+          <Sparkles className="w-3.5 h-3.5 text-champagne-400" />
           Eight Specialized Service Divisions
         </span>
         <Link 
           to="/services" 
           onClick={onClose}
-          className="text-xs text-slate-400 hover:text-cyan-300 flex items-center gap-1 transition-colors"
+          className="text-xs text-slate-400 hover:text-champagne-300 flex items-center gap-1 transition-colors"
         >
           <span>Overview</span>
           <ArrowRight className="w-3 h-3" />
@@ -116,10 +116,10 @@ export const ServicesDropdown: React.FC<ServicesDropdownProps> = ({ isOpen, onCl
             key={service.id}
             to={service.path}
             onClick={onClose}
-            className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-navy-850/80 border border-transparent hover:border-cyan-500/20 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400"
+            className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-charcoal-800/80 border border-transparent hover:border-sage-500/30 transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-champagne-400"
             role="menuitem"
           >
-            <div className="w-9 h-9 rounded-lg bg-navy-900 border border-slate-700/60 flex items-center justify-center shrink-0 text-cyan-400 group-hover:text-white group-hover:bg-electric-600 transition-colors">
+            <div className="w-9 h-9 rounded-lg bg-charcoal-850 border border-sage-500/30 flex items-center justify-center shrink-0 text-champagne-400 group-hover:text-white group-hover:bg-teal-700 transition-colors">
               <Icon className="w-4 h-4" />
             </div>
             <div className="flex-1 min-w-0">
@@ -127,7 +127,7 @@ export const ServicesDropdown: React.FC<ServicesDropdownProps> = ({ isOpen, onCl
                 <span className="text-sm font-medium text-slate-200 group-hover:text-white">
                   {service.title}
                 </span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-300 font-mono border border-cyan-500/20">
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-warm-200/10 text-champagne-300 font-mono border border-champagne-500/20">
                   {service.badge}
                 </span>
               </div>

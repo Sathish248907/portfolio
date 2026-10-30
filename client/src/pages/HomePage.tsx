@@ -3,7 +3,6 @@ import { SEO } from '../components/common/SEO';
 import { HeroSection } from '../components/home/HeroSection';
 import { IntroSection } from '../components/home/IntroSection';
 import { ServiceGrid } from '../components/home/ServiceGrid';
-import { FeaturedProjects } from '../components/home/FeaturedProjects';
 import { IndustriesSection } from '../components/home/IndustriesSection';
 import { ProcessSection } from '../components/home/ProcessSection';
 import { WhyPeaceHaven } from '../components/home/WhyPeaceHaven';
@@ -26,10 +25,7 @@ export const HomePage: React.FC = () => {
       {/* Section 4: Eight Service Divisions */}
       <ServiceGrid />
 
-      {/* Section 5: Featured Portfolio */}
-      <FeaturedProjects />
-
-      {/* Section 6: Industries Served */}
+      {/* Section 5: Industries Served */}
       <IndustriesSection />
 
       {/* Section 7: Our Process */}

@@ -17,7 +17,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
 
   return (
     <div 
-      className="lg:hidden fixed inset-x-0 top-[65px] bottom-0 bg-navy-950/98 backdrop-blur-2xl border-t border-slate-800/80 overflow-y-auto p-5 animate-in slide-in-from-top-4 duration-300 z-50"
+      className="lg:hidden fixed inset-x-0 top-[65px] bottom-0 bg-charcoal-900/98 backdrop-blur-2xl border-t border-sage-500/20 overflow-y-auto p-5 animate-in slide-in-from-top-4 duration-300 z-50"
       role="dialog"
       aria-modal="true"
       aria-label="Mobile Navigation"
@@ -26,7 +26,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         
         {/* Quick Main Links */}
         <div className="space-y-1">
-          <span className="text-xs font-mono uppercase text-cyan-400 tracking-wider">Main Navigation</span>
+          <span className="text-xs font-mono uppercase text-champagne-400 tracking-wider">Main Navigation</span>
           <div className="grid grid-cols-2 gap-2 pt-2">
             {[
               { path: '/', label: 'Home' },
@@ -43,10 +43,10 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                   to={link.path}
                   onClick={onClose}
                   className={cn(
-                    'px-3 py-2.5 rounded-lg border text-sm font-medium transition-colors',
+                    'px-3 py-2.5 rounded-xl border text-sm font-medium transition-colors',
                     active 
-                      ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300' 
-                      : 'bg-navy-900 border-slate-800 text-slate-200 hover:text-white hover:border-cyan-500/30'
+                      ? 'bg-teal-700/20 border-champagne-500/40 text-champagne-300 font-semibold' 
+                      : 'bg-charcoal-850/80 border-sage-500/20 text-slate-200 hover:text-white hover:border-sage-400/40'
                   )}
                 >
                   {link.label}
@@ -59,8 +59,8 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         {/* 8 Services List */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-mono uppercase text-cyan-400 tracking-wider">All Eight Service Divisions</span>
-            <Link to="/services" onClick={onClose} className="text-xs text-slate-400 hover:text-cyan-300">Overview</Link>
+            <span className="text-xs font-mono uppercase text-champagne-400 tracking-wider">All Eight Service Divisions</span>
+            <Link to="/services" onClick={onClose} className="text-xs text-slate-400 hover:text-champagne-300">Overview</Link>
           </div>
           <div className="space-y-1.5 pt-1">
             {servicesList.map((service) => {
@@ -72,17 +72,17 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                   to={service.path}
                   onClick={onClose}
                   className={cn(
-                    'flex items-center justify-between p-2.5 rounded-lg border transition-colors',
+                    'flex items-center justify-between p-2.5 rounded-xl border transition-colors',
                     active
-                      ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300'
-                      : 'bg-navy-900/60 border-slate-800 hover:border-cyan-500/30 text-slate-200 hover:text-white'
+                      ? 'bg-teal-700/20 border-champagne-500/40 text-champagne-300'
+                      : 'bg-charcoal-850/60 border-sage-500/20 hover:border-sage-400/40 text-slate-200 hover:text-white'
                   )}
                 >
                   <div className="flex items-center gap-2.5">
-                    <Icon className="w-4 h-4 text-cyan-400" />
+                    <Icon className="w-4 h-4 text-champagne-400" />
                     <span className="text-sm font-medium">{service.title}</span>
                   </div>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-300 font-mono">
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-warm-200/10 text-champagne-300 font-mono border border-champagne-500/20">
                     {service.badge}
                   </span>
                 </Link>

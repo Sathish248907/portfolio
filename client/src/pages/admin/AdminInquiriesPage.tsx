@@ -114,7 +114,7 @@ export const AdminInquiriesPage: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="glass-card p-4 rounded-xl border border-slate-800 flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <div className="bg-charcoal-850/90 p-4 rounded-xl border border-sage-700/30 flex flex-col sm:flex-row gap-3 items-center justify-between shadow-md">
         <div className="relative w-full sm:w-72">
           <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
@@ -122,7 +122,7 @@ export const AdminInquiriesPage: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search reference, client, or company..."
-            className="w-full pl-9 pr-3 py-1.5 rounded-lg bg-navy-900 border border-slate-700 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400"
+            className="w-full pl-9 pr-3 py-1.5 rounded-lg bg-charcoal-900 border border-sage-700/40 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-champagne-400"
           />
         </div>
 
@@ -131,7 +131,7 @@ export const AdminInquiriesPage: React.FC = () => {
           <button
             onClick={() => setStatusFilter('All')}
             className={`px-3 py-1 rounded-lg text-xs font-mono transition-colors whitespace-nowrap ${
-              statusFilter === 'All' ? 'bg-cyan-500 text-navy-950 font-bold' : 'bg-navy-900 text-slate-400 hover:text-white'
+              statusFilter === 'All' ? 'bg-champagne-500 text-charcoal-950 font-bold' : 'bg-charcoal-900 text-slate-400 hover:text-white border border-sage-700/30'
             }`}
           >
             All ({inquiries.length})
@@ -143,7 +143,7 @@ export const AdminInquiriesPage: React.FC = () => {
                 key={status}
                 onClick={() => setStatusFilter(status)}
                 className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-colors whitespace-nowrap ${
-                  statusFilter === status ? 'bg-cyan-500 text-navy-950 font-bold' : 'bg-navy-900 text-slate-400 hover:text-white'
+                  statusFilter === status ? 'bg-champagne-500 text-charcoal-950 font-bold' : 'bg-charcoal-900 text-slate-400 hover:text-white border border-sage-700/30'
                 }`}
               >
                 {status} ({count})
@@ -154,7 +154,7 @@ export const AdminInquiriesPage: React.FC = () => {
       </div>
 
       {/* Inquiries Table / Cards */}
-      <div className="glass-card rounded-2xl border border-slate-800 overflow-hidden">
+      <div className="bg-charcoal-850/90 rounded-2xl border border-sage-700/30 overflow-hidden shadow-md">
         {filteredInquiries.length === 0 ? (
           <div className="p-12 text-center text-slate-500 text-xs font-mono">
             No inquiries match your current filter.
@@ -162,7 +162,7 @@ export const AdminInquiriesPage: React.FC = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-navy-900/90 text-slate-400 uppercase font-mono text-[10px] border-b border-slate-800">
+              <thead className="bg-charcoal-900/90 text-slate-400 uppercase font-mono text-[10px] border-b border-sage-700/30">
                 <tr>
                   <th className="px-5 py-3">Reference ID</th>
                   <th className="px-5 py-3">Client & Company</th>
@@ -173,10 +173,10 @@ export const AdminInquiriesPage: React.FC = () => {
                   <th className="px-5 py-3">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60 font-sans">
+              <tbody className="divide-y divide-sage-700/20 font-sans">
                 {filteredInquiries.map((inquiry) => (
-                  <tr key={inquiry.referenceNumber} className="hover:bg-navy-850/50 transition-colors">
-                    <td className="px-5 py-3 font-mono font-bold text-cyan-300">
+                  <tr key={inquiry.referenceNumber} className="hover:bg-charcoal-900/50 transition-colors">
+                    <td className="px-5 py-3 font-mono font-bold text-champagne-400">
                       {inquiry.referenceNumber}
                     </td>
                     <td className="px-5 py-3">
@@ -184,7 +184,7 @@ export const AdminInquiriesPage: React.FC = () => {
                       <div className="text-slate-400 text-[11px]">{inquiry.companyName}</div>
                     </td>
                     <td className="px-5 py-3">
-                      <span className="px-2 py-0.5 rounded bg-navy-900 border border-slate-700 text-slate-300 text-[10px] font-mono">
+                      <span className="px-2 py-0.5 rounded bg-charcoal-900 border border-sage-700/40 text-slate-300 text-[10px] font-mono">
                         {inquiry.service}
                       </span>
                     </td>
@@ -202,7 +202,7 @@ export const AdminInquiriesPage: React.FC = () => {
                           ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
                           : inquiry.status === 'Lost'
                           ? 'bg-rose-500/10 text-rose-400 border border-rose-500/30'
-                          : 'bg-electric-500/10 text-electric-300 border border-electric-500/30'
+                          : 'bg-teal-500/10 text-teal-300 border border-teal-500/30'
                       }`}>
                         {inquiry.status}
                       </span>
@@ -210,7 +210,7 @@ export const AdminInquiriesPage: React.FC = () => {
                     <td className="px-5 py-3">
                       <button
                         onClick={() => handleSelectInquiry(inquiry)}
-                        className="px-2.5 py-1 rounded bg-navy-850 hover:bg-navy-800 border border-slate-700 text-cyan-400 text-[11px] font-mono transition-colors"
+                        className="px-2.5 py-1 rounded bg-charcoal-900 hover:bg-charcoal-800 border border-sage-700/40 text-champagne-400 text-[11px] font-mono transition-colors"
                       >
                         Inspect
                       </button>
@@ -226,14 +226,14 @@ export const AdminInquiriesPage: React.FC = () => {
       {/* DETAIL MODAL / DRAWER */}
       {selectedInquiry && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="glass-card max-w-2xl w-full p-6 sm:p-8 rounded-2xl border border-slate-700 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+          <div className="bg-charcoal-850 max-w-2xl w-full p-6 sm:p-8 rounded-2xl border border-sage-700/40 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
             
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div className="flex items-center justify-between border-b border-sage-700/30 pb-4">
               <div className="space-y-0.5">
-                <span className="text-[10px] font-mono text-cyan-400 uppercase">Inquiry Dossier</span>
+                <span className="text-[10px] font-mono text-champagne-400 uppercase">Inquiry Dossier</span>
                 <h3 className="font-heading text-xl font-bold text-white flex items-center gap-2">
                   <span>{selectedInquiry.referenceNumber}</span>
-                  <span className="text-xs px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 font-mono">
+                  <span className="text-xs px-2 py-0.5 rounded bg-teal-500/10 text-teal-300 border border-teal-500/20 font-mono">
                     {selectedInquiry.service}
                   </span>
                 </h3>
@@ -247,7 +247,7 @@ export const AdminInquiriesPage: React.FC = () => {
             </div>
 
             {/* Client Info Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs font-mono bg-navy-900 p-4 rounded-xl border border-slate-800">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs font-mono bg-charcoal-900 p-4 rounded-xl border border-sage-700/30">
               <div>
                 <span className="text-slate-500 block text-[10px]">CLIENT</span>
                 <span className="text-slate-200">{selectedInquiry.clientName}</span>
@@ -258,7 +258,7 @@ export const AdminInquiriesPage: React.FC = () => {
               </div>
               <div>
                 <span className="text-slate-500 block text-[10px]">EMAIL</span>
-                <a href={`mailto:${selectedInquiry.email}`} className="text-cyan-400 hover:underline truncate block">
+                <a href={`mailto:${selectedInquiry.email}`} className="text-champagne-400 hover:underline truncate block">
                   {selectedInquiry.email}
                 </a>
               </div>
@@ -279,14 +279,14 @@ export const AdminInquiriesPage: React.FC = () => {
             {/* Requirements */}
             <div className="space-y-2">
               <span className="text-xs font-mono uppercase text-slate-400 block">Submitted Specifications:</span>
-              <div className="p-4 rounded-xl bg-navy-900/60 border border-slate-800 text-xs text-slate-200 leading-relaxed font-sans">
+              <div className="p-4 rounded-xl bg-charcoal-900/60 border border-sage-700/30 text-xs text-slate-200 leading-relaxed font-sans">
                 {selectedInquiry.projectRequirements}
               </div>
             </div>
 
             {/* Status Transition Workflow */}
-            <div className="space-y-2 pt-2 border-t border-slate-800">
-              <span className="text-xs font-mono uppercase text-cyan-400 block">Lead Pipeline Status:</span>
+            <div className="space-y-2 pt-2 border-t border-sage-700/30">
+              <span className="text-xs font-mono uppercase text-champagne-400 block">Lead Pipeline Status:</span>
               <div className="flex flex-wrap gap-1.5">
                 {allStatuses.map((st) => (
                   <button
@@ -295,8 +295,8 @@ export const AdminInquiriesPage: React.FC = () => {
                     onClick={() => handleUpdateStatus(st)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                       selectedInquiry.status === st
-                        ? 'bg-cyan-500 text-navy-950 font-bold ring-2 ring-cyan-400/40'
-                        : 'bg-navy-900 text-slate-400 hover:text-white hover:bg-navy-850 border border-slate-700/60'
+                        ? 'bg-champagne-500 text-charcoal-950 font-bold ring-2 ring-champagne-400/40'
+                        : 'bg-charcoal-900 text-slate-400 hover:text-white hover:bg-charcoal-800 border border-sage-700/40'
                     }`}
                   >
                     {st}
@@ -313,7 +313,7 @@ export const AdminInquiriesPage: React.FC = () => {
                 value={notesInput}
                 onChange={(e) => setNotesInput(e.target.value)}
                 placeholder="E.g., Engineering lead assigned: Alex. Initial call scheduled for Friday. Needs ROS 2 Gazebo simulation demo."
-                className="w-full px-3 py-2 rounded-xl bg-navy-900 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-400"
+                className="w-full px-3 py-2 rounded-xl bg-charcoal-900 border border-sage-700/40 text-xs text-slate-200 focus:outline-none focus:border-champagne-400"
               />
               <div className="flex justify-end">
                 <Button
