@@ -83,6 +83,8 @@ export interface ProjectCaseStudy {
   subtitle: string;
   serviceId: ServiceId;
   serviceName: string;
+  category?: string;
+  shortDescription?: string;
   industry: string;
   isDemonstrationOrPrototype: boolean;
   statusBadge: string;
@@ -101,6 +103,29 @@ export interface ProjectCaseStudy {
   }[];
   galleryImages: string[];
   demoUrl?: string;
+  liveUrl?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  designApproach?: {
+    palette?: { name: string; hex: string }[];
+    typography?: string[];
+    visualDetails?: string[];
+  };
+  implementedFeatures?: {
+    title: string;
+    description: string;
+    tag?: string;
+  }[];
+  technicalArchitecture?: {
+    layers?: { layer: string; technology: string; purpose: string }[];
+    flowDiagram?: string[];
+  };
+  developmentProcess?: { step: string; title: string; description?: string }[];
+  liveCta?: {
+    heading: string;
+    description: string;
+    buttonLabel: string;
+  };
   publishedAt: string;
 }
 

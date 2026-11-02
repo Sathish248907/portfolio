@@ -30,6 +30,12 @@ const ProjectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    category: {
+      type: String,
+    },
+    liveUrl: {
+      type: String,
+    },
     isDemonstrationOrPrototype: {
       type: Boolean,
       default: true,

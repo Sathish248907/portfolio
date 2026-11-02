@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Menu, 
@@ -18,6 +18,7 @@ export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const location = useLocation();
+  const servicesDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,6 +33,17 @@ export const Navbar: React.FC = () => {
     setMobileMenuOpen(false);
     setServicesDropdownOpen(false);
   }, [location.pathname]);
+
+  // Handle outside clicks to close services dropdown
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (servicesDropdownRef.current && !servicesDropdownRef.current.contains(e.target as Node)) {
+        setServicesDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Handle Escape key to close menus
   useEffect(() => {
@@ -50,7 +62,6 @@ export const Navbar: React.FC = () => {
     { path: '/industries', label: 'Industries' },
     { path: '/portfolio', label: 'Portfolio' },
     { path: '/about', label: 'About Us' },
-    { path: '/careers', label: 'Careers' },
     { path: '/contact', label: 'Contact' },
   ];
 
@@ -115,25 +126,41 @@ export const Navbar: React.FC = () => {
 
             {/* Services Dropdown */}
             <div 
+              ref={servicesDropdownRef}
               className="relative"
               onMouseEnter={() => setServicesDropdownOpen(true)}
               onMouseLeave={() => setServicesDropdownOpen(false)}
             >
-              <button
-                type="button"
-                onClick={() => setServicesDropdownOpen(!servicesDropdownOpen)}
+              <div
                 className={cn(
-                  'flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-champagne-400',
+                  'flex items-center rounded-lg transition-colors group',
                   location.pathname.startsWith('/services') || servicesDropdownOpen
                     ? 'text-champagne-400 bg-white/5 font-semibold'
                     : 'text-slate-300 hover:text-white hover:bg-white/5'
                 )}
-                aria-expanded={servicesDropdownOpen}
-                aria-haspopup="true"
               >
-                <span>Services</span>
-                <ChevronDown className={cn('w-4 h-4 transition-transform duration-200', servicesDropdownOpen && 'rotate-180 text-champagne-400')} />
-              </button>
+                <Link
+                  to="/services"
+                  onClick={() => setServicesDropdownOpen(false)}
+                  className="pl-3 pr-1 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-champagne-400 rounded-l-lg hover:text-champagne-300 transition-colors"
+                >
+                  Services
+                </Link>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setServicesDropdownOpen((prev) => !prev);
+                  }}
+                  className="pr-2.5 pl-1 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-champagne-400 rounded-r-lg hover:text-champagne-300 transition-colors"
+                  aria-expanded={servicesDropdownOpen}
+                  aria-haspopup="true"
+                  aria-label="Services menu"
+                >
+                  <ChevronDown className={cn('w-4 h-4 transition-transform duration-200', servicesDropdownOpen && 'rotate-180 text-champagne-400')} />
+                </button>
+              </div>
 
               <ServicesDropdown 
                 isOpen={servicesDropdownOpen} 

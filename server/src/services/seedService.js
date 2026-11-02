@@ -54,7 +54,7 @@ export async function seedInitialData() {
           ],
           techStack: ['React', 'Next.js', 'Node.js', 'TypeScript', 'PostgreSQL', 'Redis', 'Docker', 'Kubernetes'],
           deliverables: ['Production Cloud Application', 'Design System Library', 'OpenAPI Documentation', 'Automated CI/CD Pipeline'],
-          relatedProjectSlugs: ['nexus-enterprise-cloud-portal']
+          relatedProjectSlugs: ['artistry-gold-diamonds', 'peace-haven-clinic', 'ph-homes']
         },
         {
           serviceId: 'fintech',
@@ -79,7 +79,7 @@ export async function seedInitialData() {
           ],
           techStack: ['Go', 'Node.js', 'Python', 'Kafka', 'PostgreSQL', 'Redis'],
           deliverables: ['Double-Entry Ledger Core', 'Payment Orchestrator API'],
-          relatedProjectSlugs: ['strata-institutional-settlement-engine']
+          relatedProjectSlugs: ['ai-command-center', 'ph-google', 'grow-capital']
         },
         {
           serviceId: 'robotics',
@@ -104,7 +104,7 @@ export async function seedInitialData() {
           ],
           techStack: ['ROS 2', 'C++', 'Python', 'NVIDIA Jetson', 'OpenCV'],
           deliverables: ['Custom AMR Navigation Firmware', 'Fleet Dispatch Control System'],
-          relatedProjectSlugs: ['titan-amr-warehouse-fleet']
+          relatedProjectSlugs: ['ai-agricultural-animal-detection', 'smart-blind-stick', 'eb-300-robotic-arm']
         },
         {
           serviceId: 'drone-technology',
@@ -129,7 +129,7 @@ export async function seedInitialData() {
           ],
           techStack: ['PX4 Autopilot', 'ArduPilot', 'MAVLink', 'C++', 'Python'],
           deliverables: ['Flight Controller Software', 'Ground Telemetry Station'],
-          relatedProjectSlugs: ['skyward-solar-infrared-inspector']
+          relatedProjectSlugs: []
         },
         {
           serviceId: 'healthcare',
@@ -154,7 +154,7 @@ export async function seedInitialData() {
           ],
           techStack: ['React', 'TypeScript', 'Node.js', 'FHIR R4', 'WebRTC'],
           deliverables: ['HIPAA Telehealth Web Application', 'FHIR Interoperability Bridge'],
-          relatedProjectSlugs: ['vitalpulse-rpm-platform']
+          relatedProjectSlugs: ['rapid-mi-screening-test', 'peace-haven-clinic']
         },
         {
           serviceId: 'us-staffing',
@@ -204,7 +204,7 @@ export async function seedInitialData() {
           ],
           techStack: ['C++', 'Rust', 'Python', 'FIX Protocol', 'ZeroMQ'],
           deliverables: ['C++ Low Latency Execution Gateway', 'Pre-Trade Risk Engine'],
-          relatedProjectSlugs: ['vertex-hft-execution-gateway']
+          relatedProjectSlugs: []
         },
         {
           serviceId: 'digital-marketing',
@@ -237,118 +237,416 @@ export async function seedInitialData() {
       console.log(`[SEED] Inserted ${servicesSeed.length} core services.`);
     }
 
+    // Clean up removed project if it exists in DB
+    await Project.deleteOne({ slug: 'nexus-enterprise-cloud-portal' });
+    await Service.updateOne(
+      { serviceId: 'web-development' },
+      { $pull: { relatedProjectSlugs: 'nexus-enterprise-cloud-portal' } }
+    );
+
     // 3. Seed initial laboratory projects / prototypes if none exists
     const projectCount = await Project.countDocuments();
     if (projectCount === 0) {
       const projectsSeed = [
         {
-          slug: 'nexus-enterprise-cloud-portal',
-          title: 'Nexus Industrial Cloud Portal',
-          subtitle: 'Distributed Multi-Tenant Cloud Architecture for Industrial Telemetry',
+          slug: 'artistry-gold-diamonds',
+          title: 'Artistry Gold & Diamonds',
+          subtitle: 'Crafting a Premium Digital Jewellery Shopping Experience.',
           serviceId: 'web-development',
           serviceName: 'Web Development',
-          industry: 'Industrial IoT & Energy',
+          category: 'E-commerce Development',
+          industry: 'Jewellery & Luxury Retail',
           isDemonstrationOrPrototype: true,
-          statusBadge: 'Engineering Demonstration Prototype',
-          thumbnail: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
-          heroImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1800&q=85',
-          overview: 'An enterprise-scale demonstration of Peace Haven full-stack cloud capabilities, handling high-frequency sensor streams from hundreds of connected industrial assets with sub-second dashboard synchronization.',
-          challenge: 'Industrial operations struggle with disparate data silos across PLCs, edge controllers, and remote sensors. Legacy dashboards lag under thousands of concurrent data points.',
-          solution: 'Engineered an event-driven microservices architecture using Apache Kafka for stream ingestion, TimescaleDB for time-series persistence, and a WebSockets React frontend.',
+          statusBadge: 'Verified Live Production Platform',
+          thumbnail: '/images/projects/artistry-homepage.png',
+          heroImage: '/images/projects/artistry-homepage.png',
+          overview: 'Artistry Gold & Diamonds is a premium jewellery e-commerce platform designed to provide customers with an elegant and convenient online shopping experience. The website combines luxury-inspired visual design, product-focused navigation and a sophisticated shopping interface for a gold and diamond jewellery business.',
+          challenge: 'Luxury jewellery retail demands an uncompromising digital presentation where customers expect certified authenticity, real-time gold market pricing, intricate high-resolution product inspection, and seamless shopping cart experiences across mobile and desktop devices without performance degradation.',
+          solution: 'Architected a full-stack MERN (React.js, Node.js, Express.js, MongoDB) platform featuring responsive component-driven layouts, a live 22K gold rate ticker with BIS 916 Hallmark verification badges, structured product categorization across Gold, Diamonds, and Gemstones, persistent shopping bag workflows, and instant customer service connectivity.',
           architectureHighlights: [
-            'Kafka-based event streaming processing up to 50,000 updates per second',
-            'WebSockets connection pooling with automated state reconciliation',
-            'Canvas-accelerated time-series data visualizer',
-            'Multi-tenant RBAC'
+            'React.js single-page application with responsive, high-DPI jewellery product showcases and fluid motion transitions',
+            'Dynamic 22K gold rate integration displaying daily market valuation and BIS hallmark trust credentials',
+            'MongoDB document schemas optimized for multifaceted jewellery attributes (carats, gross/net weight, purity, certified stones)',
+            'Modular Node.js & Express RESTful API with cached catalogue retrieval, search indexing, and resilient order workflows',
+            'Persistent shopping bag and wishlist state management across customer sessions with zero layout shift'
           ],
           engineeringCapabilitiesDemonstrated: [
-            'Distributed backend design in Node.js and TypeScript',
-            'Dockerized Kubernetes deployment scripts'
+            'Full-stack MERN architecture with clean separation of presentation, business logic, and persistence layers',
+            'Luxury brand UI/UX execution utilizing Cormorant Garamond headings, Jost typography, and rose-gold blush aesthetics',
+            'Mobile-first responsive design ensuring tactile browsing across smartphones, tablets, and desktop displays',
+            'E-commerce trust architecture integrating HUID hallmark badges, customer inquiries, and secure checkout endpoints'
           ],
-          technologies: ['React', 'TypeScript', 'Node.js', 'Apache Kafka', 'PostgreSQL', 'Docker'],
+          technologies: ['React.js', 'Node.js', 'MongoDB', 'JavaScript', 'Tailwind CSS', 'Framer Motion', 'Express.js'],
           resultsOrProjections: [
-            { metric: '< 60ms', label: 'Telemetry Ingestion Latency', detail: 'From edge gateway to operator screen' },
-            { metric: '50k/s', label: 'Peak Message Ingestion', detail: 'Verified in simulated multi-factory benchmarks' },
-            { metric: '99.99%', label: 'Target Availability', detail: 'Clustered failover with zero loss' }
+            { metric: '22K Live', label: 'Gold Rate Ticker', detail: 'Real-time market rate synchronization with BIS hallmark assurance' },
+            { metric: '100%', label: 'Mobile Ergonomics', detail: 'Touch-optimized navigation, product zoom, and drawer interactions' },
+            { metric: '< 1.2s', label: 'Catalogue Page Load', detail: 'Optimized image pipelines and component code splitting' }
           ],
           galleryImages: [
-            'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
-            'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1200&q=80'
+            '/images/projects/artistry-homepage.png',
+            '/images/projects/artistry-catalogue.png',
+            '/images/projects/artistry-gold-coins.png'
           ],
-          demoUrl: 'https://demo.peacehaven.tech/nexus',
-          publishedAt: '2025-08-15',
+          demoUrl: 'https://www.artistrygoldanddiamonds.shop/',
+          liveUrl: 'https://www.artistrygoldanddiamonds.shop/',
+          publishedAt: '2026-02-15',
           isPublished: true
         },
         {
-          slug: 'strata-institutional-settlement-engine',
-          title: 'Strata High-Security Ledger Engine',
-          subtitle: 'Cryptographically Verified Double-Entry Clearing & Multi-Currency Settlement',
+          slug: 'peace-haven-clinic',
+          title: 'Peace Haven Clinic Website',
+          subtitle: 'An integrated digital clinic experience designed to simplify patient appointments and healthcare administration.',
+          serviceId: 'web-development',
+          serviceName: 'Web Development',
+          category: 'Healthcare Web Development',
+          industry: 'Healthcare',
+          isDemonstrationOrPrototype: true,
+          statusBadge: 'Verified Live Production Platform',
+          thumbnail: '/images/projects/clinic-homepage.png',
+          heroImage: '/images/projects/clinic-homepage.png',
+          shortDescription: 'A modern healthcare platform featuring online appointments, doctor workflows and clinic management capabilities.',
+          overview: 'A modern clinic website and appointment management platform designed to simplify the interaction between patients, doctors and clinic administrators. The platform provides a professional online presence for the clinic, allowing patients to explore available services, access doctor information and interact with the appointment booking system.',
+          challenge: 'Modern outpatient healthcare practices often struggle with disconnected appointment booking systems, manual telephone coordination, patient registration friction, and administrative delays in routing consultation requests between clinical departments and consulting physicians.',
+          solution: 'Architected and engineered a comprehensive, responsive clinic web application using React.js, Vite, Node.js, Express.js, and MongoDB. The platform provides a welcoming patient-facing portal with direct doctor credential exploration, multi-department service categorization, slot-based online appointment reservation, Google OAuth authentication, and an administrative doctor management interface.',
+          architectureHighlights: [
+            'React.js single-page application built with Vite for instantaneous HMR, optimized asset code-splitting, and smooth client-side routing',
+            'Express.js RESTful API architecture connecting patient appointment requests with backend scheduling and slot management',
+            'MongoDB document schemas structuring doctor profiles, medical specialties, operating hours, and patient appointment records',
+            'Unified authentication subsystem supporting Google OAuth (Google Sign-In) and protected role-based staff routes',
+            'Staff and Doctor management interfaces (/admin/doctors) allowing administrative oversight of consultation slots and clinical availability'
+          ],
+          engineeringCapabilitiesDemonstrated: [
+            'Full-stack healthcare web architecture separating client presentation, REST routing, and persistence tiers',
+            'Responsive healthcare design system utilizing deep charcoal navy, warm off-white, and muted teal accents',
+            'Appointment workflow engineering handling consultation modes (in-person and virtual teleconsultation)',
+            'Digital health privacy compliance ensuring zero leakage of identifiable patient records or unverified diagnostic claims'
+          ],
+          technologies: ['React.js', 'Vite', 'Node.js', 'Express.js', 'MongoDB', 'JavaScript'],
+          resultsOrProjections: [
+            { metric: '100%', label: 'Digital Appointment Booking', detail: 'Direct patient self-service booking eliminating telephone scheduling friction' },
+            { metric: 'Vite + React', label: 'Modern Frontend Stack', detail: 'Rapid sub-second page transitions and responsive cross-device layout' },
+            { metric: '24/7', label: 'Emergency & Clinic Connectivity', detail: 'Continuous helpline routing, doctor credential exploration, and service accessibility' }
+          ],
+          galleryImages: [
+            '/images/projects/clinic-homepage.png',
+            '/images/projects/clinic-appointment-booking.png',
+            '/images/projects/clinic-doctors.png',
+            '/images/projects/clinic-services.png',
+            '/images/projects/clinic-portal-login.png'
+          ],
+          demoUrl: 'https://peacehaven.clinic/',
+          liveUrl: 'https://peacehaven.clinic/',
+          publishedAt: '2026-03-01',
+          isPublished: true
+        },
+        {
+          slug: 'ph-homes',
+          title: 'PH Homes',
+          subtitle: 'Intelligent Real Estate & Property Platform',
+          serviceId: 'web-development',
+          serviceName: 'Web Development',
+          category: 'Full-Stack Web Application',
+          industry: 'Real Estate Technology',
+          isDemonstrationOrPrototype: true,
+          statusBadge: 'Verified Platform Prototype',
+          thumbnail: '/images/projects/ph-homes/ph-homes-homepage.png',
+          heroImage: '/images/projects/ph-homes/ph-homes-homepage.png',
+          shortDescription: 'A comprehensive real estate ecosystem combining AI-powered property discovery, interactive maps, property analytics, agent workflows and a home-services marketplace.',
+          overview: 'PH Homes is a full-stack real estate platform designed for the US property market, bringing property discovery, intelligent search, real estate analytics, communication and home services into one unified digital ecosystem. Built using React.js, Node.js, Express.js and MongoDB, the platform supports seven user roles: buyers, renters, agents, service providers, reviewers, concierge staff and administrators.',
+          challenge: 'The US residential real estate landscape is fractured across disparate platforms for search, CRM, rental processing, and home maintenance. PH Homes unifies 7 user personas while enforcing listing authenticity and real-time communication.',
+          solution: 'Peace Haven engineered PH Homes using React 18, Vite, Node.js, Express, MongoDB, Socket.IO, Google Maps JavaScript API, and Stripe. The platform incorporates a 6-stage listing verification workflow, an agent CRM workstation, and a localized home-services marketplace.',
+          architectureHighlights: [
+            'React 18 single-page application with Vite, Tailwind CSS, and glassmorphic UI components',
+            'Node.js & Express RESTful API with Zod validation, JWT authentication, and centralized error handling',
+            'MongoDB with 2dsphere geospatial indexing for radius and polygon property queries',
+            'Google Maps JS API integration featuring Advanced Markers and freehand polygon drawing filter',
+            'Socket.IO WebSocket layer powering real-time chat, viewing alerts, and lead notifications',
+            'Stripe integration handling agent subscription tiers, lead credit top-ups, and featured property boosts',
+            'Structured listing review pipeline requiring ownership documentation inspection before publication',
+            'Automated testing pipeline with 265+ unit and integration tests passing in Vitest'
+          ],
+          engineeringCapabilitiesDemonstrated: [
+            'Full-stack MERN architecture supporting 7 distinct role-based access tiers',
+            'Geospatial search and property clustering combining Google Maps JS API and MongoDB 2dsphere',
+            'Real-time bidirectional event coordination through Socket.IO for messaging and notifications',
+            'Automated test engineering with 265 passing unit/integration tests in CI',
+            'Secure Stripe payment processing with idempotency and webhook handlers'
+          ],
+          technologies: [
+            'React.js',
+            'Node.js',
+            'Express.js',
+            'MongoDB',
+            'AI-Powered Search',
+            'Socket.IO',
+            'Stripe',
+            'Google Maps API',
+            'Tailwind CSS',
+            'Vite',
+            'Zod',
+            'JWT',
+            'Docker',
+            'Vitest'
+          ],
+          resultsOrProjections: [
+            { metric: '7 Roles', label: 'Unified Ecosystem', detail: 'Buyers, renters, agents, service providers, reviewers, concierge & admins' },
+            { metric: '265+ Tests', label: 'Automated Backend Tests', detail: '10 passing Vitest test suites with 100% CI pass rate in GitHub Actions' },
+            { metric: 'Real-Time', label: 'Socket.IO Architecture', detail: 'Instant messaging, live viewing alerts & CRM lead notifications' },
+            { metric: 'Full-Stack', label: 'MERN & Geospatial', detail: 'React 18, Express, MongoDB 2dsphere indexes & Google Maps API' }
+          ],
+          galleryImages: [
+            '/images/projects/ph-homes/ph-homes-homepage.png',
+            '/images/projects/ph-homes/ph-homes-agent-dashboard.png',
+            '/images/projects/ph-homes/ph-homes-lead-pipeline.png',
+            '/images/projects/ph-homes/ph-homes-analytics.png',
+            '/images/projects/ph-homes/ph-homes-admin-dashboard.png',
+            '/images/projects/ph-homes/ph-homes-agent-performance.png',
+            '/images/projects/ph-homes/ph-homes-lead-details.png',
+            '/images/projects/ph-homes/ph-homes-sell-valuation.png',
+            '/images/projects/ph-homes/ph-homes-callback-inquiry.png',
+            '/images/projects/ph-homes/ph-homes-mobile-pipeline.png'
+          ],
+          publishedAt: '2026-03-10',
+          isPublished: true
+        },
+        {
+          slug: 'ai-command-center',
+          title: 'AI Command Center',
+          subtitle: 'An AI-powered digital platform developed to centralize intelligent capabilities and support modern business workflows.',
           serviceId: 'fintech',
           serviceName: 'FinTech Solutions',
-          industry: 'Capital Markets & Payments',
+          category: 'AI & Enterprise Technology',
+          industry: 'Financial Technology & AI Platforms',
           isDemonstrationOrPrototype: true,
-          statusBadge: 'Architectural Proof-of-Concept',
-          thumbnail: 'https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&w=1200&q=80',
-          heroImage: 'https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&w=1800&q=85',
-          overview: 'A high-integrity financial ledger prototype demonstrating immutable double-entry accounting, automated multi-currency cross-border settlement, and cryptographic audit verification.',
-          challenge: 'Traditional settlement systems suffer from multi-day reconciliation delays, balance drift, and fragmented reporting.',
-          solution: 'Designed an event-sourced ledger core where every financial movement is an immutable, append-only transaction verified by cryptographic hash trees with zero drift.',
+          statusBadge: 'Verified Live Production Platform',
+          thumbnail: '/images/projects/ai-command-center-dashboard.png',
+          heroImage: '/images/projects/ai-command-center-dashboard.png',
+          overview: 'AI Command Center is an intelligent digital platform developed by Peace Haven to bring AI-powered capabilities into a unified application environment. The platform is designed to provide a centralized interface for accessing and managing its available AI capabilities, helping users interact with intelligent tools and streamline supported digital workflows.',
+          challenge: 'Modern enterprise operations and corporate finance teams face operational fragmentation across disconnected banking portals, disparate mailbox threads, unstructured invoice documents, and standalone AI models.',
+          solution: 'Peace Haven engineered AI Command Center as a unified, role-governed operational platform integrating real-time banking telemetry via Plaid API, automated email payment stream triage with Google Workspace, document intelligence via OpenAI API, and specialized AI agents for multi-channel business execution.',
           architectureHighlights: [
-            'Strict double-entry journal invariants mathematically validated',
-            'SHA-256 hash chaining of daily ledger snapshots',
-            'Idempotent payment instruction dispatcher'
+            'Multi-bank financial bridge powered by Plaid API, aggregating commercial checking, yield reserve, and term loan facilities with real-time balance tracking',
+            'Automated mailbox payment ingestion pipeline extracting lender statements, auto-debits, and supplier invoices directly into ledger reconciliation queues',
+            'Context-aware multi-agent workspace with conversational query dispatcher, automated thread summarization, and executive weekly briefing generation',
+            'Enterprise role-based access control (RBAC) isolating sensitive liquidity ledgers and bank accounts under privileged Finance User permissions'
           ],
           engineeringCapabilitiesDemonstrated: [
-            'Financial state machine modeling with strict isolation guarantees',
-            'PCI-DSS compliance architecture'
+            'Full-stack enterprise application engineering in React 19, TypeScript, Vite, and Node.js with dark/light theme switching',
+            'Financial API integration including Plaid Link token negotiation, institution webhook handling, and transaction synchronization',
+            'Natural language document processing pipelines parsing PDF invoices, bills of lading, NAICS codes, and payment terms via OpenAI API',
+            'Operational claim resolution workflows validating fleet and insurance payout confirmations with cryptographic audit stamps'
           ],
-          technologies: ['Go', 'Node.js', 'PostgreSQL', 'Redis', 'Docker'],
+          technologies: ['React 19', 'TypeScript', 'Node.js', 'Plaid API', 'OpenAI API', 'Tailwind CSS', 'Vite', 'Google Workspace API'],
           resultsOrProjections: [
-            { metric: '0.00%', label: 'Reconciliation Drift', detail: 'Mathematically enforced journal balancing' },
-            { metric: '12ms', label: 'Ledger Commit Latency', detail: 'Synchronous write with durability confirmation' },
-            { metric: '100%', label: 'Audit Trail Traceability', detail: 'Cryptographically chained journals' }
+            { metric: '100%', label: 'Plaid Bank Sync', detail: 'Real-time multi-account balance monitoring across commercial checking and credit facilities' },
+            { metric: '< 15s', label: 'Payment Ingestion Triage', detail: 'Automated invoice and auto-debit extraction from corporate mailboxes to ledger queues' },
+            { metric: 'Zero Drift', label: 'Financial Reconciliation', detail: 'Defensible audit trails with role-scoped Finance User data isolation' }
           ],
           galleryImages: [
-            'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80'
+            '/images/projects/ai-command-center-dashboard.png',
+            '/images/projects/ai-command-center-finance.png',
+            '/images/projects/ai-command-center-mail.png',
+            '/images/projects/ai-command-center-agents.png',
+            '/images/projects/ai-command-center-login-dark.png'
           ],
-          demoUrl: 'https://demo.peacehaven.tech/strata-ledger',
-          publishedAt: '2025-09-10',
+          demoUrl: 'https://ai.peacehavencorp.com/',
+          liveUrl: 'https://ai.peacehavencorp.com/',
+          publishedAt: '2026-03-15',
           isPublished: true
         },
         {
-          slug: 'titan-amr-warehouse-fleet',
-          title: 'Titan Autonomous Mobile Robot (AMR) Platform',
-          subtitle: 'ROS 2 Navigation Stack & VDA 5050 Multi-Agent Fleet Dispatcher',
-          serviceId: 'robotics',
-          serviceName: 'Robotics & Automation',
-          industry: 'Logistics & Advanced Manufacturing',
+          slug: 'ph-google',
+          title: 'PH Google',
+          subtitle: 'Centralized Digital Workspace',
+          serviceId: 'fintech',
+          serviceName: 'FinTech Solutions',
+          category: 'Enterprise Web Application',
+          industry: 'Business Productivity & Enterprise Technology',
           isDemonstrationOrPrototype: true,
-          statusBadge: 'Hardware-in-the-Loop Prototype',
-          thumbnail: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1200&q=80',
-          heroImage: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1800&q=85',
-          overview: 'A comprehensive robotics platform demonstration featuring autonomous mobile robot path planning in simulated warehouse environments with real-time fleet coordination.',
-          challenge: 'Dynamic warehouse environments require mobile robots to navigate around moving equipment and humans without bottlenecks or localization loss.',
-          solution: 'Implemented a custom ROS 2 Humble navigation stack combining 2D LiDAR SLAM with time-elastic-band local planners and a VDA 5050 cloud fleet manager.',
+          statusBadge: 'Internal Project',
+          thumbnail: '/images/projects/ph-google/ph-google-hero.png',
+          heroImage: '/images/projects/ph-google/ph-google-hero.png',
+          shortDescription: 'A unified enterprise workspace bringing essential business tools, documents and team collaboration into one centralized platform.',
+          overview: 'PH Google is a centralized digital workspace platform developed to simplify and streamline everyday business activities for Peace Haven employees. The platform provides a unified environment where users can access and manage essential business tools, documents, files and organizational resources from a single interface.',
+          challenge: 'Enterprise operational teams frequently experience severe workflow fragmentation across disparate browser tabs, isolated inboxes, and unlinked calendar schedules.',
+          solution: 'Peace Haven engineered PH Google as a unified digital workspace combining React.js frontend with Python backend, federating Google Drive, Gmail, Calendar, and Sheets under centralized RBAC.',
+          technologies: ['React.js', 'Python', 'Google Services Integration', 'RESTful API', 'Tailwind CSS'],
+          galleryImages: [
+            '/images/projects/ph-google/ph-google-hero.png',
+            '/images/projects/ph-google/ph-google-gmail.webp',
+            '/images/projects/ph-google/ph-google-user-management.webp',
+            '/images/projects/ph-google/ph-google-admin.webp',
+            '/images/projects/ph-google/ph-google-notifications.webp'
+          ],
+          publishedAt: '2026-04-10',
+          isPublished: true
+        },
+        {
+          slug: 'grow-capital',
+          title: 'Grow Capital',
+          subtitle: 'Digital Gold & Silver Investment Platform',
+          serviceId: 'fintech',
+          serviceName: 'FinTech Solutions',
+          category: 'FinTech',
+          industry: 'Digital Finance & Precious Metals',
+          isDemonstrationOrPrototype: false,
+          statusBadge: 'Verified Live Production Platform',
+          thumbnail: '/images/projects/grow-capital/grow-capital-hero.png',
+          heroImage: '/images/projects/grow-capital/grow-capital-hero.png',
+          shortDescription: 'A digital precious-metals platform that makes buying, tracking and redeeming gold and silver more accessible.',
+          overview: 'Grow Capital is a digital gold and silver investment platform developed to make precious-metal ownership more accessible. Users can purchase fractional quantities of gold and silver starting from ₹10, monitor their real-time holdings, accumulate systematically through savings planners, and choose to liquidate at live market buyback rates or request physical delivery of certified minted bullion coins and bars through integrated bullion infrastructure.',
+          challenge: 'Traditional physical precious-metal acquisition across India involves steep minimum purchase sizes, opaque making charges, physical custody security risks, and cumbersome buyback verification.',
+          solution: 'Peace Haven architected a modern, high-trust digital precious-metals investment platform directly integrated with Augmont Goldtech for wholesale bullion pricing, order execution, and refinery certification. The platform enables fractional gold and silver micro-investments starting at ₹10, backed 1:1 by physical bullion vaulted in Brinks secure facilities under IDBI Trusteeship Services oversight.',
           architectureHighlights: [
-            'Sensor fusion pipeline integrating 2D LiDAR, 3D depth cameras, and wheel odometry',
-            'Dynamic speed zones automatically throttling robot speed near humans',
-            'VDA 5050 compliant JSON-over-MQTT fleet dispatcher'
+            'Direct integration with Augmont Goldtech API for live 24K 999 gold and 999 fine silver market pricing and order execution',
+            'Fractional precious-metal accumulation engine supporting purchases from ₹10 with 4-decimal-place weight precision',
+            '100% physical bullion allocation model with storage in Brinks high-security vaults and independent IDBI Trusteeship oversight',
+            'Automated digital KYC verification workflow with real-time PAN validation before high-volume bullion settlement',
+            'Multi-rail digital payment gateway supporting UPI intent (Google Pay, PhonePe, Paytm), debit/credit cards, and net banking',
+            'Systematic Gold & Silver Savings Planner (SIP) calculator enabling disciplined recurring wealth accumulation',
+            'Physical redemption and insured logistics pipeline delivering certified tamper-proof minted coins and bars directly to user doorsteps',
+            '24/7 Grow Assistant AI chatbot providing instant customer support, transaction guidance, and onboarding assistance'
           ],
-          engineeringCapabilitiesDemonstrated: [
-            'ROS 2 node architecture with C++ real-time executors',
-            'Physics simulation in Gazebo and RViz'
+          technologies: [
+            'FinTech',
+            'Digital Gold',
+            'Digital Silver',
+            'Investment Platform',
+            'Augmont Integration',
+            'Brinks Vaults',
+            'IDBI Trusteeship',
+            'UPI Payments'
           ],
-          technologies: ['ROS 2', 'C++', 'Python', 'NVIDIA Jetson', 'OpenCV', 'MQTT', 'Docker'],
           resultsOrProjections: [
-            { metric: '±8mm', label: 'Docking Repeatability', detail: 'Precision pallet docking with optical alignment' },
-            { metric: '1.8 m/s', label: 'Max Safe Autonomous Velocity', detail: 'Dynamic braking within safety laser boundary' },
-            { metric: '40+', label: 'Simulated Concurrent Fleet Size', detail: 'Deadlock-free fleet routing' }
+            { metric: '₹10', label: 'Minimum Investment', detail: 'Democratized fractional precious-metal ownership accessible to any investor' },
+            { metric: '24K 999', label: 'Certified Bullion Purity', detail: '100% physically backed gold and silver with independent laboratory certification' },
+            { metric: '1:1 Vaulted', label: 'Brinks & IDBI Custody', detail: 'Fully insured physical bullion vaulted under independent institutional trustee oversight' },
+            { metric: 'Instant', label: 'Buy, Sell & Doorstep Delivery', detail: 'Immediate liquidity to bank accounts or tamper-proof physical coin redemption' }
           ],
           galleryImages: [
-            'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80'
+            '/images/projects/grow-capital/grow-capital-hero.png',
+            '/images/projects/grow-capital/grow-capital-metals.png',
+            '/images/projects/grow-capital/grow-capital-how-it-works.png',
+            '/images/projects/grow-capital/grow-capital-calculator.png',
+            '/images/projects/grow-capital/grow-capital-security.png',
+            '/images/projects/grow-capital/grow-capital-mobile.png'
           ],
-          demoUrl: 'https://demo.peacehaven.tech/titan-amr',
-          publishedAt: '2025-10-04',
+          demoUrl: 'https://growcapital.app/',
+          liveUrl: 'https://growcapital.app/',
+          publishedAt: '2026-03-20',
+          isPublished: true
+        },
+        {
+          slug: 'ai-agricultural-animal-detection',
+          title: 'AI-Based Agricultural Animal Detection System',
+          subtitle: 'AI-Powered Smart Farming & Crop Protection',
+          serviceId: 'robotics',
+          serviceName: 'Robotics & Automation',
+          category: 'AI & IoT Agricultural Automation',
+          industry: 'Agriculture & Smart Farming',
+          isDemonstrationOrPrototype: true,
+          statusBadge: 'Prototype Project',
+          thumbnail: '/images/projects/ai-agricultural-animal-detection/ai-animal-detection-overview.png',
+          heroImage: '/images/projects/ai-agricultural-animal-detection/ai-animal-detection-overview.png',
+          shortDescription: 'An intelligent agricultural monitoring system that uses AI-powered animal detection, ESP32-CAM and IoT notifications to help farmers respond to animal intrusion.',
+          overview: 'The AI-Based Agricultural Animal Detection & Humane Deterrent System is an intelligent agricultural safety solution designed to detect animals entering farmland and help protect crops from animal intrusion. The system uses an ESP32-CAM and a PIR motion sensor to detect movement and capture images of animals entering agricultural fields. The captured images are processed using an AI-based object detection model to identify the animal species and estimate the detection confidence level.',
+          challenge: 'Animal intrusion poses severe threats to agricultural livelihoods, causing catastrophic crop damage and human-wildlife conflict.',
+          solution: 'Peace Haven engineered an intelligent, multi-tier monitoring prototype uniting passive infrared sensing, embedded ESP32-CAM optical capture, AI computer vision, automated acoustic deterrents, and instant Telegram bot telemetry.',
+          technologies: ['Artificial Intelligence', 'Computer Vision', 'ESP32-CAM', 'PIR Sensor', 'IoT', 'Telegram Bot'],
+          galleryImages: [
+            '/images/projects/ai-agricultural-animal-detection/ai-animal-detection-overview.png',
+            '/images/projects/ai-agricultural-animal-detection/ai-animal-detection-hardware.png',
+            '/images/projects/ai-agricultural-animal-detection/ai-animal-detection-telegram.png',
+            '/images/projects/ai-agricultural-animal-detection/ai-animal-detection-process.png',
+            '/images/projects/ai-agricultural-animal-detection/ai-animal-detection-deterrent.png'
+          ],
+          publishedAt: '2026-04-18',
+          isPublished: true
+        },
+        {
+          slug: 'smart-blind-stick',
+          title: 'Smart Blind Stick',
+          subtitle: 'IoT-Based Assistive Mobility System',
+          serviceId: 'robotics',
+          serviceName: 'Robotics & Automation',
+          category: 'Assistive Technology & IoT',
+          industry: 'Healthcare Technology & Accessibility',
+          isDemonstrationOrPrototype: true,
+          statusBadge: 'Prototype Project',
+          thumbnail: '/images/projects/smart-blind-stick/smart-blind-stick-overview.png',
+          heroImage: '/images/projects/smart-blind-stick/smart-blind-stick-overview.png',
+          shortDescription: 'An intelligent assistive mobility solution integrating ultrasonic obstacle detection, directional vibration feedback, GPS tracking and emergency communication.',
+          overview: 'The Smart Blind Stick is an IoT-based assistive mobility system designed to support safer navigation and greater independence for visually impaired individuals. The system integrates embedded systems, ultrasonic sensors, motion detection, GPS tracking and cellular communication to provide obstacle warnings and emergency notifications. Powered by an ESP32-S3 microcontroller, the system coordinates multiple sensors and connected hardware components.',
+          challenge: 'Visually impaired individuals face daily navigation obstacles that heighten accident risks and hinder personal mobility.',
+          solution: 'Peace Haven engineered an intelligent, IoT-powered assistive mobility prototype built around the ESP32-S3 microcontroller, pairing three ultrasonic transducers with directional vibration motors, MPU6050 fall monitoring, and SIMCom A7670C 4G LTE emergency SMS dispatch.',
+          technologies: ['ESP32-S3', 'IoT', 'Ultrasonic Sensors', 'MPU6050', 'GPS', '4G LTE', 'Embedded Systems', 'Haptic Feedback'],
+          galleryImages: [
+            '/images/projects/smart-blind-stick/smart-blind-stick-overview.png',
+            '/images/projects/smart-blind-stick/smart-blind-stick-prototype.png',
+            '/images/projects/smart-blind-stick/smart-blind-stick-enclosure.png',
+            '/images/projects/smart-blind-stick/smart-blind-stick-sensors.png',
+            '/images/projects/smart-blind-stick/smart-blind-stick-alert.png',
+            '/images/projects/smart-blind-stick/smart-blind-stick-process.png'
+          ],
+          publishedAt: '2026-04-20',
+          isPublished: true
+        },
+        {
+          slug: 'eb-300-robotic-arm',
+          title: 'EB-300 Robotic Arm',
+          subtitle: '6-Axis Industrial Robotic Manipulator',
+          serviceId: 'robotics',
+          serviceName: 'Robotics & Automation',
+          category: 'Industrial Robotics & Automation',
+          industry: 'Manufacturing & Industrial Automation',
+          isDemonstrationOrPrototype: true,
+          statusBadge: 'Prototype Project',
+          thumbnail: '/images/projects/eb-300-robotic-arm/eb-300-overview.png',
+          heroImage: '/images/projects/eb-300-robotic-arm/eb-300-overview.png',
+          shortDescription: 'A multi-jointed robotic manipulation system designed to demonstrate coordinated movement, object handling and industrial automation capabilities.',
+          overview: 'The EB-300 Robotic Arm is a six-axis robotic manipulation project inspired by industrial robotic systems, designed to perform automated movement and object-handling tasks with flexibility and precision. The project focuses on developing a multi-jointed robotic manipulator capable of moving its end effector through different positions to support applications such as pick-and-place operations, material handling and automated assembly.',
+          challenge: 'Modern industrial automation and manufacturing workflows demand versatile robotic manipulation to perform repetitive object-handling operations with high repeatability.',
+          solution: 'Peace Haven engineered the EB-300 Robotic Arm, an industrial-inspired 6-axis manipulator prototype designed to demonstrate multi-joint coordinated movement, modular end-effector actuation, and programmable trajectory execution.',
+          technologies: ['Industrial Robotics', '6-Axis Manipulation', 'Motion Control', 'Mechanical Design', 'Embedded Systems', 'Stepper & Servo Actuation', 'Arduino Mega 2560', 'Kinematic Positioning'],
+          galleryImages: [
+            '/images/projects/eb-300-robotic-arm/eb-300-overview.png',
+            '/images/projects/eb-300-robotic-arm/eb-300-manipulator.png',
+            '/images/projects/eb-300-robotic-arm/eb-300-workspace.png',
+            '/images/projects/eb-300-robotic-arm/eb-300-views.png',
+            '/images/projects/eb-300-robotic-arm/eb-300-dof.png',
+            '/images/projects/eb-300-robotic-arm/eb-300-control.png',
+            '/images/projects/eb-300-robotic-arm/eb-300-end-effectors.png',
+            '/images/projects/eb-300-robotic-arm/eb-300-applications.png'
+          ],
+          publishedAt: '2026-04-22',
+          isPublished: true
+        },
+        {
+          slug: 'rapid-mi-screening-test',
+          title: 'Rapid MI Screening Test',
+          subtitle: 'Cardiac Biomarker Assay Kit for Rapid Detection of Myocardial Infarction',
+          serviceId: 'healthcare',
+          serviceName: 'Healthcare Solutions',
+          category: 'Point-of-Care Diagnostics',
+          industry: 'Healthcare & Clinical Diagnostics',
+          isDemonstrationOrPrototype: true,
+          statusBadge: 'Prototype Project',
+          thumbnail: '/images/projects/rapid-mi-screening-test/rapid-mi-test-overview.png',
+          heroImage: '/images/projects/rapid-mi-screening-test/rapid-mi-test-overview.png',
+          shortDescription: 'A point-of-care lateral flow immunoassay diagnostic prototype developed for rapid visual detection of cardiac biomarkers in acute myocardial infarction.',
+          overview: 'The Rapid MI Screening Test is a point-of-care diagnostic assay prototype developed for rapid, decentralized detection of cardiac biomarkers associated with acute myocardial infarction (heart attack). Engineered using lateral flow immunochromatography principles, the diagnostic kit utilizes colloidal gold nanoparticle-antibody conjugates, a capillary nitrocellulose reaction matrix, and immobilized capture lines to provide definitive visual results within 10 to 15 minutes.',
+          challenge: 'Acute Myocardial Infarction (AMI) requires immediate clinical intervention, as cardiac muscle necrosis progresses rapidly following coronary arterial occlusion ("time is muscle"). Standard central laboratory methods require 60 to 120 minutes of turnaround time, venous blood collection, and expensive equipment.',
+          solution: 'Peace Haven engineered the Rapid MI Screening Test prototype, a lateral flow chromatographic immunoassay kit combining an erythrocyte-filtering sample pad, colloidal gold nanoparticle-antibody conjugates, a porous nitrocellulose analytical membrane striped with Test and Control lines, and an absorbent wicking pad.',
+          technologies: ['Lateral Flow Immunoassay (LFA)', 'Point-of-Care Diagnostics', 'Cardiac Biomarkers', 'Colloidal Gold Nanoparticles', 'Monoclonal Antibody Conjugation', 'Nitrocellulose Capillary Membrane', 'Biosensor Engineering', 'Clinical Triage Workflow'],
+          galleryImages: [
+            '/images/projects/rapid-mi-screening-test/rapid-mi-test-overview.png',
+            '/images/projects/rapid-mi-screening-test/rapid-mi-test-architecture.png',
+            '/images/projects/rapid-mi-screening-test/rapid-mi-test-strip.png',
+            '/images/projects/rapid-mi-screening-test/rapid-mi-test-conjugate.png',
+            '/images/projects/rapid-mi-screening-test/rapid-mi-test-readout.png',
+            '/images/projects/rapid-mi-screening-test/rapid-mi-test-control.png'
+          ],
+          publishedAt: '2026-04-25',
           isPublished: true
         }
       ];

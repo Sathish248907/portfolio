@@ -30,10 +30,10 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
           <div className="grid grid-cols-2 gap-2 pt-2">
             {[
               { path: '/', label: 'Home' },
+              { path: '/services', label: 'Services' },
               { path: '/industries', label: 'Industries' },
               { path: '/portfolio', label: 'Portfolio' },
               { path: '/about', label: 'About Us' },
-              { path: '/careers', label: 'Careers' },
               { path: '/contact', label: 'Contact' },
             ].map((link) => {
               const active = location.pathname === link.path;

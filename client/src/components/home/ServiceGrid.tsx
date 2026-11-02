@@ -49,12 +49,12 @@ export const eightServices: ServiceCardData[] = [
   {
     id: 'drones',
     title: 'Drone Technology',
-    slug: 'drones',
+    slug: 'drone-technology',
     description: 'Drone-enabled applications for aerial data collection, mapping, inspection, and monitoring.',
     icon: Navigation,
     image: 'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=800&q=80',
     badge: 'Aerial Systems',
-    route: '/services/drones',
+    route: '/services/drone-technology',
   },
   {
     id: 'healthcare',
