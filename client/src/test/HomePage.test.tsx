@@ -42,7 +42,7 @@ describe('Phase 2 Homepage Implementation Tests', () => {
 
     // Section 5: Industries Served
     expect(
-      screen.getByRole('heading', { level: 2, name: /Technology for the challenges that matter\./i })
+      screen.getByRole('heading', { level: 2, name: /Technology That Moves Industries Forward\./i })
     ).toBeInTheDocument();
 
     // Section 7: Our Process

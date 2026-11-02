@@ -189,3 +189,42 @@ export interface AuthState {
   token: string | null;
   isAuthenticated: boolean;
 }
+
+export interface IndustryDetail {
+  id: string;
+  number: string;
+  slug: string;
+  title: string;
+  shortDescription: string;
+  tags: string[];
+  iconName: string;
+  categoryGroup: 'software' | 'engineering' | 'operations';
+  heroHeadline: string;
+  heroDescription: string;
+  overview: {
+    summary: string;
+    marketContext: string;
+    keyDeliverables: string[];
+  };
+  challenges: {
+    title: string;
+    description: string;
+  }[];
+  capabilities: {
+    title: string;
+    description: string;
+    highlights: string[];
+  }[];
+  applicableServices: {
+    title: string;
+    slug: string;
+    description: string;
+  }[];
+  relatedProjectSlugs: string[];
+  useCases: {
+    title: string;
+    challenge: string;
+    solution: string;
+    outcome: string;
+  }[];
+}
