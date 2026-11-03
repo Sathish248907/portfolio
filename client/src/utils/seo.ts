@@ -138,3 +138,4 @@ export function generateBreadcrumbSchema(items: { name: string; url: string }[])
     })),
   };
 }
+

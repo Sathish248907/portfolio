@@ -120,3 +120,4 @@ export function usePageTracking() {
     trackPageView(location.pathname + location.search);
   }, [location]);
 }
+
