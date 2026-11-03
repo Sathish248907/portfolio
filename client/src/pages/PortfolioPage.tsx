@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ShieldCheck, Terminal, ExternalLink } from 'lucide-react';
 import { projectsData } from '../data/projectsData';
 import { SEO } from '../components/common/SEO';
+import { Breadcrumbs } from '../components/seo/Breadcrumbs';
 
 export const PortfolioPage: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
@@ -20,11 +21,16 @@ export const PortfolioPage: React.FC = () => {
     : projectsData.filter((p) => p.serviceId === selectedFilter);
 
   return (
-    <div className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
+    <div className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
       <SEO
         title="Engineering Portfolio & Case Studies | Peace Haven"
         description="Authentic engineering demonstrations, architectural prototypes, and systems benchmarks engineered by Peace Haven."
+        canonicalUrl="https://peacehaven.tech/portfolio"
+        breadcrumbs={[{ name: 'Portfolio', url: '/portfolio' }]}
       />
+
+      {/* Semantic Accessible Breadcrumb Navigation */}
+      <Breadcrumbs items={[{ label: 'Selected Works' }]} />
 
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-4">

@@ -210,4 +210,20 @@ describe('Peace Haven Backend API Integration Tests', () => {
     expect(res.text).toContain('Reference ID,Submission Date,Client Name');
     expect(res.text).toContain('Apex Robotics Systems');
   });
+
+  it('GET /robots.txt serves crawler directives with sitemap reference', async () => {
+    const res = await request(app).get('/robots.txt');
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toContain('text/plain');
+    expect(res.text).toContain('Sitemap: https://peacehaven.tech/sitemap.xml');
+    expect(res.text).toContain('Disallow: /admin');
+  });
+
+  it('GET /sitemap.xml serves valid XML sitemap with priority elements', async () => {
+    const res = await request(app).get('/sitemap.xml');
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toContain('xml');
+    expect(res.text).toContain('https://peacehaven.tech/');
+    expect(res.text).toContain('<urlset');
+  });
 });

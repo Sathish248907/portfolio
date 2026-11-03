@@ -15,9 +15,11 @@ import {
   Briefcase
 } from 'lucide-react';
 import { SEO } from '../components/common/SEO';
+import { Breadcrumbs } from '../components/seo/Breadcrumbs';
 import { Button } from '../components/common/Button';
 import { getIndustryBySlug, industriesData } from '../data/industriesData';
 import { projectsData } from '../data/projectsData';
+import { generateIndustrySchema } from '../utils/seo';
 
 export const IndustryDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -43,16 +45,22 @@ export const IndustryDetailPage: React.FC = () => {
       <SEO
         title={`${industry.title} | Industries We Serve | Peace Haven`}
         description={industry.shortDescription}
+        canonicalUrl={`https://peacehaven.tech/industries/${industry.slug}`}
+        keywords={industry.tags}
+        breadcrumbs={[
+          { name: 'Industries', url: '/industries' },
+          { name: industry.title, url: `/industries/${industry.slug}` },
+        ]}
+        schema={generateIndustrySchema(industry)}
       />
 
-      {/* 1. Breadcrumbs */}
-      <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-mono text-slate-400">
-        <Link to="/" className="hover:text-champagne-300 transition-colors">Home</Link>
-        <ChevronRight className="w-3 h-3 text-slate-600" />
-        <Link to="/industries" className="hover:text-champagne-300 transition-colors">Industries</Link>
-        <ChevronRight className="w-3 h-3 text-slate-600" />
-        <span className="text-champagne-400 font-medium truncate max-w-[220px] sm:max-w-none">{industry.title}</span>
-      </nav>
+      {/* 1. Semantic Accessible Breadcrumbs */}
+      <Breadcrumbs
+        items={[
+          { label: 'Industries', href: '/industries' },
+          { label: industry.title },
+        ]}
+      />
 
       {/* 2. Hero Section */}
       <section aria-labelledby="industry-hero-heading" className="space-y-6">

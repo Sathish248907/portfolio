@@ -79,57 +79,23 @@ import {
 import { projectsData } from '../data/projectsData';
 import { Button } from '../components/common/Button';
 import { SEO } from '../components/common/SEO';
+import { Breadcrumbs } from '../components/seo/Breadcrumbs';
+import { generateProjectSchema } from '../utils/seo';
 
 export const CaseStudyDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
 
+  // Normalize aliases like /work/auravia -> artistry-gold-diamonds
+  const normalizedSlug = slug === 'auravia' ? 'artistry-gold-diamonds' : slug;
+
   // Find project
-  const project = projectsData.find((p) => p.slug === slug);
+  const project = projectsData.find((p) => p.slug === normalizedSlug || p.slug === slug || p.id === normalizedSlug);
 
   // Ensure scroll to top on mount / slug change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [slug]);
-
-  // Inject JSON-LD structured data for rich SEO results
-  useEffect(() => {
-    if (!project) return;
-
-    const structuredData = {
-      '@context': 'https://schema.org',
-      '@type': 'CreativeWork',
-      name: project.title,
-      headline: project.subtitle,
-      description: project.overview,
-      image: `https://peacehaven.tech${project.heroImage}`,
-      url: `https://peacehaven.tech/work/${project.slug}`,
-      creator: {
-        '@type': 'Organization',
-        name: 'Peace Haven',
-        url: 'https://peacehaven.tech'
-      },
-      about: {
-        '@type': 'Thing',
-        name: project.industry
-      },
-      genre: project.category || project.serviceName,
-      keywords: project.technologies.join(', ')
-    };
-
-    const scriptTag = document.createElement('script');
-    scriptTag.type = 'application/ld+json';
-    scriptTag.id = 'case-study-structured-data';
-    scriptTag.innerHTML = JSON.stringify(structuredData);
-    document.head.appendChild(scriptTag);
-
-    return () => {
-      const existing = document.getElementById('case-study-structured-data');
-      if (existing) {
-        document.head.removeChild(existing);
-      }
-    };
-  }, [project]);
 
   if (!project) {
     return <Navigate to="/portfolio" replace />;
@@ -160,32 +126,30 @@ export const CaseStudyDetailPage: React.FC = () => {
 
   return (
     <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-20 selection:bg-teal-700/30 selection:text-champagne-300">
-      {/* Dynamic SEO Metadata */}
+      {/* Dynamic SEO Metadata & Schema.org SoftwareApplication JSON-LD */}
       <SEO
         title={project.seoTitle || `${project.title} | Case Study | Peace Haven`}
         description={project.seoDescription || project.overview}
         canonicalUrl={`https://peacehaven.tech/work/${project.slug}`}
         ogImage={project.heroImage}
+        type="article"
+        keywords={project.technologies}
+        breadcrumbs={[
+          { name: 'Services', url: `/services/${project.serviceId}` },
+          { name: 'Portfolio', url: '/portfolio' },
+          { name: project.title, url: `/work/${project.slug}` },
+        ]}
+        schema={generateProjectSchema(project)}
       />
 
-      {/* Breadcrumb Navigation */}
-      <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-xs font-mono text-slate-400">
-        <Link to="/" className="hover:text-champagne-300 transition-colors">
-          Home
-        </Link>
-        <ChevronRight className="w-3 h-3 text-slate-600" />
-        <Link to={`/services/${project.serviceId}`} className="hover:text-champagne-300 transition-colors">
-          {project.serviceName}
-        </Link>
-        <ChevronRight className="w-3 h-3 text-slate-600" />
-        <Link to="/work" className="hover:text-champagne-300 transition-colors">
-          Selected Works
-        </Link>
-        <ChevronRight className="w-3 h-3 text-slate-600" />
-        <span className="text-champagne-400 font-medium truncate max-w-[200px] sm:max-w-none">
-          {project.title}
-        </span>
-      </nav>
+      {/* Semantic Accessible Breadcrumb Navigation */}
+      <Breadcrumbs
+        items={[
+          { label: project.serviceName, href: `/services/${project.serviceId}` },
+          { label: 'Selected Works', href: '/portfolio' },
+          { label: project.title },
+        ]}
+      />
 
       {/* ========================================================================= */}
       {/* SECTION A: PROJECT HERO                                                   */}

@@ -7,13 +7,31 @@ import { IndustriesSection } from '../components/home/IndustriesSection';
 import { ProcessSection } from '../components/home/ProcessSection';
 import { WhyPeaceHaven } from '../components/home/WhyPeaceHaven';
 import { FinalCTA } from '../components/home/FinalCTA';
+import { generateOrganizationSchema, generateWebSiteSchema } from '../utils/seo';
 
 export const HomePage: React.FC = () => {
   return (
     <div className="relative overflow-hidden">
       <SEO 
-        title="Peace Haven | Engineering Ideas. Empowering Industries."
-        description="From digital experiences and financial technology to healthcare, engineering, staffing, trading, and marketing — Peace Haven brings technology and business expertise together to move organizations forward."
+        title="Peace Haven | Technology, FinTech, Robotics & Healthcare Solutions"
+        description="Peace Haven delivers innovative technology solutions across web development, FinTech, robotics, healthcare and digital transformation for businesses and industries."
+        canonicalUrl="https://peacehaven.tech/"
+        keywords={[
+          'Peace Haven',
+          'technology company',
+          'Web Development',
+          'FinTech',
+          'Robotics and Automation',
+          'Drone Technology',
+          'Healthcare Solutions',
+          'US Staffing',
+          'Trading Systems',
+          'Digital Marketing'
+        ]}
+        schema={[
+          generateOrganizationSchema(),
+          generateWebSiteSchema(),
+        ]}
       />
 
       {/* Section 2: Cinematic Hero */}

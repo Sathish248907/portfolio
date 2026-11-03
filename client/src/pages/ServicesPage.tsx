@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, CheckCircle2, Sparkles, Layers, Search } from 'lucide-react';
 import { SEO } from '../components/common/SEO';
+import { Breadcrumbs } from '../components/seo/Breadcrumbs';
 import { Button } from '../components/common/Button';
 import { servicesData } from '../data/servicesData';
 
@@ -54,11 +55,16 @@ export const ServicesPage: React.FC = () => {
   };
 
   return (
-    <div className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
+    <div className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
       <SEO 
         title="Services & Engineering Capabilities | Peace Haven" 
         description="Explore Peace Haven's 8 specialized engineering divisions: Web Development, FinTech, Robotics, Drone Technology, Healthcare, US Staffing, Trading, and Digital Marketing."
+        canonicalUrl="https://peacehaven.tech/services"
+        breadcrumbs={[{ name: 'Services', url: '/services' }]}
       />
+
+      {/* Semantic Accessible Breadcrumb Navigation */}
+      <Breadcrumbs items={[{ label: 'Services' }]} />
 
       {/* Hero Header */}
       <div className="text-center max-w-3xl mx-auto space-y-5">

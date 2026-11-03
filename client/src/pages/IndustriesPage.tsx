@@ -11,6 +11,7 @@ import {
   FolderGit2 
 } from 'lucide-react';
 import { SEO } from '../components/common/SEO';
+import { Breadcrumbs } from '../components/seo/Breadcrumbs';
 import { Button } from '../components/common/Button';
 import { IndustryCard } from '../components/industries/IndustryCard';
 import { industriesData } from '../data/industriesData';
@@ -62,11 +63,16 @@ export const IndustriesPage: React.FC = () => {
   };
 
   return (
-    <div className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
+    <div className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
       <SEO
         title="Industries We Serve | Technology Solutions Across Industries | Peace Haven"
         description="Discover how Peace Haven delivers technology-driven solutions across finance, healthcare, manufacturing, agriculture, real estate and other industries."
+        canonicalUrl="https://peacehaven.tech/industries"
+        breadcrumbs={[{ name: 'Industries', url: '/industries' }]}
       />
+
+      {/* Semantic Accessible Breadcrumb Navigation */}
+      <Breadcrumbs items={[{ label: 'Industries' }]} />
 
       {/* Hero Header */}
       <div className="text-center max-w-3xl mx-auto space-y-5">

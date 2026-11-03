@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { SEO } from '../common/SEO';
+import { Breadcrumbs } from '../seo/Breadcrumbs';
 import { ServiceHero } from './ServiceHero';
 import { ServiceOverview } from './ServiceOverview';
 import { ServiceCapabilities } from './ServiceCapabilities';
@@ -9,6 +10,7 @@ import { RelatedProjects } from './RelatedProjects';
 import { ServiceFAQ } from './ServiceFAQ';
 import { ServiceCTA } from './ServiceCTA';
 import { ServiceDetail } from '../../types';
+import { generateServiceSchema } from '../../utils/seo';
 
 interface ServicePageTemplateProps {
   service: ServiceDetail;
@@ -22,10 +24,17 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({ servic
 
   return (
     <div className="min-h-screen bg-charcoal-900 text-warm-200 selection:bg-teal-700/30 selection:text-champagne-300">
-      {/* Dynamic SEO Metadata */}
+      {/* Dynamic SEO Metadata & Schema.org Service JSON-LD */}
       <SEO
         title={service.seoTitle || `${service.title} | Peace Haven`}
         description={service.seoDescription || service.shortDescription}
+        canonicalUrl={`https://peacehaven.tech/services/${service.slug}`}
+        keywords={service.keywords || [service.title, 'Peace Haven', 'Enterprise Engineering']}
+        breadcrumbs={[
+          { name: 'Services', url: '/services' },
+          { name: service.title, url: `/services/${service.slug}` },
+        ]}
+        schema={generateServiceSchema(service)}
       />
 
       {/* A. Cinematic Hero (Dark Charcoal) */}
