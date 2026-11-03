@@ -36,8 +36,9 @@ if (config.nodeEnv !== 'test') {
   app.use(morgan('dev'));
 }
 
-// Mount versioned API
+// Mount versioned and unversioned API routes for flexible client routing
 app.use('/api/v1', v1Routes);
+app.use('/api', v1Routes);
 
 // Fallback unhandled API routes
 app.use('/api/*', (req, res) => {

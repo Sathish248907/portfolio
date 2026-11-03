@@ -6,7 +6,7 @@ interface AuthContextType extends AuthState {
   logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const TOKEN_KEY = 'ph_admin_jwt';
 const USER_KEY = 'ph_admin_user';

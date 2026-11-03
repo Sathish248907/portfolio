@@ -142,6 +142,15 @@ export type InquiryServiceCategory =
   | 'Other';
 
 export type InquiryStatus = 
+  | 'NEW'
+  | 'REVIEWING'
+  | 'QUALIFIED'
+  | 'IN_DISCUSSION'
+  | 'PROPOSAL_SENT'
+  | 'CONVERTED'
+  | 'CLOSED'
+  | 'REJECTED'
+  // Legacy aliases
   | 'New'
   | 'Reviewing'
   | 'Contacted'
@@ -151,21 +160,74 @@ export type InquiryStatus =
   | 'Lost'
   | 'Archived';
 
+export interface InternalNote {
+  id: string;
+  text: string;
+  author: string;
+  createdAt: string;
+}
+
+export interface InquiryAuditEntry {
+  action: string;
+  changedBy: string;
+  timestamp: string;
+  previousStatus?: string | null;
+  newStatus?: string;
+  notes?: string;
+}
+
 export interface ProjectInquiry {
   _id?: string;
   referenceNumber: string;
-  service: InquiryServiceCategory;
-  projectRequirements: string;
-  budgetRange: string;
-  timeline: string;
+  // Phase 6 multi-service support & legacy primary service
+  selectedServices?: string[];
+  service: InquiryServiceCategory | string;
+  // Step 1: Contact
   clientName: string;
   email: string;
-  companyName: string;
   phoneNumber?: string;
+  companyName: string;
+  jobTitle?: string;
+  country?: string;
+  // Step 3: Project Requirements
+  projectTitle?: string;
+  projectDescription?: string;
+  projectRequirements: string;
+  industry?: string;
+  projectType?: string;
+  deliverables?: string;
+  preferredTechnology?: string;
+  // Step 4: Budget & Additional Info
+  timeline: string;
+  budgetRange: string;
+  startPreference?: string;
+  additionalRequirements?: string;
+  attachments?: {
+    fileName: string;
+    fileSize?: number;
+    fileType?: string;
+  }[];
+  // Step 5 & Management
   status: InquiryStatus;
+  assignedTo?: {
+    name: string;
+    email?: string;
+    role?: string;
+  };
+  internalNotes?: InternalNote[];
   notes?: string;
+  auditHistory?: InquiryAuditEntry[];
   createdAt: string;
   updatedAt?: string;
+}
+
+export interface InquiryMetrics {
+  total: number;
+  new: number;
+  inProgress: number;
+  qualified: number;
+  converted: number;
+  rejected: number;
 }
 
 export interface ContactMessage {

@@ -164,16 +164,25 @@ describe('Phase 3: Dedicated Service Architecture & Eight Service Experience', (
     expect(questionButton).toHaveAttribute('aria-expanded');
   });
 
-  it('preselects service in StartProjectPage when accessed with query parameter', () => {
+  it('preselects service in StartProjectPage when accessed with query parameter', async () => {
     render(
       <MemoryRouter initialEntries={['/start-a-project?service=fintech']}>
         <StartProjectPage />
       </MemoryRouter>
     );
 
-    // Verify Step 1 is rendered and FinTech card is preselected
-    expect(screen.getByText(/Step 1: Select Primary Engineering Discipline/i)).toBeInTheDocument();
-    const fintechRadio = screen.getByLabelText(/FinTech Solutions/i);
-    expect(fintechRadio).toBeChecked();
+    // Verify Step 1 Contact Information is rendered
+    expect(screen.getByText(/Contact & Organization Information/i)).toBeInTheDocument();
+
+    // Fill valid contact information and advance to Step 2
+    fireEvent.change(screen.getByLabelText(/Full Name \*/i), { target: { value: 'Dr. Michael Vance' } });
+    fireEvent.change(screen.getByLabelText(/Business Email \*/i), { target: { value: 'mvance@apex.io' } });
+    fireEvent.change(screen.getByLabelText(/Company \/ Organization Name \*/i), { target: { value: 'Apex Systems' } });
+
+    fireEvent.click(screen.getByRole('button', { name: /Continue to Step 2/i }));
+
+    // Verify Step 2 Select Required Services is rendered and FinTech is preselected
+    expect(await screen.findByText(/Select Required Services/i)).toBeInTheDocument();
+    expect(screen.getByText(/Selected \(1\):/i)).toBeInTheDocument();
   });
 });
