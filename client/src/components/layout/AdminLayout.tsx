@@ -9,7 +9,8 @@ import {
   LogOut, 
   ShieldCheck, 
   ArrowLeft,
-  Sliders
+  Sliders,
+  FileEdit
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { cn } from '../../lib/utils';
@@ -45,6 +46,7 @@ export const AdminLayout: React.FC = () => {
     { label: 'Analytics & Insights', path: '/admin/analytics', icon: BarChart3 },
     { label: 'Inquiries', path: '/admin/inquiries', icon: Inbox },
     { label: 'Projects & Case Studies', path: '/admin/projects', icon: Briefcase },
+    { label: 'Content Management (CMS)', path: '/admin/cms', icon: FileEdit },
     { label: 'Services & Content', path: '/admin/content', icon: Sliders },
     { label: 'Settings & Security', path: '/admin/settings', icon: Settings },
   ];

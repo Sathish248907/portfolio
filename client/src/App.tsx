@@ -12,6 +12,8 @@ const IndustriesPage = lazy(() => import('./pages/IndustriesPage').then((m) => (
 const IndustryDetailPage = lazy(() => import('./pages/IndustryDetailPage').then((m) => ({ default: m.IndustryDetailPage })));
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage').then((m) => ({ default: m.PortfolioPage })));
 const CaseStudyDetailPage = lazy(() => import('./pages/CaseStudyDetailPage').then((m) => ({ default: m.CaseStudyDetailPage })));
+const InsightsPage = lazy(() => import('./pages/InsightsPage').then((m) => ({ default: m.InsightsPage })));
+const InsightDetailPage = lazy(() => import('./pages/InsightDetailPage').then((m) => ({ default: m.InsightDetailPage })));
 const AboutPage = lazy(() => import('./pages/AboutPage').then((m) => ({ default: m.AboutPage })));
 const CareersPage = lazy(() => import('./pages/CareersPage').then((m) => ({ default: m.CareersPage })));
 const ContactPage = lazy(() => import('./pages/ContactPage').then((m) => ({ default: m.ContactPage })));
@@ -26,6 +28,7 @@ const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage')
 const AdminAnalyticsPage = lazy(() => import('./pages/admin/AdminAnalyticsPage').then((m) => ({ default: m.AdminAnalyticsPage })));
 const AdminInquiriesPage = lazy(() => import('./pages/admin/AdminInquiriesPage').then((m) => ({ default: m.AdminInquiriesPage })));
 const AdminProjectsPage = lazy(() => import('./pages/admin/AdminProjectsPage').then((m) => ({ default: m.AdminProjectsPage })));
+const AdminCmsPage = lazy(() => import('./pages/admin/AdminCmsPage').then((m) => ({ default: m.AdminCmsPage })));
 const AdminSettingsPage = lazy(() => import('./pages/admin/AdminSettingsPage').then((m) => ({ default: m.AdminSettingsPage })));
 
 // Lightweight accessibility-compliant page loading fallback (avoids layout shift)
@@ -58,6 +61,8 @@ export const App: React.FC = () => {
           <Route path="portfolio/:slug" element={<CaseStudyDetailPage />} />
           <Route path="work" element={<PortfolioPage />} />
           <Route path="work/:slug" element={<CaseStudyDetailPage />} />
+          <Route path="insights" element={<InsightsPage />} />
+          <Route path="insights/:slug" element={<InsightDetailPage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="careers" element={<CareersPage />} />
           <Route path="contact" element={<ContactPage />} />
@@ -81,6 +86,7 @@ export const App: React.FC = () => {
           <Route path="analytics" element={<AdminAnalyticsPage />} />
           <Route path="inquiries" element={<AdminInquiriesPage />} />
           <Route path="projects" element={<AdminProjectsPage />} />
+          <Route path="cms" element={<AdminCmsPage />} />
           <Route path="content" element={<AdminProjectsPage />} />
           <Route path="settings" element={<AdminSettingsPage />} />
         </Route>

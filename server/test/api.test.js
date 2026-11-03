@@ -381,4 +381,151 @@ describe('Peace Haven Backend API Integration Tests', () => {
     expect(res.text).toContain('Web Development');
     expect(res.text).toContain('FinTech');
   });
+
+  // ==========================================
+  // PHASE 9: CONTENT MANAGEMENT SYSTEM (CMS)
+  // ==========================================
+
+  it('GET /api/v1/insights returns published articles with pagination', async () => {
+    const res = await request(app).get('/api/v1/insights');
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.body.data.length).toBeGreaterThanOrEqual(1);
+    expect(res.body.pagination).toBeDefined();
+
+    res.body.data.forEach((article) => {
+      expect(article.status).toBe('published');
+      expect(article.slug).toBeDefined();
+    });
+  });
+
+  it('GET /api/v1/insights/:slug returns single published article', async () => {
+    const res = await request(app).get('/api/v1/insights/autonomous-edge-ai-robotics-vda5050');
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.title).toContain('Autonomous Edge AI');
+    expect(res.body.data.category).toBe('Robotics & Automation');
+  });
+
+  it('GET /api/v1/admin/cms/overview requires authentication', async () => {
+    const res = await request(app).get('/api/v1/admin/cms/overview');
+    expect(res.status).toBe(401);
+  });
+
+  it('GET /api/v1/admin/cms/overview returns dashboard counts and activity', async () => {
+    const res = await request(app)
+      .get('/api/v1/admin/cms/overview')
+      .set('Authorization', `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.metrics).toBeDefined();
+    expect(res.body.data.metrics.publishedPages).toBeGreaterThanOrEqual(1);
+    expect(res.body.data.metrics.publishedBlogs).toBeGreaterThanOrEqual(1);
+    expect(Array.isArray(res.body.data.recentActivity)).toBe(true);
+    expect(Array.isArray(res.body.data.recentlyUpdated)).toBe(true);
+  });
+
+  it('GET /api/v1/admin/cms/pages lists all website pages', async () => {
+    const res = await request(app)
+      .get('/api/v1/admin/cms/pages')
+      .set('Authorization', `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    const pageIds = res.body.data.map((p) => p.pageId);
+    expect(pageIds).toContain('home');
+    expect(pageIds).toContain('about');
+    expect(pageIds).toContain('services');
+  });
+
+  it('PUT /api/v1/admin/cms/pages/:idOrSlug updates page content and creates revision', async () => {
+    const res = await request(app)
+      .put('/api/v1/admin/cms/pages/about')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        title: 'About Peace Haven | Engineering Ideas & Scalable Systems',
+        description: 'Updated firm summary through CMS editor test.',
+        status: 'published',
+        hero: {
+          headline: 'Engineering Beyond Boundaries.',
+          subheadline: 'Architecting mission-critical platforms with utmost precision.',
+          ctaText: 'Meet Our Leadership',
+          ctaLink: '#leadership',
+        },
+        sections: [
+          { id: 'sec-mission', type: 'content', title: 'Our Engineering Mission', isVisible: true, order: 1 },
+        ],
+        changeSummary: 'Updated header text and mission section',
+      });
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.title).toContain('Scalable Systems');
+  });
+
+  it('POST /api/v1/admin/cms/blog creates draft article with slug validation', async () => {
+    const res = await request(app)
+      .post('/api/v1/admin/cms/blog')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        title: 'Quantum Key Distribution in FinTech High-Frequency Pipelines',
+        slug: 'quantum-key-distribution-fintech',
+        subtitle: 'Securing sub-millisecond financial transfers against post-quantum decryption threats.',
+        excerpt: 'An architectural exploration of integrating quantum key distribution layers into real-time bullion order books.',
+        content: '<p>Quantum computing introduces profound cryptographic shifts...</p>',
+        category: 'FinTech',
+        tags: ['FinTech', 'Quantum', 'Cryptography'],
+        status: 'draft',
+        author: {
+          name: 'Chief Cryptographer',
+          role: 'Security Fellow',
+          avatar: '/favicon.svg',
+        },
+        readTime: '4 min read',
+      });
+
+    expect(res.status).toBe(201);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.slug).toBe('quantum-key-distribution-fintech');
+    expect(res.body.data.status).toBe('draft');
+  });
+
+  it('Draft articles are hidden from public GET /api/v1/insights', async () => {
+    const res = await request(app).get('/api/v1/insights');
+    const slugs = res.body.data.map((a) => a.slug);
+    expect(slugs).not.toContain('quantum-key-distribution-fintech');
+  });
+
+  it('POST /api/v1/admin/cms/media registers an asset with file size and type validation', async () => {
+    const res = await request(app)
+      .post('/api/v1/admin/cms/media')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        title: 'EB-300 Robotic Arm CAD Diagram',
+        fileName: 'eb300-schematic-blueprint.png',
+        url: '/images/projects/eb-300-robotic-arm/eb-300-blueprint.png',
+        fileType: 'image/png',
+        fileSize: 1048576, // 1MB
+        category: 'Projects',
+        altText: 'Technical exploded diagram of the 6-DOF robotic manipulator arm.',
+      });
+
+    expect(res.status).toBe(201);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.fileName).toBe('eb300-schematic-blueprint.png');
+  });
+
+  it('GET /api/v1/admin/cms/activity returns audit history of CMS actions', async () => {
+    const res = await request(app)
+      .get('/api/v1/admin/cms/activity')
+      .set('Authorization', `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.body.data.length).toBeGreaterThanOrEqual(1);
+  });
 });

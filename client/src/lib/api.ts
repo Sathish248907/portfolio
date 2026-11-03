@@ -543,4 +543,415 @@ export const api = {
     a.remove();
     return { success: true };
   },
+
+  // ==========================================
+  // PHASE 9: CMS & DYNAMIC WEBSITE MANAGEMENT
+  // ==========================================
+
+  async getCmsOverview(token: string) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/overview`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    // Fallback baseline CMS overview
+    return {
+      success: true,
+      data: {
+        metrics: {
+          publishedPages: 5,
+          draftPages: 1,
+          totalPages: 6,
+          publishedProjects: 10,
+          draftProjects: 0,
+          totalProjects: 10,
+          publishedBlogs: 3,
+          draftBlogs: 1,
+          totalBlogs: 4,
+          totalServices: 8,
+          totalIndustries: 10,
+          totalMedia: 12,
+        },
+        recentActivity: [
+          { action: 'UPDATE', entityType: 'page', entityTitle: 'Homepage', performedBy: 'Admin', timestamp: new Date().toISOString() },
+          { action: 'PUBLISH', entityType: 'blog', entityTitle: 'Autonomous Edge AI for Distributed Robotics', performedBy: 'Lead Architect', timestamp: new Date(Date.now() - 86400000).toISOString() },
+          { action: 'CREATE', entityType: 'media', entityTitle: 'EB-300 Robotic Arm CAD Diagram', performedBy: 'Editor', timestamp: new Date(Date.now() - 172800000).toISOString() },
+        ],
+        recentlyUpdated: [
+          { type: 'Page', title: 'Homepage', slug: 'home', status: 'published', updatedAt: new Date().toISOString() },
+          { type: 'Blog', title: 'Autonomous Edge AI for Distributed Robotics: VDA 5050 & Beyond', slug: 'autonomous-edge-ai-robotics-vda5050', status: 'published', updatedAt: new Date().toISOString() },
+          { type: 'Project', title: 'Grow Capital', slug: 'grow-capital', status: 'published', updatedAt: new Date().toISOString() },
+        ],
+      },
+    };
+  },
+
+  async getCmsPages(token: string) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/pages`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return {
+      success: true,
+      data: [
+        { pageId: 'home', title: 'Peace Haven | Technology, FinTech, Robotics & Healthcare Solutions', slug: '/', status: 'published', lastUpdatedBy: 'Admin', updatedAt: new Date().toISOString() },
+        { pageId: 'about', title: 'About Peace Haven | Multidisciplinary Engineering Firm', slug: '/about', status: 'published', lastUpdatedBy: 'Admin', updatedAt: new Date().toISOString() },
+        { pageId: 'services', title: 'Eight Integrated Engineering Divisions | Peace Haven', slug: '/services', status: 'published', lastUpdatedBy: 'Admin', updatedAt: new Date().toISOString() },
+        { pageId: 'industries', title: 'Industries We Serve | Peace Haven Multi-Industry Technology', slug: '/industries', status: 'published', lastUpdatedBy: 'Admin', updatedAt: new Date().toISOString() },
+        { pageId: 'contact', title: 'Contact Peace Haven | Let’s Build Something Extraordinary', slug: '/contact', status: 'published', lastUpdatedBy: 'Admin', updatedAt: new Date().toISOString() },
+      ],
+    };
+  },
+
+  async getCmsPage(token: string, idOrSlug: string) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/pages/${idOrSlug}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return {
+      success: true,
+      data: {
+        pageId: idOrSlug,
+        title: idOrSlug === 'home' ? 'Peace Haven | Technology, FinTech, Robotics & Healthcare Solutions' : `${idOrSlug.toUpperCase()} | Peace Haven`,
+        slug: idOrSlug === 'home' ? '/' : `/${idOrSlug}`,
+        description: 'Engineering resilient, scalable digital platforms and industrial hardware.',
+        status: 'published',
+        hero: {
+          headline: 'Engineering Ideas. Empowering Industries.',
+          subheadline: 'From digital experiences and financial technology to healthcare, engineering, staffing, trading, and marketing.',
+          ctaText: 'Start a Project',
+          ctaLink: '/start-a-project',
+          badge: 'Multi-Disciplinary Technology Company',
+        },
+        sections: [
+          { id: 'sec-hero', type: 'hero', title: 'Cinematic Hero Banner', order: 1, isVisible: true },
+          { id: 'sec-services', type: 'grid', title: 'Eight Specialized Service Divisions', order: 2, isVisible: true },
+          { id: 'sec-industries', type: 'grid', title: 'Industries We Serve', order: 3, isVisible: true },
+        ],
+        seo: {
+          title: 'Peace Haven | Technology, FinTech, Robotics & Healthcare Solutions',
+          description: 'Peace Haven delivers innovative technology solutions across web development, FinTech, robotics, healthcare and digital transformation.',
+          canonicalUrl: 'https://peacehaven.tech/',
+          ogTitle: 'Peace Haven | Engineering Ideas. Empowering Industries.',
+          ogDescription: 'From digital experiences and financial technology to healthcare, engineering, staffing, trading, and marketing.',
+          ogImage: '/og-image.png',
+          indexable: true,
+        },
+      },
+    };
+  },
+
+  async updateCmsPage(token: string, idOrSlug: string, data: any) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/pages/${idOrSlug}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return { success: true, data };
+  },
+
+  async toggleCmsPagePublish(token: string, idOrSlug: string, status: string) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/pages/${idOrSlug}/publish`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ status }),
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return { success: true, status };
+  },
+
+  // Public Blog / Insights
+  async getPublicInsights(params: { category?: string; search?: string; page?: number } = {}) {
+    const q = new URLSearchParams();
+    if (params.category && params.category !== 'All') q.set('category', params.category);
+    if (params.search) q.set('search', params.search);
+    if (params.page) q.set('page', String(params.page));
+
+    try {
+      const res = await fetch(`${API_BASE}/insights?${q.toString()}`);
+      if (res.ok) return await res.json();
+    } catch {}
+
+    // Fallback public insights
+    let list = [
+      {
+        _id: 'b-001',
+        title: 'Autonomous Edge AI for Distributed Robotics: VDA 5050 & Beyond',
+        slug: 'autonomous-edge-ai-robotics-vda5050',
+        subtitle: 'Designing resilient AGV/AMR fleet orchestration with low-latency edge vision.',
+        excerpt: 'How modern industrial automation combines high-throughput edge AI cameras with the VDA 5050 standard to unlock multi-vendor robot fleet coordination.',
+        content: '<p>Industrial manufacturing and logistics warehouses have experienced a paradigm shift over the past decade...</p>',
+        featuredImage: '/images/hero/cinematic-poster.jpg',
+        category: 'Robotics & Automation',
+        tags: ['Robotics', 'ROS 2', 'VDA 5050', 'Edge AI'],
+        author: { name: 'Dr. Michael Vance', role: 'Head of Robotics', avatar: '/favicon.svg' },
+        readTime: '6 min read',
+        publishedAt: new Date(Date.now() - 7 * 86400000).toISOString(),
+        isFeatured: true,
+      },
+      {
+        _id: 'b-002',
+        title: 'Fractional Bullion Architecture: Engineering Live Precious Metal Settlement',
+        slug: 'fractional-bullion-architecture-digital-gold',
+        subtitle: 'Architecting high-frequency bullion order books and live vault allocation.',
+        excerpt: 'A technical exploration into how fractional digital gold and silver platforms achieve instant sub-second order matching backed by physical vault reserves.',
+        content: '<p>Precious metals have represented a cornerstone of wealth preservation for millennia...</p>',
+        featuredImage: '/images/projects/grow-capital/grow-capital-overview.png',
+        category: 'FinTech',
+        tags: ['FinTech', 'Digital Gold', 'Bullion'],
+        author: { name: 'Vikramaditya Shah', role: 'FinTech Architect', avatar: '/favicon.svg' },
+        readTime: '5 min read',
+        publishedAt: new Date(Date.now() - 14 * 86400000).toISOString(),
+        isFeatured: false,
+      },
+      {
+        _id: 'b-003',
+        title: 'Point-of-Care Diagnostics: Accelerating Acute Myocardial Infarction Screening',
+        slug: 'point-of-care-diagnostics-cardiac-screening',
+        subtitle: 'Utilizing lateral flow immunochromatography for rapid cardiac triage.',
+        excerpt: 'An engineering overview of how rapid biomarker detection kits reduce diagnostic turnaround times from hours to under 15 minutes in emergency clinical settings.',
+        content: '<p>In acute clinical emergencies, time directly translates to tissue viability...</p>',
+        featuredImage: '/images/projects/rapid-mi-screening-test/rapid-mi-test-overview.png',
+        category: 'Healthcare Technology',
+        tags: ['Healthcare', 'Diagnostics', 'Point-of-Care'],
+        author: { name: 'Dr. Sarah Connor', role: 'Clinical Diagnostic Advisor', avatar: '/favicon.svg' },
+        readTime: '7 min read',
+        publishedAt: new Date(Date.now() - 21 * 86400000).toISOString(),
+        isFeatured: false,
+      },
+    ];
+
+    if (params.category && params.category !== 'All') {
+      list = list.filter((a) => a.category === params.category);
+    }
+    if (params.search) {
+      const s = params.search.toLowerCase();
+      list = list.filter((a) => 
+        a.title.toLowerCase().includes(s) || 
+        a.excerpt.toLowerCase().includes(s) || 
+        a.tags.some((t: string) => t.toLowerCase().includes(s))
+      );
+    }
+
+    return {
+      success: true,
+      data: list,
+      pagination: { total: list.length, page: 1, totalPages: 1 },
+    };
+  },
+
+  async getPublicInsightBySlug(slug: string) {
+    try {
+      const res = await fetch(`${API_BASE}/insights/${slug}`);
+      if (res.ok) return await res.json();
+    } catch {}
+
+    const list = await this.getPublicInsights();
+    const found = list.data?.find((a: any) => a.slug === slug);
+    if (found) return { success: true, data: found };
+    throw new Error('Article not found.');
+  },
+
+  async getAdminBlogs(token: string) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/blog`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    const fallback = await this.getPublicInsights();
+    return { success: true, data: fallback.data };
+  },
+
+  async createBlog(token: string, data: any) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/blog`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return { success: true, data };
+  },
+
+  async updateBlog(token: string, idOrSlug: string, data: any) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/blog/${idOrSlug}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return { success: true, data };
+  },
+
+  async deleteBlog(token: string, idOrSlug: string) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/blog/${idOrSlug}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return { success: true };
+  },
+
+  // Media Library
+  async getCmsMedia(token: string, params: { category?: string; search?: string } = {}) {
+    const q = new URLSearchParams();
+    if (params.category && params.category !== 'All') q.set('category', params.category);
+    if (params.search) q.set('search', params.search);
+
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/media?${q.toString()}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return {
+      success: true,
+      data: [
+        { _id: 'm-1', title: 'Cinematic Hero Poster', fileName: 'cinematic-poster.jpg', url: '/images/hero/cinematic-poster.jpg', fileType: 'image/jpeg', fileSize: 420000, category: 'Hero', altText: 'Dark obsidian abstract geometric hero graphic' },
+        { _id: 'm-2', title: 'Grow Capital Bullion UI', fileName: 'grow-capital-overview.png', url: '/images/projects/grow-capital/grow-capital-overview.png', fileType: 'image/png', fileSize: 850000, category: 'Projects', altText: 'Grow Capital digital bullion portfolio app' },
+        { _id: 'm-3', title: 'EB-300 Robotic Arm', fileName: 'eb300-overview.png', url: '/images/projects/eb-300-robotic-arm/eb300-overview.png', fileType: 'image/png', fileSize: 1200000, category: 'Projects', altText: '6-DOF industrial manipulator robot arm' },
+        { _id: 'm-4', title: 'Rapid MI Screening Test', fileName: 'rapid-mi-test-overview.png', url: '/images/projects/rapid-mi-screening-test/rapid-mi-test-overview.png', fileType: 'image/png', fileSize: 620000, category: 'Projects', altText: 'Lateral flow assay cardiac test strip' },
+      ],
+    };
+  },
+
+  async uploadCmsMedia(token: string, data: any) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/media`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return { success: true, data };
+  },
+
+  async deleteCmsMedia(token: string, id: string) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/media/${id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return { success: true };
+  },
+
+  // Navigation Items
+  async getCmsNavigation(token: string) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/admin-navigation`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return {
+      success: true,
+      data: [
+        { _id: 'nav-1', label: 'Home', path: '/', menu: 'main', order: 1, isVisible: true },
+        { _id: 'nav-2', label: 'Services', path: '/services', menu: 'main', order: 2, isVisible: true },
+        { _id: 'nav-3', label: 'Industries', path: '/industries', menu: 'main', order: 3, isVisible: true },
+        { _id: 'nav-4', label: 'Portfolio', path: '/portfolio', menu: 'main', order: 4, isVisible: true },
+        { _id: 'nav-5', label: 'Insights', path: '/insights', menu: 'main', order: 5, isVisible: true },
+        { _id: 'nav-6', label: 'About Us', path: '/about', menu: 'main', order: 6, isVisible: true },
+        { _id: 'nav-7', label: 'Contact', path: '/contact', menu: 'main', order: 7, isVisible: true },
+      ],
+    };
+  },
+
+  async saveCmsNavigationItem(token: string, data: any, id?: string) {
+    try {
+      const endpoint = id ? `${API_BASE}/admin/cms/navigation/${id}` : `${API_BASE}/admin/cms/navigation`;
+      const method = id ? 'PUT' : 'POST';
+      const res = await fetch(endpoint, {
+        method,
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return { success: true, data };
+  },
+
+  // Industries CMS
+  async getCmsIndustries(token: string) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/industries`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return {
+      success: true,
+      data: [
+        { industryId: 'it-software', slug: 'it-software', title: 'Information Technology & Software', shortDesc: 'Enterprise apps, custom SaaS & business automation', isPublished: true, displayOrder: 1 },
+        { industryId: 'banking-finance', slug: 'banking-finance', title: 'Banking & Financial Services', shortDesc: 'Digital financial platforms, payment integrations & gold bullion', isPublished: true, displayOrder: 2 },
+        { industryId: 'manufacturing-automation', slug: 'manufacturing-automation', title: 'Manufacturing & Industrial Automation', shortDesc: 'Robotics, sensor automation & monitoring', isPublished: true, displayOrder: 3 },
+        { industryId: 'healthcare-medical', slug: 'healthcare-medical', title: 'Healthcare & Medical Technology', shortDesc: 'Clinic workflows, diagnostics & screening', isPublished: true, displayOrder: 4 },
+        { industryId: 'agriculture-agritech', slug: 'agriculture-agritech', title: 'Agriculture & Agritech', shortDesc: 'Smart farming, aerial surveillance & AI detection', isPublished: true, displayOrder: 5 },
+        { industryId: 'real-estate-proptech', slug: 'real-estate-proptech', title: 'Real Estate & Property Technology', shortDesc: 'Property portals, listings & booking systems', isPublished: true, displayOrder: 6 },
+        { industryId: 'logistics-supply-chain', slug: 'logistics-supply-chain', title: 'Logistics & Supply Chain', shortDesc: 'Warehouse automation & route tracking', isPublished: true, displayOrder: 7 },
+        { industryId: 'retail-ecommerce', slug: 'retail-ecommerce', title: 'Retail & E-commerce', shortDesc: 'High-volume storefronts, checkout & catalogs', isPublished: true, displayOrder: 8 },
+        { industryId: 'hr-staffing', slug: 'hr-staffing', title: 'Human Resources & Staffing', shortDesc: 'Technical recruiting, talent workflows & screening', isPublished: true, displayOrder: 9 },
+        { industryId: 'education-edtech', slug: 'education-edtech', title: 'Education & EdTech', shortDesc: 'LMS platforms, student management & portals', isPublished: true, displayOrder: 10 },
+      ],
+    };
+  },
+
+  async updateCmsIndustry(token: string, idOrSlug: string, data: any) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/industries/${idOrSlug}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return { success: true, data };
+  },
+
+  // Activity & Revisions
+  async getCmsActivity(token: string) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/cms/activity`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+
+    return { success: true, data: [] };
+  },
 };

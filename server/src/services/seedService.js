@@ -2,6 +2,12 @@ import { AdminUser } from '../models/AdminUser.js';
 import { Service } from '../models/Service.js';
 import { Project } from '../models/Project.js';
 import { AnalyticsEvent } from '../models/AnalyticsEvent.js';
+import { Page } from '../models/Page.js';
+import { BlogPost } from '../models/BlogPost.js';
+import { MediaAsset } from '../models/MediaAsset.js';
+import { NavigationItem } from '../models/NavigationItem.js';
+import { Industry } from '../models/Industry.js';
+import { CMSActivityLog } from '../models/CMSActivityLog.js';
 import { config } from '../config/env.js';
 
 export async function seedInitialData() {
@@ -890,6 +896,286 @@ export async function seedInitialData() {
 
       await AnalyticsEvent.insertMany(eventsToSeed);
       console.log(`[SEED] Initialized ${eventsToSeed.length} baseline analytics interaction events across 45-day telemetry.`);
+    }
+
+    // 4. Seed CMS Baseline Pages & Dynamic Architecture (Phase 9)
+    const pageCount = await Page.countDocuments();
+    if (pageCount === 0) {
+      const initialPages = [
+        {
+          pageId: 'home',
+          title: 'Peace Haven | Technology, FinTech, Robotics & Healthcare Solutions',
+          slug: '/',
+          description: 'Peace Haven delivers innovative technology solutions across web development, FinTech, robotics, healthcare and digital transformation.',
+          status: 'published',
+          hero: {
+            headline: 'Engineering Ideas. Empowering Industries.',
+            subheadline: 'From digital experiences and financial technology to healthcare, engineering, staffing, trading, and marketing.',
+            ctaText: 'Start a Project',
+            ctaLink: '/start-a-project',
+            badge: 'Multi-Disciplinary Technology Company',
+          },
+          sections: [
+            { id: 'sec-hero', type: 'hero', title: 'Cinematic Hero Banner', order: 1, isVisible: true },
+            { id: 'sec-intro', type: 'intro', title: 'Company Introduction', order: 2, isVisible: true },
+            { id: 'sec-services', type: 'grid', title: 'Eight Specialized Service Divisions', order: 3, isVisible: true },
+            { id: 'sec-industries', type: 'grid', title: 'Industries We Serve', order: 4, isVisible: true },
+            { id: 'sec-cta', type: 'cta', title: 'Final Call to Action', order: 5, isVisible: true },
+          ],
+          seo: {
+            title: 'Peace Haven | Technology, FinTech, Robotics & Healthcare Solutions',
+            description: 'Peace Haven delivers innovative technology solutions across web development, FinTech, robotics, healthcare and digital transformation.',
+            canonicalUrl: 'https://peacehaven.tech/',
+            ogTitle: 'Peace Haven | Engineering Ideas. Empowering Industries.',
+            ogDescription: 'From digital experiences and financial technology to healthcare, engineering, staffing, trading, and marketing.',
+            ogImage: '/og-image.png',
+            indexable: true,
+          },
+          lastUpdatedBy: 'System Lead',
+        },
+        {
+          pageId: 'about',
+          title: 'About Peace Haven | Multidisciplinary Engineering Firm',
+          slug: '/about',
+          description: 'Learn about Peace Haven Technologies: multidisciplinary engineering firm bridging software, hardware, robotics, and clinical systems.',
+          status: 'published',
+          hero: {
+            headline: 'Engineering Beyond Boundaries.',
+            subheadline: 'We architect mission-critical software, robotics systems, and clinical health devices with absolute precision.',
+            ctaText: 'Meet Our Leadership',
+            ctaLink: '#leadership',
+            badge: 'About Our Firm',
+          },
+          sections: [
+            { id: 'sec-mission', type: 'content', title: 'Our Engineering Mission', order: 1, isVisible: true },
+            { id: 'sec-values', type: 'grid', title: 'Core Architectural Values', order: 2, isVisible: true },
+          ],
+          seo: {
+            title: 'About Peace Haven | Multidisciplinary Engineering Firm',
+            description: 'Learn about Peace Haven Technologies: multidisciplinary engineering firm bridging software, hardware, robotics, and clinical systems.',
+            canonicalUrl: 'https://peacehaven.tech/about',
+            ogTitle: 'About Peace Haven Technologies',
+            ogDescription: 'Multidisciplinary engineering firm bridging cloud software, robotics, and clinical systems.',
+            ogImage: '/og-image.png',
+            indexable: true,
+          },
+          lastUpdatedBy: 'System Lead',
+        },
+        {
+          pageId: 'services',
+          title: 'Eight Integrated Engineering Divisions | Peace Haven',
+          slug: '/services',
+          description: 'Explore Peace Haven capabilities across full-stack cloud software, financial systems, industrial robotics, aerial workflows, and clinical technology.',
+          status: 'published',
+          hero: {
+            headline: 'Capabilities Built Around Your Ambition.',
+            subheadline: 'From full-stack cloud software and financial systems to industrial robotics, aerial workflows, and market technologies.',
+            ctaText: 'Explore Divisions',
+            ctaLink: '#divisions',
+            badge: 'Capabilities Overview',
+          },
+          sections: [
+            { id: 'sec-overview', type: 'grid', title: 'All Disciplines', order: 1, isVisible: true },
+          ],
+          seo: {
+            title: 'Eight Integrated Engineering Divisions | Peace Haven',
+            description: 'Explore Peace Haven capabilities across full-stack cloud software, financial systems, industrial robotics, aerial workflows, and clinical technology.',
+            canonicalUrl: 'https://peacehaven.tech/services',
+            ogImage: '/og-image.png',
+            indexable: true,
+          },
+          lastUpdatedBy: 'System Lead',
+        },
+        {
+          pageId: 'industries',
+          title: 'Industries We Serve | Peace Haven Multi-Industry Technology',
+          slug: '/industries',
+          description: 'Peace Haven applies engineering and domain expertise across 10 vital industries: finance, manufacturing, healthcare, agritech, logistics and more.',
+          status: 'published',
+          hero: {
+            headline: 'Purpose-Built Technology for Complex Industries.',
+            subheadline: 'We engineer domain-specialized platforms across banking, manufacturing automation, medical tech, agritech, real estate, and global supply chains.',
+            ctaText: 'View All Sectors',
+            ctaLink: '#sectors',
+            badge: 'Industry Practice Areas',
+          },
+          sections: [
+            { id: 'sec-sectors', type: 'grid', title: 'Ten Core Industry Categories', order: 1, isVisible: true },
+          ],
+          seo: {
+            title: 'Industries We Serve | Peace Haven Multi-Industry Technology',
+            description: 'Peace Haven applies engineering and domain expertise across 10 vital industries.',
+            canonicalUrl: 'https://peacehaven.tech/industries',
+            ogImage: '/og-image.png',
+            indexable: true,
+          },
+          lastUpdatedBy: 'System Lead',
+        },
+        {
+          pageId: 'contact',
+          title: 'Contact Peace Haven | Let’s Build Something Extraordinary',
+          slug: '/contact',
+          description: 'Connect with Peace Haven technical leads for project inquiries, business collaboration, technology consultations, and enterprise partnerships.',
+          status: 'published',
+          hero: {
+            headline: 'Let’s Build Something Extraordinary.',
+            subheadline: 'Have an idea, business challenge or technology requirement? Connect with Peace Haven and explore how we can turn your vision into practical technology.',
+            ctaText: 'Submit Inquiry',
+            ctaLink: '/start-a-project',
+            badge: 'Direct Intake & Communication',
+          },
+          sections: [
+            { id: 'sec-channels', type: 'grid', title: 'Inquiry Channels', order: 1, isVisible: true },
+          ],
+          seo: {
+            title: 'Contact Peace Haven | Let’s Build Something Extraordinary',
+            description: 'Connect with Peace Haven technical leads for project inquiries and business collaboration.',
+            canonicalUrl: 'https://peacehaven.tech/contact',
+            ogImage: '/og-image.png',
+            indexable: true,
+          },
+          lastUpdatedBy: 'System Lead',
+        },
+      ];
+
+      await Page.insertMany(initialPages);
+      console.log(`[SEED] Initialized ${initialPages.length} CMS-managed website pages.`);
+    }
+
+    // 5. Seed CMS Baseline Blog & Insights Articles (Phase 9)
+    const blogCount = await BlogPost.countDocuments();
+    if (blogCount === 0) {
+      const initialBlogs = [
+        {
+          title: 'Autonomous Edge AI for Distributed Robotics: VDA 5050 & Beyond',
+          slug: 'autonomous-edge-ai-robotics-vda5050',
+          subtitle: 'Designing resilient AGV/AMR fleet orchestration with low-latency edge vision and standardized interoperability protocols.',
+          excerpt: 'How modern industrial automation combines high-throughput edge AI cameras with the VDA 5050 standard to unlock multi-vendor robot fleet coordination without proprietary vendor lock-in.',
+          content: `
+            <p>Industrial manufacturing and logistics warehouses have experienced a paradigm shift over the past decade. The advent of Autonomous Mobile Robots (AMRs) and Automated Guided Vehicles (AGVs) transformed material handling from rigid, fixed conveyor lines into agile, dynamic transit meshes.</p>
+            <h3>The Interoperability Bottleneck</h3>
+            <p>Historically, deploying automated fleets meant dedicating the facility to a single vendor. Each manufacturer supplied their own proprietary fleet manager, proprietary trajectory algorithms, and closed communication protocols. When an organization required specialized robotic arms alongside heavy-payload flatbed carriers, operations stalled.</p>
+            <h3>VDA 5050 as the Open Common Language</h3>
+            <p>The VDA 5050 interface standard, formulated collaboratively by the German Association of the Automotive Industry (VDA) and the VDMA Materials Handling and Intralogistics Association, defines an open, vendor-neutral protocol based on MQTT and JSON payloads.</p>
+            <p>At Peace Haven, our robotics division architectures integrate ROS 2 nodes directly with MQTT VDA 5050 bridges. This allows decentralized collision avoidance and task pre-emption while giving the central supervisor absolute visibility over telemetry, battery state, and localized map poses.</p>
+          `,
+          featuredImage: '/images/hero/cinematic-poster.jpg',
+          category: 'Robotics & Automation',
+          tags: ['Robotics', 'ROS 2', 'VDA 5050', 'Edge AI', 'Industrial Automation'],
+          author: {
+            name: 'Dr. Michael Vance',
+            role: 'Head of Robotics & Embedded Systems',
+            avatar: '/favicon.svg',
+          },
+          readTime: '6 min read',
+          status: 'published',
+          publishedAt: new Date(Date.now() - 14 * 86400000),
+          isFeatured: true,
+          seo: {
+            title: 'Autonomous Edge AI for Distributed Robotics | Peace Haven Insights',
+            description: 'Designing resilient AGV/AMR fleet orchestration with low-latency edge vision and VDA 5050.',
+            canonicalUrl: 'https://peacehaven.tech/insights/autonomous-edge-ai-robotics-vda5050',
+          },
+          viewCount: 342,
+          lastUpdatedBy: 'System Lead',
+        },
+        {
+          title: 'Fractional Bullion Architecture: Engineering Live Precious Metal Settlement',
+          slug: 'fractional-bullion-architecture-digital-gold',
+          subtitle: 'Architecting high-frequency bullion order books, live vault allocation, and sub-rupee micro-investment transaction pipelines.',
+          excerpt: 'A technical exploration into how fractional digital gold and silver platforms achieve instant sub-second order matching backed by physical vault reserves.',
+          content: `
+            <p>Precious metals have represented a cornerstone of wealth preservation for millennia. However, traditional physical gold and silver purchases carry steep entry barriers: high minimum weight thresholds, substantial retail making charges, and the security burden of home storage.</p>
+            <h3>Designing Fractional Precious Metals</h3>
+            <p>Digital bullion platforms allow users to accumulate vaulted precious metals starting from ₹10. Behind this simple consumer interface lies a rigorous fintech architecture requiring continuous market data synchronization and strict ledger accounting.</p>
+            <h3>Live Market Rate Feeds & Slippage Management</h3>
+            <p>Precious metals trade continuously on international exchanges (LBMA, COMEX) and domestic commodity exchanges. To prevent arbitrage and price slippage, quotation engines establish time-bounded price locks. A customer initiating a purchase is guaranteed the displayed rate for a 5-minute checkout window.</p>
+          `,
+          featuredImage: '/images/projects/grow-capital/grow-capital-overview.png',
+          category: 'FinTech',
+          tags: ['FinTech', 'Digital Gold', 'Bullion', 'Payment Gateways', 'Transaction Security'],
+          author: {
+            name: 'Vikramaditya Shah',
+            role: 'FinTech Systems Architect',
+            avatar: '/favicon.svg',
+          },
+          readTime: '5 min read',
+          status: 'published',
+          publishedAt: new Date(Date.now() - 7 * 86400000),
+          isFeatured: false,
+          seo: {
+            title: 'Fractional Bullion Architecture | Peace Haven Insights',
+            description: 'Architecting high-frequency bullion order books and live vault allocation.',
+            canonicalUrl: 'https://peacehaven.tech/insights/fractional-bullion-architecture-digital-gold',
+          },
+          viewCount: 285,
+          lastUpdatedBy: 'System Lead',
+        },
+        {
+          title: 'Point-of-Care Diagnostics: Accelerating Acute Myocardial Infarction Screening',
+          slug: 'point-of-care-diagnostics-cardiac-screening',
+          subtitle: 'Utilizing lateral flow immunochromatography and colloidal gold conjugation for rapid, decentralized cardiac triage.',
+          excerpt: 'An engineering overview of how rapid biomarker detection kits reduce diagnostic turnaround times from hours to under 15 minutes in emergency clinical settings.',
+          content: `
+            <p>In acute clinical emergencies, time directly translates to tissue viability. For acute myocardial infarction (heart attack), cardiac muscle necrosis progresses rapidly following coronary arterial occlusion—a reality captured in the emergency medicine axiom "time is muscle."</p>
+            <h3>Decentralized Diagnostic Triage</h3>
+            <p>Standard hospital central laboratory testing requires venous blood collection, serum separation via centrifugation, and batch processing on automated immunoassay analyzers. This workflow typically requires 60 to 120 minutes of elapsed turnaround time.</p>
+            <p>Point-of-care rapid testing strips bring laboratory-grade monoclonal antibody conjugation directly to emergency triage rooms, rural health centers, and ambulances, providing definitive visual band readouts within 10 to 15 minutes.</p>
+          `,
+          featuredImage: '/images/projects/rapid-mi-screening-test/rapid-mi-test-overview.png',
+          category: 'Healthcare Technology',
+          tags: ['Healthcare', 'Diagnostics', 'Biomarkers', 'Clinical Systems', 'Point-of-Care'],
+          author: {
+            name: 'Dr. Sarah Connor',
+            role: 'Clinical Diagnostic Advisor',
+            avatar: '/favicon.svg',
+          },
+          readTime: '7 min read',
+          status: 'published',
+          publishedAt: new Date(Date.now() - 3 * 86400000),
+          isFeatured: false,
+          seo: {
+            title: 'Point-of-Care Diagnostics: Cardiac Screening | Peace Haven Insights',
+            description: 'Engineering rapid lateral flow biomarker detection kits for decentralized cardiac screening.',
+            canonicalUrl: 'https://peacehaven.tech/insights/point-of-care-diagnostics-cardiac-screening',
+          },
+          viewCount: 198,
+          lastUpdatedBy: 'System Lead',
+        },
+      ];
+
+      await BlogPost.insertMany(initialBlogs);
+      console.log(`[SEED] Initialized ${initialBlogs.length} initial technical blog & insights articles.`);
+    }
+
+    // 6. Seed CMS Baseline Navigation Items (Phase 9)
+    const navCount = await NavigationItem.countDocuments();
+    if (navCount === 0) {
+      const initialNav = [
+        { label: 'Home', path: '/', menu: 'main', order: 1, isVisible: true },
+        { label: 'Services', path: '/services', menu: 'main', order: 2, isVisible: true },
+        { label: 'Industries', path: '/industries', menu: 'main', order: 3, isVisible: true },
+        { label: 'Portfolio', path: '/portfolio', menu: 'main', order: 4, isVisible: true },
+        { label: 'Insights', path: '/insights', menu: 'main', order: 5, isVisible: true },
+        { label: 'About Us', path: '/about', menu: 'main', order: 6, isVisible: true },
+        { label: 'Contact', path: '/contact', menu: 'main', order: 7, isVisible: true },
+      ];
+
+      await NavigationItem.insertMany(initialNav);
+      console.log(`[SEED] Initialized ${initialNav.length} CMS navigation configuration items.`);
+    }
+
+    // 7. Seed Initial CMS Activity Log Entry
+    const logCount = await CMSActivityLog.countDocuments();
+    if (logCount === 0) {
+      await CMSActivityLog.create({
+        action: 'CREATE',
+        entityType: 'page',
+        entityTitle: 'Baseline CMS Setup',
+        entityId: 'init-001',
+        details: 'Initialized Peace Haven Content Management System v1.0',
+        performedBy: 'System Lead',
+      });
     }
   } catch (err) {
     console.error('[SEED ERROR] Failed to seed initial data:', err.message);
