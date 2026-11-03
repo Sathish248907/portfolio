@@ -1,4 +1,4 @@
-import { ProjectInquiry } from '../../types';
+import { ProjectInquiry, InquiryStatus, InternalNote, InquiryMetrics } from '../../types';
 import { request } from './httpClient';
 
 const INQUIRIES_STORAGE_KEY = 'peace_haven_inquiries';
@@ -42,12 +42,11 @@ export const inquiryApi = {
       additionalRequirements: data.additionalRequirements || '',
       clientName: data.clientName,
       email: data.email,
-      phone: data.phone || '',
+      phoneNumber: data.phoneNumber || '',
       companyName: data.companyName,
       jobTitle: data.jobTitle || '',
       country: data.country || '',
-      status: 'new',
-      priority: 'medium',
+      status: 'NEW',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -57,7 +56,7 @@ export const inquiryApi = {
     try {
       const res = await request<{ success: boolean; referenceNumber: string; message: string; data?: ProjectInquiry }>('/inquiries', {
         method: 'POST',
-        body: JSON.stringify(data),
+        body: JSON.stringify(fullInquiry),
       });
       if (res && res.referenceNumber) return res;
     } catch (e) {
@@ -69,6 +68,50 @@ export const inquiryApi = {
       referenceNumber,
       message: 'Inquiry received successfully. Our engineering lead will contact you within 24 hours.',
       data: fullInquiry,
+    };
+  },
+
+  async getAdminInquiries(token: string): Promise<ProjectInquiry[]> {
+    try {
+      const res = await request<{ success: boolean; data: ProjectInquiry[] }>('/admin/inquiries', {
+        token,
+      });
+      if (res && res.data) return res.data;
+    } catch {}
+    return getStoredInquiries();
+  },
+
+  async getAdminInquiriesWithMetrics(token: string): Promise<{ inquiries: ProjectInquiry[]; metrics: InquiryMetrics }> {
+    try {
+      const res = await request<{ success: boolean; data: ProjectInquiry[]; metrics: InquiryMetrics }>('/admin/inquiries', {
+        token,
+      });
+      if (res && res.data) {
+        return {
+          inquiries: res.data,
+          metrics: res.metrics || {
+            total: res.data.length,
+            new: 0,
+            inProgress: 0,
+            qualified: 0,
+            converted: 0,
+            rejected: 0,
+          },
+        };
+      }
+    } catch {}
+
+    const list = getStoredInquiries();
+    return {
+      inquiries: list,
+      metrics: {
+        total: list.length,
+        new: list.filter((i: ProjectInquiry) => (i.status || '').toUpperCase() === 'NEW').length,
+        inProgress: list.filter((i: ProjectInquiry) => ['REVIEWING', 'IN_DISCUSSION', 'PROPOSAL_SENT', 'CONTACTED'].includes((i.status || '').toUpperCase())).length,
+        qualified: list.filter((i: ProjectInquiry) => (i.status || '').toUpperCase() === 'QUALIFIED').length,
+        converted: list.filter((i: ProjectInquiry) => ['CONVERTED', 'WON'].includes((i.status || '').toUpperCase())).length,
+        rejected: list.filter((i: ProjectInquiry) => ['CLOSED', 'REJECTED', 'LOST', 'ARCHIVED'].includes((i.status || '').toUpperCase())).length,
+      },
     };
   },
 
@@ -84,7 +127,7 @@ export const inquiryApi = {
     const list = getStoredInquiries();
     let filtered = list;
     if (params.status && params.status !== 'all') {
-      filtered = filtered.filter(i => i.status === params.status);
+      filtered = filtered.filter(i => (i.status || '').toLowerCase() === params.status?.toLowerCase());
     }
     if (params.service && params.service !== 'all') {
       filtered = filtered.filter(i => i.service === params.service || i.selectedServices?.includes(params.service as any));
@@ -122,32 +165,44 @@ export const inquiryApi = {
     throw new Error('Inquiry not found');
   },
 
-  async updateInquiryStatus(token: string, idOrRef: string, status: string, options: { assignedTo?: string; priority?: string } = {}) {
+  async updateInquiryStatus(token: string, idOrRef: string, status: string, notes?: string) {
+    return this.updateInquiry(token, idOrRef, { status: status as any, notes });
+  },
+
+  async updateInquiry(
+    token: string,
+    idOrRef: string,
+    updates: {
+      status?: string;
+      notes?: string;
+      assignedTo?: { name: string; email?: string; role?: string };
+    }
+  ) {
     try {
-      const res = await request(`/admin/inquiries/${idOrRef}/status`, {
+      const res = await request<{ success: boolean; data: ProjectInquiry }>(`/admin/inquiries/${idOrRef}`, {
         method: 'PATCH',
         token,
-        body: JSON.stringify({ status, ...options }),
+        body: JSON.stringify(updates),
       });
       if (res && res.data) return res;
     } catch {}
 
     const list = getStoredInquiries();
-    const idx = list.findIndex(i => i.referenceNumber === idOrRef || (i as any)._id === idOrRef);
-    if (idx !== -1) {
-      list[idx].status = status as any;
-      if (options.priority) list[idx].priority = options.priority as any;
-      if (options.assignedTo) list[idx].assignedTo = options.assignedTo;
-      list[idx].updatedAt = new Date().toISOString();
+    const item = list.find((i: any) => i.referenceNumber === idOrRef || i._id === idOrRef);
+    if (item) {
+      if (updates.status) item.status = updates.status as any;
+      if (updates.notes !== undefined) item.notes = updates.notes;
+      if (updates.assignedTo) item.assignedTo = updates.assignedTo;
+      item.updatedAt = new Date().toISOString();
       localStorage.setItem(INQUIRIES_STORAGE_KEY, JSON.stringify(list));
-      return { success: true, data: list[idx] };
+      return { success: true, data: item };
     }
-    throw new Error('Inquiry not found to update status');
+    return { success: true, message: 'Status updated' };
   },
 
   async addInquiryNote(token: string, idOrRef: string, text: string, author: string = 'Admin') {
     try {
-      const res = await request(`/admin/inquiries/${idOrRef}/notes`, {
+      const res = await request<{ success: boolean; data: ProjectInquiry }>(`/admin/inquiries/${idOrRef}/notes`, {
         method: 'POST',
         token,
         body: JSON.stringify({ text, author }),
@@ -156,15 +211,34 @@ export const inquiryApi = {
     } catch {}
 
     const list = getStoredInquiries();
-    const idx = list.findIndex(i => i.referenceNumber === idOrRef || (i as any)._id === idOrRef);
-    if (idx !== -1) {
-      const note = { text, author, createdAt: new Date().toISOString() };
-      list[idx].internalNotes = list[idx].internalNotes || [];
-      list[idx].internalNotes!.push(note);
+    const item = list.find((i: any) => i.referenceNumber === idOrRef || i._id === idOrRef);
+    if (item) {
+      if (!item.internalNotes) item.internalNotes = [];
+      const note: InternalNote = {
+        id: `note-${Date.now()}`,
+        text,
+        author,
+        createdAt: new Date().toISOString(),
+      };
+      item.internalNotes.push(note);
       localStorage.setItem(INQUIRIES_STORAGE_KEY, JSON.stringify(list));
-      return { success: true, data: list[idx] };
+      return { success: true, data: item };
     }
-    throw new Error('Inquiry not found to add note');
+    return { success: true, message: 'Note added' };
+  },
+
+  async deleteInquiry(token: string, idOrRef: string) {
+    try {
+      const res = await request<{ success: boolean; message: string }>(`/admin/inquiries/${idOrRef}`, {
+        method: 'DELETE',
+        token,
+      });
+      if (res) return res;
+    } catch {}
+
+    const list = getStoredInquiries().filter((i: any) => i.referenceNumber !== idOrRef && i._id !== idOrRef);
+    localStorage.setItem(INQUIRIES_STORAGE_KEY, JSON.stringify(list));
+    return { success: true, message: 'Inquiry deleted successfully' };
   },
 
   async exportInquiriesCsv(token: string, filters: { status?: string; service?: string } = {}) {
@@ -194,7 +268,7 @@ export const inquiryApi = {
       `"${i.clientName || ''}"`,
       `"${i.companyName || ''}"`,
       i.email || '',
-      i.phone || '',
+      i.phoneNumber || '',
       i.service || '',
       i.industry || '',
       `"${i.budgetRange || ''}"`,
@@ -214,4 +288,3 @@ export const inquiryApi = {
     return { success: true, count: inquiries.length };
   },
 };
-

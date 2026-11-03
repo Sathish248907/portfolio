@@ -3,6 +3,9 @@ import { inquiryApi } from './inquiryApi';
 import { contactApi } from './contactApi';
 import { analyticsApi } from './analyticsApi';
 import { cmsApi } from './cmsApi';
+import { servicesData } from '../../data/servicesData';
+import { projectsData } from '../../data/projectsData';
+import { request } from './httpClient';
 
 export { authApi } from './authApi';
 export { inquiryApi } from './inquiryApi';
@@ -16,19 +19,49 @@ export * from './httpClient';
  * Backward-compatible composite combining all domain clients
  */
 export const api = {
+  // Public Catalog
+  async getServices() {
+    try {
+      const res = await request<{ data?: any }>('/services');
+      if (res?.data) return res.data;
+    } catch {}
+    return servicesData;
+  },
+
+  async getProjects() {
+    try {
+      const res = await request<{ data?: any }>('/projects');
+      if (res?.data) return res.data;
+    } catch {}
+    return projectsData;
+  },
+
+  async getProjectBySlug(slug: string) {
+    try {
+      const res = await request<{ data?: any }>(`/projects/${slug}`);
+      if (res?.data) return res.data;
+    } catch {}
+    return projectsData.find((p) => p.slug === slug) || null;
+  },
+
   // Auth
   adminLogin: authApi.adminLogin.bind(authApi),
   verifyAdminToken: authApi.verifyAdminToken.bind(authApi),
 
   // Inquiries
   submitInquiry: inquiryApi.submitInquiry.bind(inquiryApi),
+  getAdminInquiries: inquiryApi.getAdminInquiries.bind(inquiryApi),
+  getAdminInquiriesWithMetrics: inquiryApi.getAdminInquiriesWithMetrics.bind(inquiryApi),
   getInquiries: inquiryApi.getInquiries.bind(inquiryApi),
   getInquiryByRef: inquiryApi.getInquiryByRef.bind(inquiryApi),
   updateInquiryStatus: inquiryApi.updateInquiryStatus.bind(inquiryApi),
+  updateInquiry: inquiryApi.updateInquiry.bind(inquiryApi),
   addInquiryNote: inquiryApi.addInquiryNote.bind(inquiryApi),
+  deleteInquiry: inquiryApi.deleteInquiry.bind(inquiryApi),
   exportInquiriesCsv: inquiryApi.exportInquiriesCsv.bind(inquiryApi),
 
   // Contact
+  submitContact: contactApi.submitContact.bind(contactApi),
   sendContactMessage: contactApi.sendContactMessage.bind(contactApi),
 
   // Analytics & Tracking

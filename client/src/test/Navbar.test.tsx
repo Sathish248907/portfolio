@@ -24,6 +24,7 @@ describe('Navigation and Layout System', () => {
     expect(screen.getByRole('link', { name: /portfolio/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /about us/i })).toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /careers/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /insights/i })).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: /contact/i })).toBeInTheDocument();
   });
 

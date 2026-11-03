@@ -15,32 +15,27 @@ function saveStoredContact(message: ContactMessage) {
 }
 
 export const contactApi = {
-  async sendContactMessage(data: Partial<ContactMessage> & { name: string; email: string; message: string }) {
-    const fullMessage: ContactMessage = {
-      name: data.name,
-      email: data.email,
-      phone: data.phone || '',
-      subject: data.subject || 'General Engineering Inquiry',
-      message: data.message,
+  async submitContact(data: Omit<ContactMessage, '_id' | 'createdAt'>): Promise<{ success: boolean; message: string }> {
+    const contactData: ContactMessage = {
+      ...data,
       createdAt: new Date().toISOString(),
     };
-
-    saveStoredContact(fullMessage);
 
     try {
       const res = await request('/contact', {
         method: 'POST',
-        body: JSON.stringify(data),
+        body: JSON.stringify(contactData),
       });
-      if (res?.success) return res;
-    } catch (e) {
-      console.warn('[API Contact] Server dispatch offline, persisting to client storage', e);
+      if (res?.success) return { success: true, message: res.message || 'Message sent successfully.' };
+    } catch {
+      // Fallback to localStorage
     }
 
-    return {
-      success: true,
-      message: 'Your message has been safely recorded. A senior engineering manager will get back to you shortly.',
-    };
+    saveStoredContact(contactData);
+    return { success: true, message: 'Message received and logged for the team.' };
+  },
+
+  async sendContactMessage(data: Omit<ContactMessage, '_id' | 'createdAt'>) {
+    return this.submitContact(data);
   },
 };
-
