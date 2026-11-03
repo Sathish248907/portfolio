@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
+  BarChart3,
   Inbox, 
   Briefcase, 
   Settings, 
@@ -41,6 +42,7 @@ export const AdminLayout: React.FC = () => {
 
   const navItems = [
     { label: 'Overview', path: '/admin', icon: LayoutDashboard },
+    { label: 'Analytics & Insights', path: '/admin/analytics', icon: BarChart3 },
     { label: 'Inquiries', path: '/admin/inquiries', icon: Inbox },
     { label: 'Projects & Case Studies', path: '/admin/projects', icon: Briefcase },
     { label: 'Services & Content', path: '/admin/content', icon: Sliders },

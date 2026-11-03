@@ -28,6 +28,7 @@ import {
 import { Button } from '../components/common/Button';
 import { SEO } from '../components/common/SEO';
 import { api } from '../lib/api';
+import { analytics } from '../utils/analytics';
 
 const serviceOptions = [
   { id: 'Web Development', label: 'Web Development', desc: 'Cloud platforms, responsive web apps, microservices & scalable APIs' },
@@ -229,12 +230,20 @@ export const StartProjectPage: React.FC = () => {
     setAttachedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
+  useEffect(() => {
+    analytics.trackInquiryFunnel('form_start', {
+      initialService: (initialService && initialService[0]) || undefined,
+    });
+  }, []);
+
   const nextStep = async () => {
     let isValid = false;
     if (currentStep === 1) {
       isValid = await trigger(['clientName', 'email', 'companyName']);
+      if (isValid) analytics.trackInquiryFunnel('service_selected');
     } else if (currentStep === 2) {
       isValid = await trigger('selectedServices');
+      if (isValid) analytics.trackInquiryFunnel('requirements_entered');
     } else if (currentStep === 3) {
       isValid = await trigger(['projectTitle', 'projectDescription', 'industry', 'projectType', 'timeline']);
     } else if (currentStep === 4) {
@@ -284,6 +293,9 @@ export const StartProjectPage: React.FC = () => {
       });
 
       if (res.success) {
+        // Track completed conversion in analytics telemetry & GA4
+        analytics.trackInquirySubmission(res.referenceNumber, data.selectedServices, data.budgetRange);
+
         setSubmissionResult({
           referenceNumber: res.referenceNumber,
           clientName: data.clientName,

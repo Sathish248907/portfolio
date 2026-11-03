@@ -226,4 +226,159 @@ describe('Peace Haven Backend API Integration Tests', () => {
     expect(res.text).toContain('https://peacehaven.tech/');
     expect(res.text).toContain('<urlset');
   });
+
+  // ==========================================
+  // PHASE 8: ADVANCED ANALYTICS & VISITOR TRACKING
+  // ==========================================
+
+  it('POST /api/v1/analytics/events records a valid telemetry interaction', async () => {
+    const res = await request(app)
+      .post('/api/v1/analytics/events')
+      .send({
+        eventName: 'page_view',
+        pagePath: '/services/web-development',
+        eventCategory: 'Page Tracking',
+        eventLabel: 'Web Development Division',
+        serviceSlug: 'web-development',
+        sessionId: 'test_session_101',
+        anonymousVisitorId: 'test_anon_vid_999',
+        trafficSource: {
+          source: 'Google Search',
+          medium: 'organic',
+          campaign: 'none',
+        },
+        deviceCategory: 'desktop',
+        browser: 'Chrome',
+        country: 'United States',
+        duration: 45,
+      });
+
+    expect(res.status).toBe(201);
+    expect(res.body.success).toBe(true);
+    expect(res.body.eventId).toBeDefined();
+  });
+
+  it('POST /api/v1/analytics/events suppresses duplicate events fired within 2s', async () => {
+    const res = await request(app)
+      .post('/api/v1/analytics/events')
+      .send({
+        eventName: 'page_view',
+        pagePath: '/services/web-development',
+        eventCategory: 'Page Tracking',
+        sessionId: 'test_session_101',
+        anonymousVisitorId: 'test_anon_vid_999',
+      });
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.status).toBe('deduplicated');
+  });
+
+  it('GET /api/v1/admin/analytics/overview requires authentication', async () => {
+    const res = await request(app).get('/api/v1/admin/analytics/overview');
+    expect(res.status).toBe(401);
+  });
+
+  it('GET /api/v1/admin/analytics/overview returns metrics and period comparisons', async () => {
+    const res = await request(app)
+      .get('/api/v1/admin/analytics/overview?period=30d')
+      .set('Authorization', `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.metrics).toBeDefined();
+    expect(typeof res.body.metrics.uniqueVisitors).toBe('number');
+    expect(typeof res.body.metrics.totalPageViews).toBe('number');
+    expect(res.body.metrics.comparisons).toBeDefined();
+    expect(Array.isArray(res.body.dailyTimeline)).toBe(true);
+    expect(Array.isArray(res.body.trafficSources)).toBe(true);
+    expect(Array.isArray(res.body.devices)).toBe(true);
+  });
+
+  it('GET /api/v1/admin/analytics/services returns performance for all 8 service divisions', async () => {
+    const res = await request(app)
+      .get('/api/v1/admin/analytics/services?period=30d')
+      .set('Authorization', `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.services)).toBe(true);
+    expect(res.body.services.length).toBe(8);
+
+    const slugs = res.body.services.map((s) => s.slug);
+    expect(slugs).toContain('web-development');
+    expect(slugs).toContain('fintech');
+    expect(slugs).toContain('robotics');
+    expect(slugs).toContain('drone-technology');
+    expect(slugs).toContain('healthcare');
+    expect(slugs).toContain('us-staffing');
+    expect(slugs).toContain('trading');
+    expect(slugs).toContain('digital-marketing');
+  });
+
+  it('GET /api/v1/admin/analytics/industries returns engagement for all 10 industries', async () => {
+    const res = await request(app)
+      .get('/api/v1/admin/analytics/industries?period=30d')
+      .set('Authorization', `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.industries)).toBe(true);
+    expect(res.body.industries.length).toBe(10);
+  });
+
+  it('GET /api/v1/admin/analytics/portfolio returns tracking for all 10 projects', async () => {
+    const res = await request(app)
+      .get('/api/v1/admin/analytics/portfolio?period=30d')
+      .set('Authorization', `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.projects)).toBe(true);
+    expect(res.body.projects.length).toBe(10);
+
+    const slugs = res.body.projects.map((p) => p.slug);
+    expect(slugs).toContain('ph-homes');
+    expect(slugs).toContain('grow-capital');
+    expect(slugs).toContain('auravia');
+    expect(slugs).toContain('eb-300-robotic-arm');
+  });
+
+  it('GET /api/v1/admin/analytics/funnel returns the 8-stage inquiry conversion funnel', async () => {
+    const res = await request(app)
+      .get('/api/v1/admin/analytics/funnel?period=30d')
+      .set('Authorization', `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.stages)).toBe(true);
+    expect(res.body.stages.length).toBe(8);
+
+    expect(res.body.stages[0].stageName).toBe('Website Visitors');
+    expect(res.body.stages[1].stageName).toBe('Service or Industry Visitors');
+    expect(res.body.stages[2].stageName).toBe('Inquiry CTA Clicked');
+    expect(res.body.stages[3].stageName).toBe('Inquiry Form Started');
+    expect(res.body.stages[4].stageName).toBe('Inquiry Form Submitted');
+    expect(res.body.stages[5].stageName).toBe('Inquiry Reviewed by Admin');
+    expect(res.body.stages[6].stageName).toBe('Qualified Opportunity');
+    expect(res.body.stages[7].stageName).toBe('Converted Engagement');
+
+    res.body.stages.forEach((st) => {
+      expect(typeof st.count).toBe('number');
+      expect(typeof st.conversionFromTop).toBe('number');
+      expect(typeof st.stageDropOff).toBe('number');
+    });
+  });
+
+  it('GET /api/v1/admin/analytics/export returns CSV report with reporting period header', async () => {
+    const res = await request(app)
+      .get('/api/v1/admin/analytics/export?type=services&period=30d')
+      .set('Authorization', `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toContain('text/csv');
+    expect(res.text).toContain('# Peace Haven Technologies - Analytics & Performance Intelligence Report');
+    expect(res.text).toContain('Web Development');
+    expect(res.text).toContain('FinTech');
+  });
 });

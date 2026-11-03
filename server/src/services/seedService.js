@@ -1,6 +1,7 @@
 import { AdminUser } from '../models/AdminUser.js';
 import { Service } from '../models/Service.js';
 import { Project } from '../models/Project.js';
+import { AnalyticsEvent } from '../models/AnalyticsEvent.js';
 import { config } from '../config/env.js';
 
 export async function seedInitialData() {
@@ -653,6 +654,242 @@ export async function seedInitialData() {
 
       await Project.insertMany(projectsSeed);
       console.log(`[SEED] Inserted ${projectsSeed.length} initial laboratory projects.`);
+    }
+
+    // 3. Seed analytics baseline telemetry if empty (Phase 8)
+    const analyticsCount = await AnalyticsEvent.countDocuments();
+    if (analyticsCount === 0) {
+      const services = [
+        'web-development', 'fintech', 'robotics', 'drone-technology', 
+        'healthcare', 'us-staffing', 'trading', 'digital-marketing'
+      ];
+      const industries = [
+        'it-software', 'banking-finance', 'manufacturing-automation', 'healthcare-medical',
+        'agriculture-agritech', 'real-estate-proptech', 'logistics-supply-chain',
+        'retail-ecommerce', 'hr-staffing', 'education-edtech'
+      ];
+      const projects = [
+        'ph-homes', 'grow-capital', 'auravia', 'peace-haven-clinic', 'ph-google',
+        'ai-resume-analyzer', 'eb-300-robotic-arm', 'smart-blind-stick',
+        'animal-detection', 'rapid-mi-screening'
+      ];
+      const sources = [
+        { source: 'Google Search', medium: 'organic', campaign: 'none' },
+        { source: 'Direct', medium: 'none', campaign: 'none' },
+        { source: 'LinkedIn', medium: 'social', campaign: 'tech_leadership' },
+        { source: 'GitHub', medium: 'referral', campaign: 'open_source' },
+        { source: 'TechCrunch', medium: 'referral', campaign: 'press_feature' },
+        { source: 'Newsletter', medium: 'email', campaign: 'nov_quarterly' },
+      ];
+      const locations = [
+        { country: 'United States', region: 'California', city: 'San Francisco' },
+        { country: 'United States', region: 'New York', city: 'New York' },
+        { country: 'United Kingdom', region: 'Greater London', city: 'London' },
+        { country: 'Canada', region: 'Ontario', city: 'Toronto' },
+        { country: 'Germany', region: 'Bavaria', city: 'Munich' },
+        { country: 'India', region: 'Karnataka', city: 'Bengaluru' },
+        { country: 'Singapore', region: 'Central', city: 'Singapore' },
+      ];
+      const devices = ['desktop', 'desktop', 'desktop', 'mobile', 'mobile', 'tablet'];
+      const browsers = ['Chrome', 'Chrome', 'Safari', 'Firefox', 'Edge'];
+
+      const eventsToSeed = [];
+      const now = Date.now();
+
+      // Generate realistic daily sessions across past 45 days
+      for (let dayOffset = 45; dayOffset >= 0; dayOffset--) {
+        const dayMs = now - dayOffset * 24 * 60 * 60 * 1000;
+        const dailySessionCount = 8 + Math.floor(Math.random() * 8); // 8-15 sessions/day
+
+        for (let s = 0; s < dailySessionCount; s++) {
+          const sessionId = `ph_sess_${dayOffset}_${s}_${Math.floor(Math.random() * 10000)}`;
+          const anonId = `ph_vid_${Math.floor(Math.random() * 90)}`; // ~90 unique visitors
+          const isReturning = Math.random() > 0.45;
+          const loc = locations[Math.floor(Math.random() * locations.length)];
+          const traffic = sources[Math.floor(Math.random() * sources.length)];
+          const device = devices[Math.floor(Math.random() * devices.length)];
+          const browser = browsers[Math.floor(Math.random() * browsers.length)];
+          const timestamp = new Date(dayMs + s * 1800000 + Math.floor(Math.random() * 600000));
+
+          // Step 1: Homepage Visit
+          eventsToSeed.push({
+            eventName: 'page_view',
+            pagePath: '/',
+            eventCategory: 'Page Tracking',
+            eventLabel: 'Homepage',
+            sessionId,
+            anonymousVisitorId: anonId,
+            isReturningVisitor: isReturning,
+            trafficSource: traffic,
+            deviceCategory: device,
+            browser,
+            country: loc.country,
+            region: loc.region,
+            city: loc.city,
+            duration: 25 + Math.floor(Math.random() * 45),
+            timestamp,
+          });
+
+          // 75% Explore Services or Industries
+          if (Math.random() > 0.25) {
+            const serv = services[Math.floor(Math.random() * services.length)];
+            const servTime = new Date(timestamp.getTime() + 45000);
+
+            eventsToSeed.push({
+              eventName: 'page_view',
+              pagePath: `/services/${serv}`,
+              eventCategory: 'Page Tracking',
+              eventLabel: `Service: ${serv}`,
+              serviceSlug: serv,
+              sessionId,
+              anonymousVisitorId: anonId,
+              isReturningVisitor: isReturning,
+              trafficSource: traffic,
+              deviceCategory: device,
+              browser,
+              country: loc.country,
+              region: loc.region,
+              city: loc.city,
+              duration: 50 + Math.floor(Math.random() * 90),
+              timestamp: servTime,
+            });
+
+            // 50% also explore an industry
+            if (Math.random() > 0.5) {
+              const ind = industries[Math.floor(Math.random() * industries.length)];
+              eventsToSeed.push({
+                eventName: 'page_view',
+                pagePath: `/industries/${ind}`,
+                eventCategory: 'Page Tracking',
+                eventLabel: `Industry: ${ind}`,
+                industrySlug: ind,
+                sessionId,
+                anonymousVisitorId: anonId,
+                isReturningVisitor: isReturning,
+                trafficSource: traffic,
+                deviceCategory: device,
+                browser,
+                country: loc.country,
+                region: loc.region,
+                city: loc.city,
+                duration: 40 + Math.floor(Math.random() * 60),
+                timestamp: new Date(servTime.getTime() + 60000),
+              });
+            }
+
+            // 40% click CTA
+            if (Math.random() > 0.6) {
+              const ctaTime = new Date(servTime.getTime() + 90000);
+              eventsToSeed.push({
+                eventName: 'cta_click',
+                pagePath: `/services/${serv}`,
+                eventCategory: 'User Interaction',
+                eventLabel: 'Start a Project CTA',
+                serviceSlug: serv,
+                sessionId,
+                anonymousVisitorId: anonId,
+                isReturningVisitor: isReturning,
+                trafficSource: traffic,
+                deviceCategory: device,
+                browser,
+                country: loc.country,
+                region: loc.region,
+                city: loc.city,
+                timestamp: ctaTime,
+              });
+
+              // 65% start inquiry form
+              if (Math.random() > 0.35) {
+                const formTime = new Date(ctaTime.getTime() + 15000);
+                eventsToSeed.push({
+                  eventName: 'inquiry_form_start',
+                  pagePath: '/start-a-project',
+                  eventCategory: 'Conversion',
+                  eventLabel: 'Multi-Step Inquiry Started',
+                  serviceSlug: serv,
+                  sessionId,
+                  anonymousVisitorId: anonId,
+                  isReturningVisitor: isReturning,
+                  trafficSource: traffic,
+                  deviceCategory: device,
+                  browser,
+                  country: loc.country,
+                  region: loc.region,
+                  city: loc.city,
+                  timestamp: formTime,
+                });
+
+                // 40% complete inquiry form submission
+                if (Math.random() > 0.6) {
+                  eventsToSeed.push({
+                    eventName: 'inquiry_form_submit',
+                    pagePath: '/start-a-project',
+                    eventCategory: 'Conversion',
+                    eventLabel: 'Multi-Step Inquiry Submitted',
+                    serviceSlug: serv,
+                    sessionId,
+                    anonymousVisitorId: anonId,
+                    isReturningVisitor: isReturning,
+                    trafficSource: traffic,
+                    deviceCategory: device,
+                    browser,
+                    country: loc.country,
+                    region: loc.region,
+                    city: loc.city,
+                    timestamp: new Date(formTime.getTime() + 120000),
+                  });
+                }
+              }
+            }
+          }
+
+          // 40% Explore Portfolio Projects
+          if (Math.random() > 0.6) {
+            const proj = projects[Math.floor(Math.random() * projects.length)];
+            const projTime = new Date(timestamp.getTime() + 80000);
+            eventsToSeed.push({
+              eventName: 'page_view',
+              pagePath: `/work/${proj}`,
+              eventCategory: 'Page Tracking',
+              eventLabel: `Project: ${proj}`,
+              projectSlug: proj,
+              sessionId,
+              anonymousVisitorId: anonId,
+              isReturningVisitor: isReturning,
+              trafficSource: traffic,
+              deviceCategory: device,
+              browser,
+              country: loc.country,
+              region: loc.region,
+              city: loc.city,
+              duration: 80 + Math.floor(Math.random() * 110),
+              timestamp: projTime,
+            });
+
+            if (Math.random() > 0.5) {
+              eventsToSeed.push({
+                eventName: 'external_link_click',
+                pagePath: `/work/${proj}`,
+                eventCategory: 'User Interaction',
+                eventLabel: 'External Live Prototype Demo',
+                projectSlug: proj,
+                sessionId,
+                anonymousVisitorId: anonId,
+                trafficSource: traffic,
+                deviceCategory: device,
+                browser,
+                country: loc.country,
+                region: loc.region,
+                city: loc.city,
+                timestamp: new Date(projTime.getTime() + 45000),
+              });
+            }
+          }
+        }
+      }
+
+      await AnalyticsEvent.insertMany(eventsToSeed);
+      console.log(`[SEED] Initialized ${eventsToSeed.length} baseline analytics interaction events across 45-day telemetry.`);
     }
   } catch (err) {
     console.error('[SEED ERROR] Failed to seed initial data:', err.message);

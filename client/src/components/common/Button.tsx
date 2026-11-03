@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { analytics } from '../../utils/analytics';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'cyan' | 'champagne' | 'teal';
@@ -69,7 +70,20 @@ export const Button: React.FC<ButtonProps> = ({
 
   if (to) {
     return (
-      <Link to={to} className={classes}>
+      <Link 
+        to={to} 
+        className={classes}
+        onClick={(e) => {
+          if (props.onClick) (props.onClick as any)(e);
+          if (to.includes('start-a-project') || to.includes('start-project') || to.includes('contact')) {
+            analytics.trackCtaClick(
+              typeof children === 'string' ? children : 'Action CTA',
+              to,
+              typeof window !== 'undefined' ? window.location.pathname : ''
+            );
+          }
+        }}
+      >
         {content}
       </Link>
     );
