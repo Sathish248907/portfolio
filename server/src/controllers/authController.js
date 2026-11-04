@@ -4,6 +4,7 @@ import { AdminSession } from '../models/AdminSession.js';
 import { loginSchema } from '../validators/authValidator.js';
 import { config } from '../config/env.js';
 import { recordAuditLog, hasPermission } from '../services/rbacService.js';
+import { automationService } from '../services/automationService.js';
 
 export const authController = {
   /**
@@ -73,6 +74,11 @@ export const authController = {
         if (user.failedLoginAttempts >= 5) {
           // Lock for 15 minutes
           user.lockUntil = new Date(Date.now() + 15 * 60 * 1000);
+          await automationService.emitEvent('USER_LOCKED', {
+            user,
+            ipAddress: clientIp,
+            attempts: user.failedLoginAttempts,
+          });
         }
         await user.save();
 

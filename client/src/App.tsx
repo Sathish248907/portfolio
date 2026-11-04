@@ -35,6 +35,9 @@ const AdminRolesPage = lazy(() => import('./pages/admin/AdminRolesPage').then((m
 const AdminAuditLogsPage = lazy(() => import('./pages/admin/AdminAuditLogsPage').then((m) => ({ default: m.AdminAuditLogsPage })));
 const AdminProfilePage = lazy(() => import('./pages/admin/AdminProfilePage').then((m) => ({ default: m.AdminProfilePage })));
 const AdminAcceptInvitePage = lazy(() => import('./pages/admin/AdminAcceptInvitePage').then((m) => ({ default: m.AdminAcceptInvitePage })));
+const AdminNotificationsPage = lazy(() => import('./pages/admin/AdminNotificationsPage').then((m) => ({ default: m.AdminNotificationsPage })));
+const AdminRemindersPage = lazy(() => import('./pages/admin/AdminRemindersPage').then((m) => ({ default: m.AdminRemindersPage })));
+const AdminNotificationSettingsPage = lazy(() => import('./pages/admin/AdminNotificationSettingsPage').then((m) => ({ default: m.AdminNotificationSettingsPage })));
 import { PermissionGuard } from './components/common/PermissionGuard';
 
 // Lightweight accessibility-compliant page loading fallback (avoids layout shift)
@@ -90,6 +93,9 @@ export const App: React.FC = () => {
         {/* Protected Admin Portal */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboardPage />} />
+          <Route path="notifications" element={<AdminNotificationsPage />} />
+          <Route path="reminders" element={<AdminRemindersPage />} />
+          <Route path="notification-settings" element={<AdminNotificationSettingsPage />} />
           <Route path="users" element={<PermissionGuard module="users" isPage><AdminUsersPage /></PermissionGuard>} />
           <Route path="roles-permissions" element={<PermissionGuard module="roles" isPage><AdminRolesPage /></PermissionGuard>} />
           <Route path="audit-logs" element={<PermissionGuard module="audit_logs" isPage><AdminAuditLogsPage /></PermissionGuard>} />

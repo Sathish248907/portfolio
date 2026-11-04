@@ -11,6 +11,10 @@ import { CMSActivityLog } from '../models/CMSActivityLog.js';
 import { Role } from '../models/Role.js';
 import { AdminInvitation } from '../models/AdminInvitation.js';
 import { AuditLog } from '../models/AuditLog.js';
+import { Notification } from '../models/Notification.js';
+import { EmailLog } from '../models/EmailLog.js';
+import { Reminder } from '../models/Reminder.js';
+import { emailTemplateService } from './emailTemplateService.js';
 import { ROLE_DEFINITIONS } from './rbacService.js';
 import { config } from '../config/env.js';
 
@@ -1310,6 +1314,171 @@ export async function seedInitialData() {
       ];
       await AuditLog.insertMany(initialLogs);
       console.log(`[SEED] Initialized ${initialLogs.length} baseline audit activity records.`);
+    }
+
+    // 12. Seed Email Templates (Phase 11)
+    const seededTemplatesCount = await emailTemplateService.ensureDefaultTemplates();
+    if (seededTemplatesCount > 0) {
+      console.log(`[SEED] Initialized ${seededTemplatesCount} default email templates.`);
+    }
+
+    // 13. Seed In-App Notifications (Phase 11)
+    const notificationCount = await Notification.countDocuments();
+    if (notificationCount === 0) {
+      const initialNotifications = [
+        {
+          recipientRole: 'all',
+          title: 'Welcome to Peace Haven Portal',
+          message: 'Centralized Administrative Communication, Inquiries & Lead Management platform is online.',
+          category: 'system',
+          type: 'info',
+          actionUrl: '/admin',
+          isRead: false,
+          createdAt: new Date(Date.now() - 3 * 3600 * 1000),
+        },
+        {
+          recipientRole: 'sales_manager',
+          title: 'New Enterprise Lead: Vanguard Global Financials',
+          message: 'Web Development & FinTech inquiry submitted with budget tier $250,000+. Reference: PH-VANGUARD-01',
+          category: 'inquiry',
+          type: 'info',
+          relatedResourceId: 'PH-VANGUARD-01',
+          relatedResourceType: 'inquiry',
+          actionUrl: '/admin/inquiries',
+          isRead: false,
+          createdAt: new Date(Date.now() - 2 * 3600 * 1000),
+        },
+        {
+          recipientRole: 'content_manager',
+          title: 'CMS Page Published: Healthcare Solutions',
+          message: 'David Okafor updated and published clinical diagnostics case studies.',
+          category: 'cms',
+          type: 'success',
+          relatedResourceId: 'healthcare',
+          relatedResourceType: 'page',
+          actionUrl: '/admin/cms',
+          isRead: true,
+          readAt: new Date(Date.now() - 30 * 60 * 1000),
+          createdAt: new Date(Date.now() - 1 * 3600 * 1000),
+        },
+        {
+          recipientRole: 'superadmin',
+          title: 'Security Notice: New Device Sign-In',
+          message: 'Administrative session authenticated from verified corporate IP address.',
+          category: 'security',
+          type: 'warning',
+          actionUrl: '/admin/audit-logs',
+          isRead: false,
+          createdAt: new Date(Date.now() - 15 * 60 * 1000),
+        },
+      ];
+      await Notification.insertMany(initialNotifications);
+      console.log(`[SEED] Initialized ${initialNotifications.length} baseline notifications.`);
+    }
+
+    // 14. Seed Inquiry Follow-Up Reminders (Phase 11)
+    const reminderCount = await Reminder.countDocuments();
+    if (reminderCount === 0) {
+      const superAdmin = await AdminUser.findOne({ role: 'superadmin' });
+      if (superAdmin) {
+        const initialReminders = [
+          {
+            title: 'Client Scoping Review with Apex Robotics',
+            description: 'Discuss ROS 2 hardware drivers and multi-robot navigation specifications.',
+            inquiryReference: 'PH-MW1O45EI-3345',
+            clientName: 'Marcus Vance',
+            assignedTo: superAdmin._id,
+            assignedToName: superAdmin.name,
+            assignedToEmail: superAdmin.email,
+            createdBy: superAdmin._id,
+            createdByName: superAdmin.name,
+            dueAt: new Date(Date.now() + 4 * 3600 * 1000), // Today
+            status: 'pending',
+            priority: 'high',
+          },
+          {
+            title: 'Send Enterprise SLA Proposal to Vanguard Financial',
+            description: 'Deliver double-entry ledger security audit and latency benchmarks.',
+            inquiryReference: 'PH-VANGUARD-01',
+            clientName: 'Elena Rostova',
+            assignedTo: superAdmin._id,
+            assignedToName: superAdmin.name,
+            assignedToEmail: superAdmin.email,
+            createdBy: superAdmin._id,
+            createdByName: superAdmin.name,
+            dueAt: new Date(Date.now() + 48 * 3600 * 1000), // Upcoming
+            status: 'pending',
+            priority: 'urgent',
+          },
+          {
+            title: 'Overdue Briefing: Clinic Telemedicine Security Review',
+            description: 'Verify HIPAA compliance checklist with external clinical auditors.',
+            inquiryReference: 'PH-CLINIC-99',
+            clientName: 'Dr. Aris Thorne',
+            assignedTo: superAdmin._id,
+            assignedToName: superAdmin.name,
+            assignedToEmail: superAdmin.email,
+            createdBy: superAdmin._id,
+            createdByName: superAdmin.name,
+            dueAt: new Date(Date.now() - 24 * 3600 * 1000), // Overdue
+            status: 'pending',
+            priority: 'medium',
+          },
+        ];
+        await Reminder.insertMany(initialReminders);
+        console.log(`[SEED] Initialized ${initialReminders.length} sample follow-up reminders.`);
+      }
+    }
+
+    // 15. Seed Baseline Email Logs (Phase 11)
+    const emailLogCount = await EmailLog.countDocuments();
+    if (emailLogCount === 0) {
+      const initialEmailLogs = [
+        {
+          recipient: 'mvance@apexrobotics.io',
+          recipientName: 'Marcus Vance',
+          subject: '[Peace Haven] Inquiry Received: Ref PH-MW1O45EI-3345',
+          templateId: 'client_inquiry_confirmation',
+          templateName: 'Client Inquiry Confirmation',
+          category: 'inquiry_client',
+          relatedResourceId: 'PH-MW1O45EI-3345',
+          status: 'sent',
+          providerMessageId: 'simulated-msg-001',
+          attemptCount: 1,
+          sentAt: new Date(Date.now() - 4 * 3600 * 1000),
+          idempotencyKey: 'seed_email_001',
+        },
+        {
+          recipient: 'inquiries@peacehaven.tech',
+          recipientName: 'Peace Haven Lead Triage Team',
+          subject: '[NEW LEAD] Robotics & Automation - Apex Robotics Systems (PH-MW1O45EI-3345)',
+          templateId: 'new_inquiry_admin_alert',
+          templateName: 'New Inquiry Admin Alert',
+          category: 'inquiry_admin',
+          relatedResourceId: 'PH-MW1O45EI-3345',
+          status: 'sent',
+          providerMessageId: 'simulated-msg-002',
+          attemptCount: 1,
+          sentAt: new Date(Date.now() - 4 * 3600 * 1000),
+          idempotencyKey: 'seed_email_002',
+        },
+        {
+          recipient: 'invalid-lead@example.corp',
+          recipientName: 'Unverified Lead',
+          subject: '[Peace Haven] Inquiry Received: Ref PH-INVALID-09',
+          templateId: 'client_inquiry_confirmation',
+          templateName: 'Client Inquiry Confirmation',
+          category: 'inquiry_client',
+          relatedResourceId: 'PH-INVALID-09',
+          status: 'failed',
+          failureReason: '550 5.1.1 User unknown / Host unreachable',
+          attemptCount: 2,
+          lastAttemptAt: new Date(Date.now() - 2 * 3600 * 1000),
+          idempotencyKey: 'seed_email_003',
+        },
+      ];
+      await EmailLog.insertMany(initialEmailLogs);
+      console.log(`[SEED] Initialized ${initialEmailLogs.length} baseline email delivery records.`);
     }
   } catch (err) {
     console.error('[SEED ERROR] Failed to seed initial data:', err.message);

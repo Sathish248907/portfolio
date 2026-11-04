@@ -1,5 +1,5 @@
 import { Inquiry } from '../models/Inquiry.js';
-import { emailService } from './emailService.js';
+import { automationService } from './automationService.js';
 
 export const inquiryService = {
   /**
@@ -43,13 +43,8 @@ export const inquiryService = {
     // 1. Persist in MongoDB FIRST
     await newInquiry.save();
 
-    // 2. Dispatches notifications safely
-    await Promise.all([
-      emailService.sendClientInquiryConfirmation(newInquiry),
-      emailService.notifyTeamOfInquiry(newInquiry),
-    ]).catch((err) => {
-      console.warn('[EMAIL WARNING] Failed to deliver notification email:', err.message);
-    });
+    // 2. Dispatches notifications & emails via centralized automation engine
+    await automationService.emitEvent('INQUIRY_CREATED', { inquiry: newInquiry });
 
     return newInquiry;
   },
@@ -168,7 +163,8 @@ export const inquiryService = {
   /**
    * Update lead pipeline status and internal notes
    */
-  async updateInquiryStatus(id, { status, notes, assignedTo }, user) {
+  async updateInquiryStatus(id, updateData = {}, user) {
+    const { status, notes, assignedTo, notifyClient } = updateData;
     const inquiry = await this.getInquiryById(id);
     if (!inquiry) return null;
 
@@ -188,6 +184,27 @@ export const inquiryService = {
     });
 
     await inquiry.save();
+
+    // Trigger automation event
+    if (status && status !== prevStatus) {
+      await automationService.emitEvent('INQUIRY_STATUS_CHANGED', {
+        inquiry,
+        prevStatus,
+        newStatus: status,
+        user,
+        notifyClient: updateData?.notifyClient,
+        clientNotes: notes,
+      });
+    }
+
+    if (assignedTo && (!inquiry.assignedTo || inquiry.assignedTo.toString() !== assignedTo.toString())) {
+      await automationService.emitEvent('INQUIRY_ASSIGNED', {
+        inquiry,
+        assignee: assignedTo,
+        assignedBy: user,
+      });
+    }
+
     return inquiry;
   },
 

@@ -14,12 +14,16 @@ import {
   Users,
   Shield,
   ScrollText,
-  User
+  User,
+  Bell,
+  Calendar,
+  SlidersHorizontal,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { cn } from '../../lib/utils';
 import { Button } from '../common/Button';
 import { checkUserPermission } from '../common/PermissionGuard';
+import { NotificationDropdown } from '../common/NotificationDropdown';
 
 export const AdminLayout: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -48,6 +52,8 @@ export const AdminLayout: React.FC = () => {
 
   const navItems = [
     { label: 'Overview', path: '/admin', icon: LayoutDashboard, module: 'dashboard' },
+    { label: 'Notifications', path: '/admin/notifications', icon: Bell, module: 'notifications' },
+    { label: 'Reminders', path: '/admin/reminders', icon: Calendar, module: 'reminders' },
     { label: 'Users & Staff', path: '/admin/users', icon: Users, module: 'users' },
     { label: 'Roles & Perms', path: '/admin/roles-permissions', icon: Shield, module: 'roles' },
     { label: 'Inquiries & Leads', path: '/admin/inquiries', icon: Inbox, module: 'inquiries' },
@@ -55,6 +61,7 @@ export const AdminLayout: React.FC = () => {
     { label: 'Projects & Lab', path: '/admin/projects', icon: Briefcase, module: 'portfolio' },
     { label: 'Analytics & Funnel', path: '/admin/analytics', icon: BarChart3, module: 'analytics' },
     { label: 'System Audit Logs', path: '/admin/audit-logs', icon: ScrollText, module: 'audit_logs' },
+    { label: 'Alert Settings', path: '/admin/notification-settings', icon: SlidersHorizontal, module: 'notifications' },
     { label: 'My Profile', path: '/admin/profile', icon: User, module: 'profile' },
     { label: 'System Settings', path: '/admin/settings', icon: Settings, module: 'settings' },
   ];
@@ -150,6 +157,8 @@ export const AdminLayout: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-4">
+            <NotificationDropdown />
+            <div className="h-4 w-px bg-slate-800" />
             <span className="text-xs text-slate-400 font-mono">
               Role: <span className="text-champagne-300 capitalize font-semibold">{user?.role?.replace(/_/g, ' ') || 'Superadmin'}</span>
             </span>

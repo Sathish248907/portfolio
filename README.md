@@ -40,7 +40,7 @@ Comprehensive architecture, API, and database schema documentation is maintained
   - Bcrypt password hashing (10 salt rounds).
   - Append-only immutable audit logging capturing all administrative mutations and security events.
   - Protection of the last remaining active Super Admin against deletion or deactivation.
-- **Transactional Notifications**: Nodemailer email dispatch for client inquiry confirmations, team alerts, and time-limited administrative invitations with safe failure resilience.
+- **Transactional Notifications & Email Automation**: Event-driven notification engine (`automationService`), 10 Peace Haven branded HTML templates, in-app real-time notification dropdown (`NotificationDropdown.tsx`) with 25-second polling, idempotent dispatches, delivery logs with retry capabilities, and CRM lead follow-up reminders.
 
 ---
 
@@ -102,14 +102,14 @@ Comprehensive architecture, API, and database schema documentation is maintained
 Run the automated test suites using Vitest:
 
 ```powershell
-# Run all 107 frontend unit & integration tests
+# Run all 117 frontend unit & integration tests across 19 test suites
 npm --prefix client run test
 
-# Run all 48 backend integration & RBAC tests
+# Run all 66 backend integration & RBAC tests across 3 test suites
 npm --prefix server run test
 ```
 
-Total: **155 passing tests across client and server (100% pass rate)**.
+Total: **183 passing tests across client and server (100% pass rate)**.
 
 ---
 
@@ -119,10 +119,10 @@ Navigate to [http://localhost:5155/admin/login](http://localhost:5155/admin/logi
 
 | Email | Password | Role | Governed Scope |
 | :--- | :--- | :--- | :--- |
-| `admin@peacehaven.tech` | `PeaceHavenAdmin2026!` | `superadmin` | Complete root control across all 15 modules |
-| `david.okafor@peacehaven.tech` | `PeaceHavenAdmin2026!` | `admin` | Operations, users, leads, CMS & analytics |
+| `admin@peacehaven.tech` | `PeaceHavenAdmin2026!` | `superadmin` | Complete root control across all 16 modules |
+| `david.okafor@peacehaven.tech` | `PeaceHavenAdmin2026!` | `admin` | Operations, users, leads, CMS, analytics & alerts |
 | `marcus.chen@peacehaven.tech` | `PeaceHavenAdmin2026!` | `content_manager` | CMS pages, articles, media library & navigation |
-| `elena.rostova@peacehaven.tech` | `PeaceHavenAdmin2026!` | `sales_manager` | Inquiries, lead qualification, triage dossiers & notes |
+| `elena.rostova@peacehaven.tech` | `PeaceHavenAdmin2026!` | `sales_manager` | Inquiries, lead qualification, triage dossiers & reminders |
 | `sarah.jenkins@peacehaven.tech`| `PeaceHavenAdmin2026!` | `viewer` | Read-only access across approved administrative views |
 
 ### Lead Pipeline Workflow:

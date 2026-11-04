@@ -4,6 +4,7 @@ import { contactApi } from './contactApi';
 import { analyticsApi } from './analyticsApi';
 import { cmsApi } from './cmsApi';
 import { adminApi } from './adminApi';
+import { notificationsApi } from './notificationsApi';
 import { servicesData } from '../../data/servicesData';
 import { projectsData } from '../../data/projectsData';
 import { request } from './httpClient';
@@ -14,6 +15,7 @@ export { contactApi } from './contactApi';
 export { analyticsApi } from './analyticsApi';
 export { cmsApi } from './cmsApi';
 export { adminApi } from './adminApi';
+export { notificationsApi } from './notificationsApi';
 export * from './httpClient';
 
 /**
@@ -126,6 +128,27 @@ export const api = {
   getAdminSessions: adminApi.getAdminSessions.bind(adminApi),
   revokeAdminSession: adminApi.revokeAdminSession.bind(adminApi),
   revokeAllOtherAdminSessions: adminApi.revokeAllOtherAdminSessions.bind(adminApi),
+
+  // Notifications & Communications (Phase 11)
+  getNotifications: notificationsApi.getNotifications.bind(notificationsApi),
+  getUnreadCount: notificationsApi.getUnreadCount.bind(notificationsApi),
+  markNotificationAsRead: notificationsApi.markAsRead.bind(notificationsApi),
+  markAllNotificationsAsRead: notificationsApi.markAllAsRead.bind(notificationsApi),
+  archiveNotification: notificationsApi.archiveNotification.bind(notificationsApi),
+  getNotificationPreferences: notificationsApi.getPreferences.bind(notificationsApi),
+  updateNotificationPreferences: notificationsApi.updatePreferences.bind(notificationsApi),
+  getEmailLogs: notificationsApi.getEmailLogs.bind(notificationsApi),
+  retryEmail: notificationsApi.retryEmail.bind(notificationsApi),
+  getEmailTemplates: notificationsApi.getTemplates.bind(notificationsApi),
+  getEmailTemplate: notificationsApi.getTemplate.bind(notificationsApi),
+  updateEmailTemplate: notificationsApi.updateTemplate.bind(notificationsApi),
+  previewEmailTemplate: notificationsApi.previewTemplate.bind(notificationsApi),
+  sendTestEmail: notificationsApi.sendTestEmail.bind(notificationsApi),
+  getReminders: notificationsApi.getReminders.bind(notificationsApi),
+  createReminder: notificationsApi.createReminder.bind(notificationsApi),
+  completeReminder: notificationsApi.completeReminder.bind(notificationsApi),
+  updateReminder: notificationsApi.updateReminder.bind(notificationsApi),
+  deleteReminder: notificationsApi.deleteReminder.bind(notificationsApi),
 };
 
 export default api;

@@ -10,6 +10,7 @@ The software platform consists of:
 3. **Enterprise RBAC & Security Layer**: Role-Based Access Control matrix supporting 7 system roles, 15 permission modules, append-only immutable audit logging, and account lockout protection.
 4. **Telemetry & Conversion Engine**: Anonymous visitor tracking, event deduplication, and an 8-stage commercial conversion funnel connected directly to lead management.
 5. **Content Management System (CMS)**: Versioned content engine with automated snapshot generation, rollback capabilities, media library, and dynamic navigation.
+6. **Notification, Email Automation & Communication Engine**: Centralized event broker (`automationService`), transactional email dispatcher with Peace Haven branded templates (`emailService`, `emailTemplateService`), in-app notification dropdown with real-time polling, reminder scheduling, and user notification preference matrix.
 
 ```mermaid
 graph TD
@@ -85,6 +86,9 @@ client/src/
   - `/admin/inquiries` — Project lead pipeline & qualification triage
   - `/admin/analytics` — Business intelligence & funnel analytics
   - `/admin/cms` — Dynamic page, media, and navigation management
+  - `/admin/notifications` — Centralized notifications dashboard & email delivery log
+  - `/admin/reminders` — Scheduled lead follow-up & inquiry reminders
+  - `/admin/notification-settings` — Admin personal notification preferences & frequency matrix
 
 ---
 
@@ -122,7 +126,7 @@ The system provides 7 predefined roles with configurable permissions:
 6. **Sales Manager (`sales_manager`)**: Lead qualification, inquiry triage, client dossiers, and notes.
 7. **Viewer (`viewer`)**: Read-only oversight across authorized modules.
 
-### 4.2 15 Governed Permission Modules
+### 4.2 16 Governed Permission Modules
 Each module supports granular actions (`read`, `create`, `update`, `delete`, `publish`, `export`):
 1. `dashboard` — High-level metric visibility
 2. `users` — Administrator user provisioning & status management
@@ -137,8 +141,9 @@ Each module supports granular actions (`read`, `create`, `update`, `delete`, `pu
 11. `seo` — Metadata, OpenGraph, and sitemap configuration
 12. `analytics` — Telemetry & conversion funnel metrics
 13. `inquiries` — Project lead pipeline & client dossiers
-14. `audit_logs` — Immutable audit log review & export
-15. `settings` — System-wide security and environment parameters
+14. `notifications` — Alerts, email logs, reminder scheduling & template preview
+15. `audit_logs` — Immutable audit log review & export
+16. `settings` — System-wide security and environment parameters
 
 ### 4.3 Brute-Force & Account Lockout Defense
 - **Max Failed Attempts**: 5 consecutive incorrect passwords.
@@ -163,4 +168,69 @@ auditLogSchema.pre('findOneAndDelete', function () {
 To guarantee uninterrupted operation across local development, testing, and production:
 - In production, the system connects directly to `MONGODB_URI`.
 - In offline or local zero-dependency development environments, `server/src/config/db.js` automatically spawns an embedded `MongoMemoryServer` instance if external MongoDB is unreachable, ensuring 100% developer and test uptime.
+
+---
+
+## 6. Notifications, Email Automation & Communication Engine (Phase 11)
+
+### 6.1 Architectural Overview
+The Phase 11 communication engine unifies in-app administrative notifications, automated transactional emails, and CRM lead follow-up reminders into an event-driven subsystem.
+
+```mermaid
+graph TD
+    Trigger[Domain Event: Inquiry / User / CMS / Security] --> AutoService[automationService.js Event Broker]
+    
+    AutoService -->|Dispatch In-App| NotifService[notificationService.js]
+    AutoService -->|Dispatch Transactional Email| EmailService[emailService.js]
+    
+    NotifService -->|Check User Preferences| NotifPrefStore[(NotificationPreference)]
+    NotifService -->|Persist Notification| NotifStore[(Notification)]
+    NotifStore -->|Poll Every 25s| DropdownUI[NotificationDropdown.tsx & AdminNotificationsPage]
+    
+    EmailService -->|Check Preferences & Security Rule| NotifPrefStore
+    EmailService -->|Render Layout with Brand Tokens| TemplateEngine[emailTemplateService.js]
+    TemplateEngine -->|Compile with Placeholders| EmailTemplateStore[(EmailTemplate)]
+    EmailService -->|Idempotency Deduplication Key| EmailLogStore[(EmailLog)]
+    EmailService -->|Dispatch SMTP / Test Simulation| Nodemailer[Nodemailer Transport]
+    
+    CRM[Inquiry Management / Sales Team] --> ReminderService[reminderService.js]
+    ReminderService --> ReminderStore[(Reminder)]
+    ReminderService -->|Due Check Cron / Dispatch| AutoService
+```
+
+### 6.2 In-App Notification System
+- **Real-Time Polling & Dropdown**: `NotificationDropdown.tsx` mounted in the `AdminLayout` header polls every 25 seconds for unread notifications, rendering unread badges and grouped alert cards.
+- **Dedicated Dashboard (`/admin/notifications`)**: Supports tabbed views for active In-App Alerts, Email Delivery Logs, and Email Template testing. Admins can filter by category, mark alerts as read, mark all read, or archive alerts.
+- **Standard Notification Categories**:
+  - `inquiry` — New leads, triage status modifications, notes.
+  - `cms` — Content revisions, draft publications, asset updates.
+  - `user_management` — Invitations, role modifications, staff onboarding.
+  - `reminder` — Due and overdue lead follow-ups.
+  - `security` — Failed login spikes, account lockouts, privilege mutations.
+  - `system` — Database health, worker status, backup alerts.
+
+### 6.3 Automated Email System & Branded HTML Templates
+- **Brand Palette**: Deep Charcoal Navy (`#17232B`), Muted Teal (`#344B50`), Sage Grey (`#A8B5AE`), Warm Off-White (`#E8E5DC`), and Muted Champagne (`#C4A77D`).
+- **10 Core Seeded Templates**:
+  1. `client_inquiry_confirmation` — Auto-reply to clients with tracking reference.
+  2. `new_inquiry_admin_alert` — Urgent briefing to sales and operations team.
+  3. `inquiry_status_update` — Client alert upon stage transitions.
+  4. `admin_invitation` — Single-use cryptographic onboarding link.
+  5. `password_reset` — Time-limited credential reset token.
+  6. `email_verification` — Account security confirmation token.
+  7. `account_activation` — Welcome dossier upon invitation acceptance.
+  8. `cms_approval_request` — Publication review notice for managers.
+  9. `content_published` — Public release notification with live preview link.
+  10. `security_alert` — Immediate alert on account lockout or unauthorized attempt.
+- **Fail-Safe Delivery & Zero-Crash Simulation**: If SMTP credentials are not configured (local development or tests), the system logs formatted dispatches to console without throwing, and stores full records in `EmailLog`.
+- **Idempotency & Retries**: Every outgoing dispatch requires an `idempotencyKey` preventing duplicate emails. Failed dispatches can be manually retried via `/api/v1/admin/emails/:id/retry`.
+
+### 6.4 Notification Preferences Matrix (`/admin/notification-settings`)
+- Staff can customize notification delivery channels per category (`inApp: boolean`, `email: boolean`).
+- **Mandatory Security Rule**: Security alerts cannot be disabled (`{ inApp: true, email: true }` enforced server-side and UI-locked).
+- **Delivery Frequency**: Supports immediate dispatch or aggregated daily digests.
+
+### 6.5 Scheduled Inquiry Follow-Up Reminders (`/admin/reminders`)
+- Integrated CRM tool allowing sales staff to link tasks directly to inquiries by tracking reference.
+- Priority levels (`low`, `medium`, `high`, `urgent`), due dates, assignee assignment, and automatic status transitions (`completed`, `overdue`).
 

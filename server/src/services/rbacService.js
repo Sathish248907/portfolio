@@ -77,6 +77,11 @@ export const PERMISSION_MODULES = [
     label: 'System Settings',
     actions: ['view', 'edit'],
   },
+  {
+    id: 'notifications',
+    label: 'Notifications & Communication',
+    actions: ['view', 'manage', 'send', 'export'],
+  },
 ];
 
 export const ALL_PERMISSIONS = PERMISSION_MODULES.flatMap((mod) =>
@@ -125,9 +130,14 @@ export const DEFAULT_ROLE_PERMISSIONS = {
     'inquiries:export',
     'audit_logs:view',
     'settings:view',
+    'notifications:view',
+    'notifications:manage',
+    'notifications:send',
+    'notifications:export',
   ],
   content_manager: [
     'dashboard:view',
+    'notifications:view',
     'cms:view',
     'cms:create',
     'cms:edit',
@@ -157,6 +167,7 @@ export const DEFAULT_ROLE_PERMISSIONS = {
   ],
   editor: [
     'dashboard:view',
+    'notifications:view',
     'cms:view',
     'cms:create',
     'cms:edit',
@@ -175,6 +186,7 @@ export const DEFAULT_ROLE_PERMISSIONS = {
   ],
   marketing_manager: [
     'dashboard:view',
+    'notifications:view',
     'analytics:view',
     'analytics:export',
     'seo:view',
@@ -189,6 +201,8 @@ export const DEFAULT_ROLE_PERMISSIONS = {
   ],
   sales_manager: [
     'dashboard:view',
+    'notifications:view',
+    'notifications:manage',
     'inquiries:view',
     'inquiries:assign',
     'inquiries:edit',
@@ -198,6 +212,7 @@ export const DEFAULT_ROLE_PERMISSIONS = {
   ],
   viewer: [
     'dashboard:view',
+    'notifications:view',
     'cms:view',
     'services:view',
     'industries:view',

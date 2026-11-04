@@ -378,3 +378,121 @@ export interface IndustryDetail {
     outcome: string;
   }[];
 }
+
+// ==========================================
+// PHASE 11: NOTIFICATIONS, EMAILS & REMINDERS
+// ==========================================
+
+export type NotificationCategory =
+  | 'inquiry'
+  | 'cms'
+  | 'user_management'
+  | 'reminder'
+  | 'security'
+  | 'system';
+
+export type NotificationType = 'info' | 'success' | 'warning' | 'error' | 'urgent';
+
+export interface InAppNotification {
+  _id: string;
+  id?: string;
+  recipientId?: string | null;
+  recipientRole?: string;
+  title: string;
+  message: string;
+  category: NotificationCategory;
+  type: NotificationType;
+  relatedResourceId?: string | null;
+  relatedResourceType?: string;
+  actionUrl?: string | null;
+  isRead: boolean;
+  readAt?: string | null;
+  isArchived?: boolean;
+  createdAt: string;
+}
+
+export type EmailDeliveryStatus = 'pending' | 'processing' | 'sent' | 'failed' | 'retrying';
+
+export interface EmailLogEntry {
+  _id: string;
+  id?: string;
+  recipient: string;
+  recipientName?: string;
+  subject: string;
+  templateId?: string;
+  templateName?: string;
+  category: string;
+  relatedResourceId?: string;
+  status: EmailDeliveryStatus;
+  providerMessageId?: string;
+  attemptCount: number;
+  lastAttemptAt: string;
+  sentAt?: string | null;
+  failureReason?: string | null;
+  idempotencyKey?: string;
+  createdAt: string;
+}
+
+export interface EmailTemplateItem {
+  _id: string;
+  id?: string;
+  slug: string;
+  name: string;
+  category: string;
+  subject: string;
+  htmlContent: string;
+  textContent: string;
+  variables: string[];
+  description?: string;
+  isActive: boolean;
+  isSystem: boolean;
+  updatedAt?: string;
+}
+
+export interface NotificationPreferenceCategory {
+  inApp: boolean;
+  email: boolean;
+}
+
+export interface NotificationPreferences {
+  _id?: string;
+  userId?: string;
+  categories: {
+    inquiry: NotificationPreferenceCategory;
+    assignment: NotificationPreferenceCategory;
+    statusUpdate: NotificationPreferenceCategory;
+    cms: NotificationPreferenceCategory;
+    userManagement: NotificationPreferenceCategory;
+    reminder: NotificationPreferenceCategory;
+    security: NotificationPreferenceCategory;
+  };
+  frequency: 'immediate' | 'daily_digest';
+  updatedAt?: string;
+}
+
+export type ReminderStatus = 'pending' | 'completed' | 'cancelled';
+export type ReminderPriority = 'low' | 'medium' | 'high' | 'urgent';
+
+export interface ReminderItem {
+  _id: string;
+  id?: string;
+  inquiryId?: string;
+  inquiryReference?: string;
+  clientName?: string;
+  assignedTo: string;
+  assignedToName?: string;
+  assignedToEmail?: string;
+  createdBy: string;
+  createdByName?: string;
+  title: string;
+  description?: string;
+  dueAt: string;
+  status: ReminderStatus;
+  priority: ReminderPriority;
+  completedAt?: string | null;
+  completedBy?: string | null;
+  notificationSent?: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+

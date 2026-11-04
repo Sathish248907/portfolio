@@ -6,6 +6,7 @@ import { AdminInvitation } from '../models/AdminInvitation.js';
 import { AuditLog } from '../models/AuditLog.js';
 import { AdminSession } from '../models/AdminSession.js';
 import { emailService } from '../services/emailService.js';
+import { automationService } from '../services/automationService.js';
 import {
   PERMISSION_MODULES,
   DEFAULT_ROLE_PERMISSIONS,
@@ -658,13 +659,14 @@ export const adminManagementController = {
         });
       }
 
-      // Dispatch invitation email
-      await emailService.sendAdminInvitation({
+      // Dispatch invitation email & in-app alert via automation engine
+      await automationService.emitEvent('ADMIN_INVITED', {
         email: invitation.email,
         name: invitation.name,
         role: invitation.role,
         token,
         expiresAt,
+        invitedByName: req.user.name,
       });
 
       await recordAuditLog({
@@ -772,6 +774,12 @@ export const adminManagementController = {
       invitation.status = 'accepted';
       invitation.acceptedAt = new Date();
       await invitation.save();
+
+      // Trigger automation event
+      await automationService.emitEvent('INVITATION_ACCEPTED', {
+        user,
+        invitation,
+      });
 
       await recordAuditLog({
         actor: user,

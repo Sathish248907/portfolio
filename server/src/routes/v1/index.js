@@ -8,6 +8,7 @@ import analyticsRoutes from './analyticsRoutes.js';
 import cmsRoutes from './cmsRoutes.js';
 import insightRoutes from './insightRoutes.js';
 import adminManagementRoutes from './adminManagementRoutes.js';
+import notificationRoutes from './notificationRoutes.js';
 
 const router = Router();
 
@@ -27,6 +28,7 @@ router.use('/admin/cms', cmsRoutes);
 router.use('/admin/inquiries', inquiryRoutes);
 router.use('/admin/projects', projectRoutes);
 router.use('/admin', adminManagementRoutes);
+router.use('/admin', notificationRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

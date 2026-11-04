@@ -320,3 +320,163 @@ Tokens are valid for 24 hours. Requests lacking a token return `401 Unauthorized
 - **Access**: Public
 - **Query Parameters**: `category`, `search`, `tag`, `page`, `limit`
 
+---
+
+## 7. Notifications, Email Automation & Reminders (`/api/v1/admin`)
+
+All notification endpoints require authentication via JWT Bearer token.
+
+### 7.1 In-App Notifications
+
+#### List Notifications
+- **Method**: `GET`
+- **Path**: `/api/v1/admin/notifications`
+- **Query Parameters**: `category`, `isRead` (`true`/`false`), `page`, `limit`
+- **Response `200 OK`**:
+  ```json
+  {
+    "success": true,
+    "notifications": [
+      {
+        "id": "67253a10e3012a048a12dc01",
+        "title": "New High-Priority Inquiry Received",
+        "message": "Apex Robotics Systems submitted a scoping inquiry (Ref: PH-MW1PJNI3-7336).",
+        "category": "inquiry",
+        "type": "urgent",
+        "isRead": false,
+        "link": "/admin/inquiries?ref=PH-MW1PJNI3-7336",
+        "createdAt": "2026-11-04T05:00:00.000Z"
+      }
+    ],
+    "total": 1,
+    "unreadCount": 1
+  }
+  ```
+
+#### Get Unread Count
+- **Method**: `GET`
+- **Path**: `/api/v1/admin/notifications/unread-count`
+- **Response `200 OK`**: `{ "success": true, "unreadCount": 3 }`
+
+#### Mark Notification as Read
+- **Method**: `PATCH`
+- **Path**: `/api/v1/admin/notifications/:id/read`
+- **Response `200 OK`**: `{ "success": true, "notification": { "id": "...", "isRead": true } }`
+
+#### Mark All Notifications Read
+- **Method**: `POST`
+- **Path**: `/api/v1/admin/notifications/read-all`
+- **Response `200 OK`**: `{ "success": true, "modifiedCount": 4 }`
+
+#### Archive Notification
+- **Method**: `DELETE`
+- **Path**: `/api/v1/admin/notifications/:id`
+- **Response `200 OK`**: `{ "success": true, "message": "Notification archived" }`
+
+#### Get / Update Notification Preferences
+- **Method**: `GET` | `PUT`
+- **Path**: `/api/v1/admin/notifications/preferences`
+- **Request Body (PUT)**:
+  ```json
+  {
+    "categories": {
+      "inquiry": { "inApp": true, "email": true },
+      "cms": { "inApp": true, "email": false },
+      "security": { "inApp": true, "email": true }
+    },
+    "frequency": "immediate"
+  }
+  ```
+- **Note**: The `security` category is strictly locked to `inApp: true` and `email: true` and cannot be disabled.
+
+---
+
+### 7.2 Email Delivery Logs & Template Engine
+
+#### Get Email Delivery Logs
+- **Method**: `GET`
+- **Path**: `/api/v1/admin/emails/logs`
+- **Query Parameters**: `status` (`pending`, `processing`, `sent`, `failed`), `search`, `page`, `limit`
+- **Response `200 OK`**:
+  ```json
+  {
+    "success": true,
+    "logs": [
+      {
+        "id": "67253a10e3012a048a12dc08",
+        "to": "client@vanguard.io",
+        "subject": "[Peace Haven] Inquiry Received: Ref PH-MW1O45EI-3345",
+        "templateSlug": "client_inquiry_confirmation",
+        "status": "sent",
+        "sentAt": "2026-11-04T05:00:00.000Z"
+      }
+    ],
+    "total": 1,
+    "stats": { "total": 10, "sent": 9, "failed": 1, "pending": 0 }
+  }
+  ```
+
+#### Retry Failed Email Dispatch
+- **Method**: `POST`
+- **Path**: `/api/v1/admin/emails/logs/:id/retry`
+- **Response `200 OK`**: `{ "success": true, "message": "Email delivery retried successfully", "status": "sent" }`
+
+#### List Email Templates
+- **Method**: `GET`
+- **Path**: `/api/v1/admin/emails/templates`
+- **Response `200 OK`**: Returns all 10 standard Peace Haven templates with variable definitions and preview meta.
+
+#### Preview Template with Variables
+- **Method**: `POST`
+- **Path**: `/api/v1/admin/emails/templates/:idOrSlug/preview`
+- **Request Body**: `{ "variables": { "clientName": "Elena Rostova", "trackingReference": "PH-MW1O45EI-3345" } }`
+- **Response `200 OK`**: `{ "success": true, "subject": "...", "html": "...", "text": "..." }`
+
+#### Dispatch Test Email
+- **Method**: `POST`
+- **Path**: `/api/v1/admin/emails/test`
+- **Request Body**:
+  ```json
+  {
+    "recipientEmail": "operations@peacehaven.tech",
+    "templateSlug": "client_inquiry_confirmation",
+    "variables": { "clientName": "Test Client", "trackingReference": "PH-TEST-0001" }
+  }
+  ```
+- **Response `200 OK`**: `{ "success": true, "message": "Test email dispatched successfully", "logId": "..." }`
+
+---
+
+### 7.3 Scheduled Reminders & Follow-Ups
+
+#### List Reminders
+- **Method**: `GET`
+- **Path**: `/api/v1/admin/reminders`
+- **Query Parameters**: `status` (`pending`, `completed`, `cancelled`), `filter` (`today`, `upcoming`, `overdue`), `inquiryId`
+- **Response `200 OK`**: Returns scheduled reminder list with metrics (`today`, `upcoming`, `overdue`, `completed`).
+
+#### Schedule Reminder
+- **Method**: `POST`
+- **Path**: `/api/v1/admin/reminders`
+- **Request Body**:
+  ```json
+  {
+    "title": "Technical Scoping Call with Client",
+    "dueDate": "2026-11-05T14:00:00.000Z",
+    "priority": "high",
+    "notes": "Discuss ROS2 integration requirements.",
+    "inquiryReference": "PH-MW1PJNI3-7336"
+  }
+  ```
+
+#### Complete Reminder
+- **Method**: `PATCH`
+- **Path**: `/api/v1/admin/reminders/:id/complete`
+- **Response `200 OK`**: `{ "success": true, "message": "Reminder marked as completed" }`
+
+#### Trigger Due Reminders Check
+- **Method**: `POST`
+- **Path**: `/api/v1/admin/reminders/check-due`
+- **Response `200 OK`**: Evaluates active reminders and triggers alerts for due/overdue items.
+
+

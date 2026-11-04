@@ -150,3 +150,89 @@ Privacy-compliant, server-side deduplicated telemetry stream.
 - **`ContentRevision` (`server/src/models/ContentRevision.js`)**: Immutable point-in-time snapshots of page and blog content for instant rollback.
 - **`CMSActivityLog` (`server/src/models/CMSActivityLog.js`)**: History of publishing, updating, and asset management actions.
 
+---
+
+## 5. Notification, Email & Reminder Models (Phase 11)
+
+### 5.1 `Notification` (`server/src/models/Notification.js`)
+Stores in-app administrative notifications routed to specific users or broadcast by role.
+
+| Field | Type | Validation / Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `recipientId` | `ObjectId` | Ref: `AdminUser`, optional | Targeted user (or broadcast if null) |
+| `targetRole` | `String` | Enum: `all`, `superadmin`, `admin`, `sales_manager`, etc. | Targeted role for broadcast alerts |
+| `title` | `String` | Required, trimmed, max 200 chars | Alert title headline |
+| `message` | `String` | Required, trimmed, max 2000 chars | Alert message body |
+| `category` | `String` | Enum: `inquiry`, `cms`, `user_management`, `reminder`, `security`, `system` | Notification category |
+| `type` | `String` | Enum: `info`, `success`, `warning`, `error`, `urgent` | Visual priority tier |
+| `isRead` | `Boolean` | Default: `false` | Read receipt flag |
+| `isArchived` | `Boolean` | Default: `false` | Archive dismissal flag |
+| `link` | `String` | Trimmed | Click-through admin path |
+| `metadata` | `Mixed` | Optional | Related document IDs, IPs, references |
+| `createdAt` | `Date` | Default: `Date.now` | Dispatch timestamp |
+
+---
+
+### 5.2 `EmailLog` (`server/src/models/EmailLog.js`)
+Reliable transactional email tracking record with idempotency safeguards and retry capabilities.
+
+| Field | Type | Validation / Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `recipientEmail` | `String` | Required, lowercase, trimmed | Recipient email address |
+| `subject` | `String` | Required, trimmed | Message subject line |
+| `templateSlug` | `String` | Required, trimmed | Slug of template rendered |
+| `status` | `String` | Enum: `pending`, `processing`, `sent`, `failed`, `retrying` | Delivery status lifecycle |
+| `idempotencyKey` | `String` | Unique, sparse | Deduplication key preventing duplicate sends |
+| `errorMessage` | `String` | Optional | Error trace if delivery failed |
+| `retryCount` | `Number` | Default: `0` | Number of redelivery attempts |
+| `sentAt` | `Date` | Optional | Timestamp when delivery succeeded |
+| `createdAt` | `Date` | Default: `Date.now` | Initial enqueue timestamp |
+
+---
+
+### 5.3 `EmailTemplate` (`server/src/models/EmailTemplate.js`)
+Managed transactional email templates compiled into Peace Haven branded HTML.
+
+| Field | Type | Validation / Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `name` | `String` | Required, trimmed | Human-readable template name |
+| `slug` | `String` | Required, unique, lowercase | Template identifier slug |
+| `subject` | `String` | Required, trimmed | Default subject line with placeholders |
+| `htmlBody` | `String` | Required | Branded HTML markup with variable mustache tags |
+| `textBody` | `String` | Required | Plain-text fallback markup |
+| `variables` | `[String]` | Array of tokens | Allowed variable replacement tokens |
+| `category` | `String` | Enum: `inquiry`, `user_management`, `cms`, `security`, `general` | Template category |
+| `isSystem` | `Boolean` | Default: `true` | System-critical template guard |
+
+---
+
+### 5.4 `NotificationPreference` (`server/src/models/NotificationPreference.js`)
+Configures channel delivery preferences for each administrator.
+
+| Field | Type | Validation / Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `userId` | `ObjectId` | Required, unique, Ref: `AdminUser` | Owner administrator |
+| `categories` | `Map of { inApp, email }` | Keys: `inquiry`, `cms`, `user_management`, `reminder`, `security`, `system` | Channel enablement per category |
+| `deliveryFrequency` | `String` | Enum: `immediate`, `daily_digest` | Notification cadence |
+
+*Note: Enforces an immutable constraint ensuring `categories.security.inApp = true` and `categories.security.email = true`.*
+
+---
+
+### 5.5 `Reminder` (`server/src/models/Reminder.js`)
+Lead follow-up tasks and inquiry action items.
+
+| Field | Type | Validation / Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `title` | `String` | Required, trimmed, max 200 chars | Action item title |
+| `dueDate` | `Date` | Required | Scheduled deadline timestamp |
+| `priority` | `String` | Enum: `low`, `medium`, `high`, `urgent` | Priority tier |
+| `status` | `String` | Enum: `pending`, `completed`, `cancelled` | Task status |
+| `notes` | `String` | Optional, trimmed | Operational notes |
+| `inquiryId` | `ObjectId` | Optional, Ref: `Inquiry` | Linked lead record |
+| `inquiryReference`| `String` | Optional, trimmed | Human-readable tracking reference (e.g. `PH-MW1PJNI3-7336`) |
+| `assignedTo` | `ObjectId` | Optional, Ref: `AdminUser` | Staff member responsible |
+| `createdBy` | `ObjectId` | Required, Ref: `AdminUser` | Creator staff member |
+| `completedAt` | `Date` | Optional | Completion timestamp |
+
+

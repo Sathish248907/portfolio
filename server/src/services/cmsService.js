@@ -7,6 +7,7 @@ import { MediaAsset } from '../models/MediaAsset.js';
 import { NavigationItem } from '../models/NavigationItem.js';
 import { ContentRevision } from '../models/ContentRevision.js';
 import { CMSActivityLog } from '../models/CMSActivityLog.js';
+import { automationService } from './automationService.js';
 
 export const cmsService = {
   /**
@@ -157,6 +158,15 @@ export const cmsService = {
       details: `Status set to ${status}`,
       performedBy: user,
     });
+
+    if (status === 'published') {
+      await automationService.emitEvent('CMS_PUBLISHED', {
+        entityType: 'page',
+        title: page.title,
+        id: page.pageId,
+        user: { name: user },
+      });
+    }
 
     return page;
   },
