@@ -51,3 +51,4 @@ const AdminInvitationSchema = new mongoose.Schema(
 );
 
 export const AdminInvitation = mongoose.model('AdminInvitation', AdminInvitationSchema);
+

@@ -71,3 +71,4 @@ AuditLogSchema.pre('findOneAndDelete', function (next) {
 });
 
 export const AuditLog = mongoose.model('AuditLog', AuditLogSchema);
+

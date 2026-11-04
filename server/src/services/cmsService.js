@@ -493,3 +493,4 @@ export const cmsService = {
     return CMSActivityLog.find().sort({ timestamp: -1 }).limit(50);
   },
 };
+

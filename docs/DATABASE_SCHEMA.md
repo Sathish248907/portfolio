@@ -149,3 +149,4 @@ Privacy-compliant, server-side deduplicated telemetry stream.
 - **`NavigationItem` (`server/src/models/NavigationItem.js`)**: Menu items and footer links with ordering.
 - **`ContentRevision` (`server/src/models/ContentRevision.js`)**: Immutable point-in-time snapshots of page and blog content for instant rollback.
 - **`CMSActivityLog` (`server/src/models/CMSActivityLog.js`)**: History of publishing, updating, and asset management actions.
+

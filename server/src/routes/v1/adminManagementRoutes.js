@@ -124,3 +124,4 @@ router.delete('/profile/sessions/:sessionId', adminManagementController.revokeSe
 router.post('/profile/revoke-other-sessions', adminManagementController.revokeAllOtherSessions);
 
 export default router;
+

@@ -319,3 +319,4 @@ Tokens are valid for 24 hours. Requests lacking a token return `401 Unauthorized
 - **Path**: `/api/v1/cms/blog`
 - **Access**: Public
 - **Query Parameters**: `category`, `search`, `tag`, `page`, `limit`
+

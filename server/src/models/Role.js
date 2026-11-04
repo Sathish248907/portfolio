@@ -33,3 +33,4 @@ const RoleSchema = new mongoose.Schema(
 );
 
 export const Role = mongoose.model('Role', RoleSchema);
+

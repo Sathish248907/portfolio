@@ -178,3 +178,4 @@ export const AdminAcceptInvitePage: React.FC = () => {
     </div>
   );
 };
+

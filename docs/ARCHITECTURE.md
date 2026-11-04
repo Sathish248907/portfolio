@@ -163,3 +163,4 @@ auditLogSchema.pre('findOneAndDelete', function () {
 To guarantee uninterrupted operation across local development, testing, and production:
 - In production, the system connects directly to `MONGODB_URI`.
 - In offline or local zero-dependency development environments, `server/src/config/db.js` automatically spawns an embedded `MongoMemoryServer` instance if external MongoDB is unreachable, ensuring 100% developer and test uptime.
+
