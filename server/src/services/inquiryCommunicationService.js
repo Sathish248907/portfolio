@@ -376,3 +376,4 @@ export const inquiryCommunicationService = {
     };
   },
 };
+
