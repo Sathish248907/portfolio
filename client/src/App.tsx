@@ -30,6 +30,12 @@ const AdminInquiriesPage = lazy(() => import('./pages/admin/AdminInquiriesPage')
 const AdminProjectsPage = lazy(() => import('./pages/admin/AdminProjectsPage').then((m) => ({ default: m.AdminProjectsPage })));
 const AdminCmsPage = lazy(() => import('./pages/admin/AdminCmsPage').then((m) => ({ default: m.AdminCmsPage })));
 const AdminSettingsPage = lazy(() => import('./pages/admin/AdminSettingsPage').then((m) => ({ default: m.AdminSettingsPage })));
+const AdminUsersPage = lazy(() => import('./pages/admin/AdminUsersPage').then((m) => ({ default: m.AdminUsersPage })));
+const AdminRolesPage = lazy(() => import('./pages/admin/AdminRolesPage').then((m) => ({ default: m.AdminRolesPage })));
+const AdminAuditLogsPage = lazy(() => import('./pages/admin/AdminAuditLogsPage').then((m) => ({ default: m.AdminAuditLogsPage })));
+const AdminProfilePage = lazy(() => import('./pages/admin/AdminProfilePage').then((m) => ({ default: m.AdminProfilePage })));
+const AdminAcceptInvitePage = lazy(() => import('./pages/admin/AdminAcceptInvitePage').then((m) => ({ default: m.AdminAcceptInvitePage })));
+import { PermissionGuard } from './components/common/PermissionGuard';
 
 // Lightweight accessibility-compliant page loading fallback (avoids layout shift)
 const PageLoadingFallback: React.FC = () => (
@@ -77,18 +83,23 @@ export const App: React.FC = () => {
           <Route path="*" element={<NotFoundPage />} />
         </Route>
 
-        {/* Admin Authentication */}
+        {/* Admin Authentication & Activation */}
         <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route path="/admin/accept-invitation" element={<AdminAcceptInvitePage />} />
 
         {/* Protected Admin Portal */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboardPage />} />
-          <Route path="analytics" element={<AdminAnalyticsPage />} />
-          <Route path="inquiries" element={<AdminInquiriesPage />} />
-          <Route path="projects" element={<AdminProjectsPage />} />
-          <Route path="cms" element={<AdminCmsPage />} />
-          <Route path="content" element={<AdminProjectsPage />} />
-          <Route path="settings" element={<AdminSettingsPage />} />
+          <Route path="users" element={<PermissionGuard module="users" isPage><AdminUsersPage /></PermissionGuard>} />
+          <Route path="roles-permissions" element={<PermissionGuard module="roles" isPage><AdminRolesPage /></PermissionGuard>} />
+          <Route path="audit-logs" element={<PermissionGuard module="audit_logs" isPage><AdminAuditLogsPage /></PermissionGuard>} />
+          <Route path="profile" element={<AdminProfilePage />} />
+          <Route path="analytics" element={<PermissionGuard module="analytics" isPage><AdminAnalyticsPage /></PermissionGuard>} />
+          <Route path="inquiries" element={<PermissionGuard module="inquiries" isPage><AdminInquiriesPage /></PermissionGuard>} />
+          <Route path="projects" element={<PermissionGuard module="portfolio" isPage><AdminProjectsPage /></PermissionGuard>} />
+          <Route path="cms" element={<PermissionGuard module="cms" isPage><AdminCmsPage /></PermissionGuard>} />
+          <Route path="content" element={<PermissionGuard module="portfolio" isPage><AdminProjectsPage /></PermissionGuard>} />
+          <Route path="settings" element={<PermissionGuard module="settings" isPage><AdminSettingsPage /></PermissionGuard>} />
         </Route>
       </Routes>
     </Suspense>

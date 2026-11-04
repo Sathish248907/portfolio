@@ -22,17 +22,52 @@ const AdminUserSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['superadmin', 'admin', 'content_admin', 'editor', 'viewer'],
+      enum: [
+        'superadmin',
+        'admin',
+        'content_manager',
+        'editor',
+        'marketing_manager',
+        'sales_manager',
+        'viewer',
+        'content_admin',
+      ],
       default: 'admin',
+    },
+    status: {
+      type: String,
+      enum: ['active', 'inactive', 'pending_invitation', 'suspended'],
+      default: 'active',
+    },
+    profileImage: {
+      type: String,
+      default: '',
+    },
+    failedLoginAttempts: {
+      type: Number,
+      default: 0,
+    },
+    lockUntil: {
+      type: Date,
+      default: null,
     },
     lastLoginAt: {
       type: Date,
+    },
+    customPermissions: {
+      type: [String],
+      default: [],
     },
   },
   {
     timestamps: true,
   }
 );
+
+// Virtual to determine if user account is currently locked out
+AdminUserSchema.virtual('isLocked').get(function () {
+  return !!(this.lockUntil && this.lockUntil > Date.now());
+});
 
 // Hash password before saving
 AdminUserSchema.pre('save', async function (next) {

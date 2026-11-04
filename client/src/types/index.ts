@@ -239,11 +239,99 @@ export interface ContactMessage {
   createdAt: string;
 }
 
+export type AdminRoleSlug =
+  | 'superadmin'
+  | 'admin'
+  | 'content_manager'
+  | 'editor'
+  | 'marketing_manager'
+  | 'sales_manager'
+  | 'viewer'
+  | string;
+
+export type AdminAccountStatus = 'active' | 'inactive' | 'pending_invitation' | 'suspended';
+
 export interface AdminUser {
   id: string;
+  _id?: string;
   email: string;
   name: string;
-  role: 'superadmin' | 'admin' | 'editor';
+  role: AdminRoleSlug;
+  status?: AdminAccountStatus;
+  profileImage?: string;
+  lastLoginAt?: string;
+  createdAt?: string;
+  customPermissions?: string[];
+}
+
+export interface AdminRole {
+  _id?: string;
+  id?: string;
+  slug: string;
+  name: string;
+  description: string;
+  permissions: string[];
+  isSystemRole: boolean;
+  userCount?: number;
+}
+
+export interface PermissionModule {
+  id: string;
+  label: string;
+  actions: string[];
+}
+
+export interface AdminInvitation {
+  _id: string;
+  id?: string;
+  name?: string;
+  email: string;
+  role: string;
+  token?: string;
+  expiresAt: string;
+  status: 'pending' | 'accepted' | 'cancelled' | 'expired';
+  invitedBy?: {
+    id?: string;
+    name?: string;
+    email?: string;
+  };
+  createdAt?: string;
+}
+
+export interface AuditLogEntry {
+  _id: string;
+  id?: string;
+  actorId: string;
+  actorName: string;
+  actorEmail: string;
+  action: string;
+  module: string;
+  resourceId?: string;
+  changeSummary: string;
+  result: 'success' | 'failure' | 'warning';
+  ipAddress?: string;
+  timestamp: string;
+  metadata?: any;
+}
+
+export interface AdminSessionInfo {
+  _id: string;
+  id?: string;
+  userId: string;
+  userEmail: string;
+  device: string;
+  ipAddress: string;
+  lastActiveAt: string;
+  expiresAt: string;
+  revokedAt?: string | null;
+}
+
+export interface AdminDashboardMetrics {
+  totalUsers: number;
+  activeUsers: number;
+  inactiveUsers: number;
+  pendingInvitations: number;
+  availableRoles: number;
 }
 
 export interface AuthState {

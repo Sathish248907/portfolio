@@ -108,4 +108,46 @@ ${inquiry.projectRequirements}`,
       // Handled safely without losing inquiry
     }
   },
+
+  /**
+   * Send Administrator Invitation Email with secure one-time activation link
+   */
+  async sendAdminInvitation({ email, name, role, token, expiresAt }) {
+    try {
+      const mailer = getTransporter();
+      const inviteUrl = `${process.env.APP_URL || 'http://localhost:5155'}/admin/accept-invitation?token=${token}`;
+      await mailer.sendMail({
+        from: config.smtp.from,
+        to: email,
+        subject: `[Peace Haven] You have been invited to join the Administrative Portal`,
+        text: `Hello ${name || 'Administrator'},
+
+You have been invited to join the Peace Haven Technologies administrative platform with the role: ${role}.
+
+To activate your account and set your secure password, please open the following link within 48 hours:
+${inviteUrl}
+
+If you did not expect this invitation, please contact security@peacehaven.tech.
+
+Peace Haven Technologies Inc.
+Engineering Ideas. Empowering Industries.`,
+        html: `<div style="font-family: Arial, sans-serif; background-color: #07151e; color: #f1f5f9; padding: 28px; border-radius: 12px; border: 1px solid #1b3240;">
+          <h2 style="color: #dfa561; margin-top: 0;">Peace Haven Technologies</h2>
+          <p>Hello <strong>${name || 'Administrator'}</strong>,</p>
+          <p>You have been invited to join the administrative team as a <strong>${role}</strong>.</p>
+          <p>Please complete your account verification and set your password by clicking the button below:</p>
+          <div style="margin: 24px 0;">
+            <a href="${inviteUrl}" style="background-color: #dfa561; color: #07151e; font-weight: bold; padding: 12px 24px; border-radius: 8px; text-decoration: none; display: inline-block;">
+              Activate Admin Account
+            </a>
+          </div>
+          <p style="font-size: 12px; color: #94a3b8;">This secure one-time invitation link will expire at ${new Date(expiresAt).toUTCString()}.</p>
+          <p style="font-size: 11px; color: #64748b; font-family: monospace;">If button doesn't work, copy and paste this URL into your browser:<br/>${inviteUrl}</p>
+        </div>`,
+      });
+      console.log(`[Email] Admin invitation successfully dispatched to: ${email}`);
+    } catch (err) {
+      console.error(`[Email Failure] Could not send admin invitation to ${email}:`, err.message);
+    }
+  },
 };

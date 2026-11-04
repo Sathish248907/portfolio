@@ -10,11 +10,16 @@ import {
   ShieldCheck, 
   ArrowLeft,
   Sliders,
-  FileEdit
+  FileEdit,
+  Users,
+  Shield,
+  ScrollText,
+  User
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { cn } from '../../lib/utils';
 import { Button } from '../common/Button';
+import { checkUserPermission } from '../common/PermissionGuard';
 
 export const AdminLayout: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -42,14 +47,23 @@ export const AdminLayout: React.FC = () => {
   };
 
   const navItems = [
-    { label: 'Overview', path: '/admin', icon: LayoutDashboard },
-    { label: 'Analytics & Insights', path: '/admin/analytics', icon: BarChart3 },
-    { label: 'Inquiries', path: '/admin/inquiries', icon: Inbox },
-    { label: 'Projects & Case Studies', path: '/admin/projects', icon: Briefcase },
-    { label: 'Content Management (CMS)', path: '/admin/cms', icon: FileEdit },
-    { label: 'Services & Content', path: '/admin/content', icon: Sliders },
-    { label: 'Settings & Security', path: '/admin/settings', icon: Settings },
+    { label: 'Overview', path: '/admin', icon: LayoutDashboard, module: 'dashboard' },
+    { label: 'Users & Staff', path: '/admin/users', icon: Users, module: 'users' },
+    { label: 'Roles & Perms', path: '/admin/roles-permissions', icon: Shield, module: 'roles' },
+    { label: 'Inquiries & Leads', path: '/admin/inquiries', icon: Inbox, module: 'inquiries' },
+    { label: 'Content (CMS)', path: '/admin/cms', icon: FileEdit, module: 'cms' },
+    { label: 'Projects & Lab', path: '/admin/projects', icon: Briefcase, module: 'portfolio' },
+    { label: 'Analytics & Funnel', path: '/admin/analytics', icon: BarChart3, module: 'analytics' },
+    { label: 'System Audit Logs', path: '/admin/audit-logs', icon: ScrollText, module: 'audit_logs' },
+    { label: 'My Profile', path: '/admin/profile', icon: User, module: 'profile' },
+    { label: 'System Settings', path: '/admin/settings', icon: Settings, module: 'settings' },
   ];
+
+  // Filter items according to permissions
+  const visibleNavItems = navItems.filter((item) => {
+    if (item.module === 'profile' || item.module === 'dashboard') return true;
+    return checkUserPermission(user?.role, item.module, 'view');
+  });
 
   return (
     <div className="min-h-screen bg-charcoal-900 text-slate-100 flex">
@@ -83,8 +97,8 @@ export const AdminLayout: React.FC = () => {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-3 space-y-1">
-          {navItems.map((item) => {
+        <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
+          {visibleNavItems.map((item) => {
             const Icon = item.icon;
             const active = location.pathname === item.path;
             return (
@@ -92,9 +106,9 @@ export const AdminLayout: React.FC = () => {
                 key={item.path}
                 to={item.path}
                 className={cn(
-                  'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                  'flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium transition-colors',
                   active
-                    ? 'bg-champagne-500/10 text-champagne-300 border border-champagne-500/30'
+                    ? 'bg-champagne-500/10 text-champagne-300 border border-champagne-500/30 font-semibold'
                     : 'text-slate-400 hover:text-white hover:bg-white/5'
                 )}
               >
@@ -137,7 +151,7 @@ export const AdminLayout: React.FC = () => {
 
           <div className="flex items-center gap-4">
             <span className="text-xs text-slate-400 font-mono">
-              Role: <span className="text-slate-200 capitalize">{user?.role || 'Superadmin'}</span>
+              Role: <span className="text-champagne-300 capitalize font-semibold">{user?.role?.replace(/_/g, ' ') || 'Superadmin'}</span>
             </span>
           </div>
         </header>

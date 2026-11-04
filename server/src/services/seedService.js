@@ -8,6 +8,10 @@ import { MediaAsset } from '../models/MediaAsset.js';
 import { NavigationItem } from '../models/NavigationItem.js';
 import { Industry } from '../models/Industry.js';
 import { CMSActivityLog } from '../models/CMSActivityLog.js';
+import { Role } from '../models/Role.js';
+import { AdminInvitation } from '../models/AdminInvitation.js';
+import { AuditLog } from '../models/AuditLog.js';
+import { ROLE_DEFINITIONS } from './rbacService.js';
 import { config } from '../config/env.js';
 
 export async function seedInitialData() {
@@ -1176,6 +1180,136 @@ export async function seedInitialData() {
         details: 'Initialized Peace Haven Content Management System v1.0',
         performedBy: 'System Lead',
       });
+    }
+    // 8. Seed RBAC Roles (Phase 10)
+    const roleCount = await Role.countDocuments();
+    if (roleCount === 0) {
+      await Role.insertMany(ROLE_DEFINITIONS);
+      console.log(`[SEED] Initialized ${ROLE_DEFINITIONS.length} RBAC system roles.`);
+    }
+
+    // 9. Seed representative multi-role admin users (Phase 10)
+    const totalAdmins = await AdminUser.countDocuments();
+    if (totalAdmins <= 1) {
+      const demoUsers = [
+        {
+          name: 'Claire Vance',
+          email: 'claire.vance@peacehaven.tech',
+          password: 'Password123!',
+          role: 'content_manager',
+          status: 'active',
+        },
+        {
+          name: 'Marcus Chen',
+          email: 'marcus.chen@peacehaven.tech',
+          password: 'Password123!',
+          role: 'editor',
+          status: 'active',
+        },
+        {
+          name: 'Sophia Alvarez',
+          email: 'sophia.alvarez@peacehaven.tech',
+          password: 'Password123!',
+          role: 'marketing_manager',
+          status: 'active',
+        },
+        {
+          name: 'David Okafor',
+          email: 'david.okafor@peacehaven.tech',
+          password: 'Password123!',
+          role: 'sales_manager',
+          status: 'active',
+        },
+        {
+          name: 'Elena Rostova',
+          email: 'elena.rostova@peacehaven.tech',
+          password: 'Password123!',
+          role: 'viewer',
+          status: 'active',
+        },
+      ];
+
+      for (const u of demoUsers) {
+        const exists = await AdminUser.findOne({ email: u.email });
+        if (!exists) {
+          const newUser = new AdminUser(u);
+          await newUser.save();
+        }
+      }
+      console.log(`[SEED] Seeded multi-role demonstration administrator accounts.`);
+    }
+
+    // 10. Seed Sample Pending Admin Invitation (Phase 10)
+    const inviteCount = await AdminInvitation.countDocuments();
+    if (inviteCount === 0) {
+      await AdminInvitation.create({
+        name: 'Rachel Green',
+        email: 'rachel.green@apexrobotics.io',
+        role: 'editor',
+        token: 'invite-tok-sample-apex-2026',
+        tokenHash: 'sample-hash-2026',
+        expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000),
+        status: 'pending',
+        invitedBy: {
+          id: 'admin-001',
+          name: 'Super Administrator',
+          email: 'admin@peacehaven.tech',
+        },
+      });
+      console.log(`[SEED] Initialized sample administrator invitation.`);
+    }
+
+    // 11. Seed Baseline Audit Logs (Phase 10)
+    const auditCount = await AuditLog.countDocuments();
+    if (auditCount === 0) {
+      const initialLogs = [
+        {
+          actorId: 'admin-001',
+          actorName: 'Super Administrator',
+          actorEmail: 'admin@peacehaven.tech',
+          action: 'SYSTEM_INITIALIZATION',
+          module: 'settings',
+          changeSummary: 'Initialized Peace Haven enterprise administrative security system and RBAC hierarchy.',
+          result: 'success',
+          ipAddress: '127.0.0.1',
+          timestamp: new Date(Date.now() - 48 * 60 * 60 * 1000),
+        },
+        {
+          actorId: 'admin-001',
+          actorName: 'Super Administrator',
+          actorEmail: 'admin@peacehaven.tech',
+          action: 'ROLE_PROVISIONING',
+          module: 'roles',
+          changeSummary: 'Provisioned 7 default RBAC roles: Super Admin, Admin, Content Manager, Editor, Marketing Manager, Sales Manager, Viewer.',
+          result: 'success',
+          ipAddress: '127.0.0.1',
+          timestamp: new Date(Date.now() - 36 * 60 * 60 * 1000),
+        },
+        {
+          actorId: 'admin-001',
+          actorName: 'Super Administrator',
+          actorEmail: 'admin@peacehaven.tech',
+          action: 'USER_CREATED',
+          module: 'users',
+          changeSummary: 'Created initial operational user accounts across engineering, marketing, and sales departments.',
+          result: 'success',
+          ipAddress: '127.0.0.1',
+          timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000),
+        },
+        {
+          actorId: 'admin-001',
+          actorName: 'Super Administrator',
+          actorEmail: 'admin@peacehaven.tech',
+          action: 'INVITATION_CREATED',
+          module: 'users',
+          changeSummary: 'Sent pending administrator invitation to rachel.green@apexrobotics.io for role editor.',
+          result: 'success',
+          ipAddress: '127.0.0.1',
+          timestamp: new Date(Date.now() - 12 * 60 * 60 * 1000),
+        },
+      ];
+      await AuditLog.insertMany(initialLogs);
+      console.log(`[SEED] Initialized ${initialLogs.length} baseline audit activity records.`);
     }
   } catch (err) {
     console.error('[SEED ERROR] Failed to seed initial data:', err.message);

@@ -3,6 +3,7 @@ import { inquiryApi } from './inquiryApi';
 import { contactApi } from './contactApi';
 import { analyticsApi } from './analyticsApi';
 import { cmsApi } from './cmsApi';
+import { adminApi } from './adminApi';
 import { servicesData } from '../../data/servicesData';
 import { projectsData } from '../../data/projectsData';
 import { request } from './httpClient';
@@ -12,6 +13,7 @@ export { inquiryApi } from './inquiryApi';
 export { contactApi } from './contactApi';
 export { analyticsApi } from './analyticsApi';
 export { cmsApi } from './cmsApi';
+export { adminApi } from './adminApi';
 export * from './httpClient';
 
 /**
@@ -96,6 +98,34 @@ export const api = {
   getCmsIndustries: cmsApi.getCmsIndustries.bind(cmsApi),
   updateCmsIndustry: cmsApi.updateCmsIndustry.bind(cmsApi),
   getCmsActivity: cmsApi.getCmsActivity.bind(cmsApi),
+
+  // Admin Management & RBAC (Phase 10)
+  getDashboardStats: adminApi.getDashboardStats.bind(adminApi),
+  getAdminUsers: adminApi.getAdminUsers.bind(adminApi),
+  createAdminUser: adminApi.createAdminUser.bind(adminApi),
+  getAdminUser: adminApi.getAdminUser.bind(adminApi),
+  updateAdminUser: adminApi.updateAdminUser.bind(adminApi),
+  updateAdminUserStatus: adminApi.updateAdminUserStatus.bind(adminApi),
+  deleteAdminUser: adminApi.deleteAdminUser.bind(adminApi),
+  getAdminUserActivity: adminApi.getAdminUserActivity.bind(adminApi),
+  getAdminRoles: adminApi.getAdminRoles.bind(adminApi),
+  createAdminRole: adminApi.createAdminRole.bind(adminApi),
+  updateAdminRole: adminApi.updateAdminRole.bind(adminApi),
+  deleteAdminRole: adminApi.deleteAdminRole.bind(adminApi),
+  getAdminInvitations: adminApi.getAdminInvitations.bind(adminApi),
+  createAdminInvitation: adminApi.createAdminInvitation.bind(adminApi),
+  resendAdminInvitation: adminApi.resendAdminInvitation.bind(adminApi),
+  cancelAdminInvitation: adminApi.cancelAdminInvitation.bind(adminApi),
+  verifyInvitationToken: adminApi.verifyInvitationToken.bind(adminApi),
+  acceptInvitation: adminApi.acceptInvitation.bind(adminApi),
+  getAuditLogs: adminApi.getAuditLogs.bind(adminApi),
+  exportAuditLogsCsv: adminApi.exportAuditLogsCsv.bind(adminApi),
+  getAdminProfile: adminApi.getAdminProfile.bind(adminApi),
+  updateAdminProfile: adminApi.updateAdminProfile.bind(adminApi),
+  changeAdminPassword: adminApi.changeAdminPassword.bind(adminApi),
+  getAdminSessions: adminApi.getAdminSessions.bind(adminApi),
+  revokeAdminSession: adminApi.revokeAdminSession.bind(adminApi),
+  revokeAllOtherAdminSessions: adminApi.revokeAllOtherAdminSessions.bind(adminApi),
 };
 
 export default api;
