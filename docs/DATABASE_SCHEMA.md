@@ -95,27 +95,44 @@ Active administrative browser sessions for multi-device tracking and remote revo
 ## 2. Inquiries & Lead Management Models
 
 ### 2.1 `Inquiry` (`server/src/models/Inquiry.js`)
-Multi-step commercial project leads and engineering intake dossiers.
+Multi-step commercial project leads, engineering intake dossiers, and client communication records.
 
 | Field | Type | Description |
 | :--- | :--- | :--- |
-| `referenceNumber` | `String` | Unique tracking code (e.g. `PH-MW1O...`) |
-| `clientName` | `String` | Client full name |
-| `email` | `String` | Business email |
-| `phoneNumber` | `String` | Direct contact number |
+| `referenceNumber` | `String` | Immutable unique tracking code (format: `PH-XXXXXX-XXXX`) |
+| `clientName` | `String` | Client full name (aliased from `fullName`) |
+| `email` | `String` | Business email address (aliased from `businessEmail`) |
+| `phoneNumber` | `String` | Direct contact number (aliased from `phone`) |
 | `companyName` | `String` | Enterprise organization name |
 | `jobTitle` | `String` | Client executive or engineering title |
 | `country` | `String` | Client country of operation |
-| `selectedServices`| `[String]` | Array of chosen disciplines |
+| `selectedServices`| `[String]` | Array of chosen disciplines from the 8 core service categories |
 | `service` | `String` | Primary engineering discipline |
 | `industry` | `String` | Vertical market category |
 | `projectTitle` | `String` | Scope title |
+| `projectOverview` | `String` | High-level summary of business context and requirements |
 | `projectRequirements` | `String` | Technical deliverables and specifications |
+| `detailedRequirements` | `String` | Expanded architectural and functional requirements |
+| `projectObjectives` | `String` | Core business goals and KPI milestones |
+| `requiredFeatures` | `String` | Key capabilities and specifications required |
+| `technicalRequirements` | `String` | Architectural constraints, integration touchpoints |
+| `additionalInformation` | `String` | Non-disclosure or special operational constraints |
+| `budgetRange` | `String` | Budget category or custom specification |
+| `budgetCurrency` | `String` | Currency denomination (`USD`, `EUR`, `GBP`, `CAD`, `AUD`, `INR`, `SGD`) |
+| `customBudget` | `String` | Custom target budget amount if specified |
 | `timeline` | `String` | Target delivery window |
-| `budgetRange` | `String` | Budget category |
-| `status` | `String` | Lead pipeline: `NEW`, `REVIEWING`, `QUALIFIED`, `IN_DISCUSSION`, `PROPOSAL_SENT`, `CONVERTED`, `CLOSED` |
-| `internalNotes` | `[Note]` | Private engineering staff triage notes |
-| `auditHistory` | `[History]` | Status transition timeline |
+| `expectedTimeline` | `String` | Delivery timeframe expectation |
+| `startPreference` | `String` | Preferred initiation timeframe |
+| `expectedStartDate` | `String` | Target kickoff schedule |
+| `urgency` | `String` | Urgency tier (`Normal`, `High`, `Urgent / Critical`) |
+| `preferredContactMethod`| `String` | Primary communication channel (`Email`, `Phone`, `Video Meeting`) |
+| `priority` | `String` | Lead priority tier: `low`, `medium`, `high`, `urgent` (Default: `medium`) |
+| `status` | `String` | Lead pipeline: `NEW`, `UNDER_REVIEW`, `NEED_MORE_INFORMATION`, `CONTACTED`, `REVIEWING`, `QUALIFIED`, `IN_DISCUSSION`, `PROPOSAL_SENT`, `CONVERTED`, `CLOSED`, `REJECTED` |
+| `assignedTo` | `Object` | Responsible engineering staff member (`name`, `email`, `role`) |
+| `internalNotes` | `[Note]` | Private engineering staff triage notes (hidden from clients) |
+| `auditHistory` | `[History]` | Status transition and activity audit timeline |
+| `communicationHistory` | `[Entry]` | Complete record of client emails, acknowledgments, attachments, and timestamps |
+| `lastCommunicatedAt` | `Date` | Timestamp of latest client email dispatch |
 
 ---
 

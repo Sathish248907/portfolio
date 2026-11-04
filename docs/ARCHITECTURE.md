@@ -234,3 +234,42 @@ graph TD
 - Integrated CRM tool allowing sales staff to link tasks directly to inquiries by tracking reference.
 - Priority levels (`low`, `medium`, `high`, `urgent`), due dates, assignee assignment, and automatic status transitions (`completed`, `overdue`).
 
+---
+
+## 7. Project Engagement Intake & Client Communication Architecture
+
+### 7.1 Five-Step Guided Project Engagement Intake (`/start-a-project`)
+The client onboarding workflow guides prospective enterprise clients through a structured, multi-step engineering intake designed to capture all commercial, architectural, and operational parameters:
+
+1. **Step 1 — Contact & Organization Information**: Client Full Name, Business Email, Company/Organization Name, Direct Phone Number, Job Title, and Geographic Country/Region.
+2. **Step 2 — Selected Disciplines & Market Sector**: Multi-selection matrix of 8 core technical divisions (`Web Development`, `FinTech`, `Robotics & Automation`, `Drone Technology`, `Healthcare Solutions`, `US Staffing`, `Trading & Investment`, `Digital Marketing`), target industry domain, and project classification.
+3. **Step 3 — Technical Specifications & Objectives**: Comprehensive initiative overview, core business objectives, required capabilities/features, target deliverables, preferred technology stack, and timeline expectations.
+4. **Step 4 — Budget, Timeline & Urgency**: Multi-currency allocation (`USD`, `EUR`, `GBP`, `CAD`, `AUD`, `INR`, `SGD`), tiered budget selection or custom budget amount, urgency rating (`Normal`, `High`, `Urgent / Critical`), and preferred communication channel (`Email`, `Phone`, `Video Meeting`).
+5. **Step 5 — Final Review & Submission**: Live dossier verification with contextual edit links, mutual confidentiality acknowledgment, and transactional submission yielding an immutable reference code (format: `PH-XXXXXX-XXXX`).
+
+### 7.2 Dedicated Inquiry Record & Six-Section Dossier (`/admin/inquiries/:id`)
+Every inquiry detail view is organized into 6 clearly demarcated engineering sections:
+- **Section A — Client Profile & Organization Details**: Client identity, corporate entity, verified email link, direct phone, role, and country.
+- **Section B — Selected Services**: Market sector badge and interactive tags for all selected engineering services.
+- **Section C — Project Requirements & Scope**: Comprehensive initiative overview, detailed business requirements, core objectives, and required features.
+- **Section D — Budget, Currency & Timeline Specifications**: Estimated budget, currency denomination, start preference, timeline window, urgency level, and preferred contact method.
+- **Section E — Inquiry Management**: Status pipeline transition buttons, 4-tier priority level selector (`low`, `medium`, `high`, `urgent`), responsible staff allocator, private internal notes thread (hidden from clients), and chronological audit trail.
+- **Section F — Client Communication & Email Response**: Direct email composer equipped with template loading, custom messaging, simulated attachment management, and chronological communication history.
+
+### 7.3 Direct Client Communication Engine (`inquiryCommunicationService.js`)
+Enables authorized administrators (`inquiries:update`) to draft and transmit official client communications directly from the admin console:
+- **11 Standard Corporate Email Templates**:
+  1. `inquiry_acknowledgment` — Initial formal acknowledgment of requirements.
+  2. `thank_you_requirements` — Thank-you briefing after reviewing initial scope.
+  3. `request_additional_info` — Request for technical clarifications or architecture specs.
+  4. `project_clarification` — Clarification on constraints, integration, or compliance.
+  5. `schedule_discussion` — Invitation to a discovery or scoping session.
+  6. `meeting_confirmation` — Confirmation of scheduled call with agenda.
+  7. `project_proposal` — Transmission of formal technical proposal and scope.
+  8. `quotation_estimate` — Commercial quotation, sprint cost breakdown, and terms.
+  9. `follow_up` — Polite follow-up on sent proposal or discussion points.
+  10. `inquiry_accepted` — Formal notice of engagement acceptance and onboarding.
+  11. `inquiry_closed` — Polite notification of closed or rejected inquiry.
+- **Automatic Token Replacement**: Replaces tokens like `{{clientName}}`, `{{companyName}}`, `{{projectTitle}}`, `{{referenceNumber}}`, `{{selectedServices}}`, and `{{adminName}}` with actual inquiry data.
+- **Audit Logging & Team Alerts**: Every outgoing communication appends to `inquiry.communicationHistory`, updates `lastCommunicatedAt`, transitions status to `CONTACTED` (if previously `NEW`), logs to the system audit trail, and creates an in-app team alert.
+

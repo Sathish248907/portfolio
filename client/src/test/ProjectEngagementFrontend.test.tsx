@@ -153,6 +153,10 @@ describe('Peace Haven — Project Engagement Form, Admin Integration & Client Co
 
   beforeEach(() => {
     vi.clearAllMocks();
+    (inquiryApi.getClientCommunicationTemplates as any).mockResolvedValue({
+      success: true,
+      data: mockTemplates,
+    });
   });
 
   describe('1. Five-Step Project Engagement Intake Form (/start-a-project)', () => {
@@ -170,68 +174,70 @@ describe('Peace Haven — Project Engagement Form, Admin Integration & Client Co
       );
 
       // STEP 1: Contact Information
-      expect(screen.getByText(/1\. Contact Information/i)).toBeInTheDocument();
-      fireEvent.change(screen.getByLabelText(/Full Name/i), { target: { value: 'Julian Sterling' } });
-      fireEvent.change(screen.getByLabelText(/Business Email/i), { target: { value: 'j.sterling@sterlingcap.com' } });
-      fireEvent.change(screen.getByLabelText(/Company \/ Organization Name/i), { target: { value: 'Sterling Global Capital' } });
+      expect(screen.getByText(/Contact & Organization Information/i)).toBeInTheDocument();
+      fireEvent.change(screen.getByLabelText(/Full Name \*/i), { target: { value: 'Julian Sterling' } });
+      fireEvent.change(screen.getByLabelText(/Business Email \*/i), { target: { value: 'j.sterling@sterlingcap.com' } });
+      fireEvent.change(screen.getByLabelText(/Company \/ Organization Name \*/i), { target: { value: 'Sterling Global Capital' } });
       fireEvent.change(screen.getByLabelText(/Phone Number/i), { target: { value: '+44 20 7946 0912' } });
       fireEvent.change(screen.getByLabelText(/Job Title/i), { target: { value: 'Chief Technology Officer' } });
 
-      const nextToStep2Btn = screen.getByRole('button', { name: /Proceed to Service Selection/i });
+      const nextToStep2Btn = screen.getByRole('button', { name: /Continue to Step 2/i });
       fireEvent.click(nextToStep2Btn);
 
       // STEP 2: Service Selection & Project Context
-      expect(await screen.findByText(/2\. Project Context & Disciplines/i)).toBeInTheDocument();
-      const fintechCheckbox = screen.getByLabelText(/FinTech/i);
-      fireEvent.click(fintechCheckbox);
+      expect(await screen.findByText(/Select Required Services/i)).toBeInTheDocument();
+      const fintechCard = screen.getByText('FinTech');
+      fireEvent.click(fintechCard);
 
-      fireEvent.change(screen.getByLabelText(/Target Industry Domain/i), {
-        target: { value: 'Banking & Financial Services' },
-      });
-      fireEvent.change(screen.getByLabelText(/Project Initiative Title/i), {
-        target: { value: 'Institutional Asset Tokenization Portal' },
-      });
-
-      const nextToStep3Btn = screen.getByRole('button', { name: /Proceed to Requirements/i });
+      const nextToStep3Btn = screen.getByRole('button', { name: /Continue to Step 3/i });
       fireEvent.click(nextToStep3Btn);
 
       // STEP 3: Project Requirements & Technical Objectives
-      expect(await screen.findByText(/3\. Detailed Technical Specifications/i)).toBeInTheDocument();
-      fireEvent.change(screen.getByLabelText(/Executive Summary & Scope Overview/i), {
+      expect(await screen.findByText(/Project Requirements & Scope/i)).toBeInTheDocument();
+      fireEvent.change(screen.getByLabelText(/Project Title \*/i), {
+        target: { value: 'Institutional Asset Tokenization Portal' },
+      });
+      fireEvent.change(screen.getByLabelText(/Project Description & Requirements \*/i), {
         target: { value: 'High-speed institutional interface for automated settlement and vault reserves custody.' },
       });
-      fireEvent.change(screen.getByLabelText(/Core Business Objectives/i), {
+      fireEvent.change(screen.getByLabelText(/Industry \*/i), {
+        target: { value: 'Banking & Financial Services' },
+      });
+      fireEvent.change(screen.getByLabelText(/Main Project Objectives/i), {
         target: { value: '1. Ultra-low latency execution 2. Real-time reserve audit' },
       });
-      fireEvent.change(screen.getByLabelText(/Required Capabilities & Features/i), {
+      fireEvent.change(screen.getByLabelText(/Required Features & Capabilities/i), {
         target: { value: 'Automated order matching, custody multi-sig vault' },
       });
 
-      const nextToStep4Btn = screen.getByRole('button', { name: /Proceed to Budget & Timeline/i });
+      const nextToStep4Btn = screen.getByRole('button', { name: /Continue to Step 4/i });
       fireEvent.click(nextToStep4Btn);
 
       // STEP 4: Budget, Timeline & Urgency
-      expect(await screen.findByText(/4\. Budget, Timeline & Urgency/i)).toBeInTheDocument();
-      fireEvent.change(screen.getByLabelText(/Currency/i), { target: { value: 'USD' } });
-      fireEvent.change(screen.getByLabelText(/Custom Budget Target/i), { target: { value: '$175,000' } });
-      fireEvent.change(screen.getByLabelText(/Project Urgency/i), { target: { value: 'High' } });
-      fireEvent.change(screen.getByLabelText(/Preferred Contact Method/i), { target: { value: 'Video Meeting' } });
+      expect(await screen.findByText(/Budget & Additional Details/i)).toBeInTheDocument();
+      fireEvent.change(screen.getByLabelText(/Or Specify Custom Budget Amount/i), { target: { value: '$175,000' } });
+      
+      const urgentBtn = screen.getByRole('button', { name: 'High' });
+      fireEvent.click(urgentBtn);
 
-      const nextToStep5Btn = screen.getByRole('button', { name: /Review Project Dossier/i });
+      const videoContactBtn = screen.getByRole('button', { name: 'Video Meeting' });
+      fireEvent.click(videoContactBtn);
+
+      const nextToStep5Btn = screen.getByRole('button', { name: /Continue to Step 5/i });
       fireEvent.click(nextToStep5Btn);
 
       // STEP 5: Final Review & Submission
-      expect(await screen.findByText(/5\. Final Review & Submission/i)).toBeInTheDocument();
+      expect(await screen.findByText(/Review & Verify Project Specification/i)).toBeInTheDocument();
       expect(screen.getByText('Julian Sterling')).toBeInTheDocument();
       expect(screen.getByText('Sterling Global Capital')).toBeInTheDocument();
       expect(screen.getByText('j.sterling@sterlingcap.com')).toBeInTheDocument();
       expect(screen.getByText('Institutional Asset Tokenization Portal')).toBeInTheDocument();
-      expect(screen.getByText('$175,000')).toBeInTheDocument();
+      expect(screen.getByText(/USD \$175,000/i)).toBeInTheDocument();
       expect(screen.getByText('High')).toBeInTheDocument();
       expect(screen.getByText('Video Meeting')).toBeInTheDocument();
 
       // Submit Form
-      const submitBtn = screen.getByRole('button', { name: /Submit Project Specification/i });
+      const submitBtn = screen.getByRole('button', { name: /Submit Inquiry/i });
       fireEvent.click(submitBtn);
 
       // Confirmation View
@@ -241,7 +247,7 @@ describe('Peace Haven — Project Engagement Form, Admin Integration & Client Co
       expect(await screen.findByText('PH-ENG-2026-9901')).toBeInTheDocument();
       expect(screen.getByText(/Project Intake Confirmed/i)).toBeInTheDocument();
       expect(screen.getByText(/inquiries@peacehaven\.tech/i)).toBeInTheDocument();
-      expect(screen.getByText(/\+1 \(800\) 555-0199/i)).toBeInTheDocument();
+      expect(screen.getByText(/\+1 \(415\) 890-3345/i)).toBeInTheDocument();
     });
   });
 
@@ -283,7 +289,7 @@ describe('Peace Haven — Project Engagement Form, Admin Integration & Client Co
       expect(screen.getByText('Closed / Rejected')).toBeInTheDocument();
 
       // Verify Pipeline Stage Breakdown Cards
-      expect(screen.getByText('Under Review')).toBeInTheDocument();
+      expect(screen.getAllByText('Under Review').length).toBeGreaterThanOrEqual(1);
       expect(screen.getByText('Need More Info')).toBeInTheDocument();
       expect(screen.getByText('In Discussion')).toBeInTheDocument();
       expect(screen.getByText('Proposals Sent')).toBeInTheDocument();
@@ -333,18 +339,17 @@ describe('Peace Haven — Project Engagement Form, Admin Integration & Client Co
       expect(await screen.findByText('PH-ENG-2026-9901')).toBeInTheDocument();
 
       // SECTION A: Client Profile
-      expect(screen.getByText(/A\. Client Profile & Verified Identity/i)).toBeInTheDocument();
+      expect(screen.getByText(/A\. Client Profile & Organization Details/i)).toBeInTheDocument();
       expect(screen.getByText('Julian Sterling')).toBeInTheDocument();
       expect(screen.getByText('Sterling Global Capital')).toBeInTheDocument();
       expect(screen.getByText('Chief Technology Officer')).toBeInTheDocument();
       expect(screen.getByText('United Kingdom')).toBeInTheDocument();
 
       // SECTION B: Selected Services
-      expect(screen.getByText(/B\. Selected Disciplines & Market Sector/i)).toBeInTheDocument();
-      expect(screen.getByText('Banking & Financial Services')).toBeInTheDocument();
+      expect(screen.getByText(/B\. Selected Services/i)).toBeInTheDocument();
 
       // SECTION C: Project Requirements
-      expect(screen.getByText(/C\. Project Requirements & Objectives/i)).toBeInTheDocument();
+      expect(screen.getByText(/C\. Project Requirements & Scope/i)).toBeInTheDocument();
       expect(screen.getByText('Institutional Asset Tokenization Portal')).toBeInTheDocument();
       expect(screen.getByText(/1\. Ultra-low latency execution/i)).toBeInTheDocument();
       expect(screen.getByText(/Automated order matching/i)).toBeInTheDocument();
@@ -363,7 +368,7 @@ describe('Peace Haven — Project Engagement Form, Admin Integration & Client Co
       expect(screen.getByText(/Audit Trail/i)).toBeInTheDocument();
 
       // SECTION F: Client Communication
-      expect(screen.getByText(/Client Communication & Email Dispatch/i)).toBeInTheDocument();
+      expect(screen.getByText(/Client Communication & Email Response/i)).toBeInTheDocument();
       expect(screen.getByText(/Inquiry Acknowledgment \[Ref: PH-ENG-2026-9901\]/i)).toBeInTheDocument();
     });
 
@@ -414,7 +419,7 @@ describe('Peace Haven — Project Engagement Form, Admin Integration & Client Co
       (inquiryApi.sendClientEmail as any).mockResolvedValueOnce({
         success: true,
         message: 'Official client communication dispatched successfully.',
-        data: {
+        inquiry: {
           ...mockInquiry,
           lastCommunicatedAt: new Date().toISOString(),
           communicationHistory: [
@@ -448,23 +453,21 @@ describe('Peace Haven — Project Engagement Form, Admin Integration & Client Co
         />
       );
 
-      expect(screen.getByText(/Client Communication & Email Dispatch/i)).toBeInTheDocument();
+      expect(screen.getByText(/Client Communication & Email Response/i)).toBeInTheDocument();
 
-      // Load Template
-      await waitFor(() => {
-        expect(inquiryApi.getClientCommunicationTemplates).toHaveBeenCalledTimes(1);
-      });
+      // Wait for Templates to load into DOM
+      await screen.findByText('5. Schedule Discovery & Architecture Discussion');
 
       const templateSelect = screen.getByRole('combobox');
       fireEvent.change(templateSelect, { target: { value: 'schedule_discussion' } });
 
       // Verify Token Replacement
-      const messageBody = screen.getByPlaceholderText(/Type your client communication here/i) as HTMLTextAreaElement;
+      const messageBody = screen.getByPlaceholderText(/Type your response to the client or select a template above/i) as HTMLTextAreaElement;
       expect(messageBody.value).toContain('Dear Julian Sterling');
       expect(messageBody.value).toContain('Sterling Global Capital');
 
       // Add Simulated Attachment
-      const attachInput = screen.getByPlaceholderText(/e\.g\. PeaceHaven_Discovery_Agenda\.pdf/i);
+      const attachInput = screen.getByPlaceholderText(/e\.g\. peace_haven_scoping_brief_v1\.pdf/i);
       fireEvent.change(attachInput, { target: { value: 'PeaceHaven_Architecture_Brief.pdf' } });
       const addAttachBtn = screen.getByRole('button', { name: /Attach/i });
       fireEvent.click(addAttachBtn);
@@ -472,7 +475,7 @@ describe('Peace Haven — Project Engagement Form, Admin Integration & Client Co
       expect(screen.getByText('PeaceHaven_Architecture_Brief.pdf')).toBeInTheDocument();
 
       // Dispatch Communication
-      const sendBtn = screen.getByRole('button', { name: /Dispatch Official Communication/i });
+      const sendBtn = screen.getByRole('button', { name: /Send Email to Client/i });
       fireEvent.click(sendBtn);
 
       await waitFor(() => {
@@ -480,7 +483,7 @@ describe('Peace Haven — Project Engagement Form, Admin Integration & Client Co
           'valid-test-jwt-token',
           'PH-ENG-2026-9901',
           expect.objectContaining({
-            to: 'j.sterling@sterlingcap.com',
+            recipientEmail: 'j.sterling@sterlingcap.com',
             templateSlug: 'schedule_discussion',
             attachments: expect.arrayContaining([
               expect.objectContaining({ fileName: 'PeaceHaven_Architecture_Brief.pdf' }),
@@ -489,7 +492,7 @@ describe('Peace Haven — Project Engagement Form, Admin Integration & Client Co
         );
       });
 
-      expect(await screen.findByText(/Official communication dispatched successfully/i)).toBeInTheDocument();
+      expect(await screen.findByText(/Email dispatched successfully to j\.sterling@sterlingcap\.com/i)).toBeInTheDocument();
       expect(onCommunicationSentMock).toHaveBeenCalledTimes(1);
     });
   });

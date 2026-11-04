@@ -52,8 +52,9 @@ export const ClientCommunication: React.FC<ClientCommunicationProps> = ({
     async function loadTemplates() {
       try {
         const tpls = await inquiryApi.getClientCommunicationTemplates(token);
-        if (tpls && tpls.length > 0) {
-          setTemplates(tpls);
+        const list = Array.isArray(tpls) ? tpls : ((tpls as any)?.data || []);
+        if (list && list.length > 0) {
+          setTemplates(list);
         }
       } catch (err) {
         console.warn('Could not fetch remote templates', err);
@@ -73,7 +74,8 @@ export const ClientCommunication: React.FC<ClientCommunicationProps> = ({
     if (!found) return;
 
     // Helper to replace placeholders
-    const replaceTokens = (text: string) => {
+    const replaceTokens = (text: string = '') => {
+      if (!text) return '';
       const servicesList = inquiry.selectedServices && inquiry.selectedServices.length > 0
         ? inquiry.selectedServices.join(', ')
         : String(inquiry.service || 'Web Development');
@@ -88,7 +90,7 @@ export const ClientCommunication: React.FC<ClientCommunicationProps> = ({
     };
 
     setSubject(replaceTokens(found.subject));
-    setMessage(replaceTokens(found.defaultBody));
+    setMessage(replaceTokens(found.defaultBody || found.body || ''));
   };
 
   const handleAddAttachment = () => {

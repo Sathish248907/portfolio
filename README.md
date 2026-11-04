@@ -102,14 +102,14 @@ Comprehensive architecture, API, and database schema documentation is maintained
 Run the automated test suites using Vitest:
 
 ```powershell
-# Run all 117 frontend unit & integration tests across 19 test suites
+# Run all 122 frontend unit & integration tests across 20 test suites
 npm --prefix client run test
 
-# Run all 66 backend integration & RBAC tests across 3 test suites
+# Run all 76 backend integration & RBAC tests across 4 test suites
 npm --prefix server run test
 ```
 
-Total: **183 passing tests across client and server (100% pass rate)**.
+Total: **198 passing tests across client and server (100% pass rate)**.
 
 ---
 

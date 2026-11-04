@@ -269,6 +269,58 @@ Tokens are valid for 24 hours. Requests lacking a token return `401 Unauthorized
 - **Path**: `/api/v1/admin/inquiries/export`
 - **Access**: Protected (`inquiries:export`)
 
+### 4.6 Get Client Communication Templates
+- **Method**: `GET`
+- **Path**: `/api/v1/admin/inquiries/communication/templates`
+- **Access**: Protected (`inquiries:read`)
+- **Response `200 OK`**: Returns the list of 11 verified corporate client communication email templates with token metadata.
+
+### 4.7 Send Direct Client Email
+- **Method**: `POST`
+- **Path**: `/api/v1/admin/inquiries/:id/communication/email`
+- **Access**: Protected (`inquiries:update`)
+- **Request Body**:
+  ```json
+  {
+    "recipientEmail": "j.sterling@sterlingcap.com",
+    "subject": "Discovery Session Invitation [Ref: PH-ENG-2026-9901]",
+    "message": "Dear Julian,\n\nOur engineering team would like to schedule a 30-minute discovery session...",
+    "templateSlug": "schedule_discussion",
+    "attachments": [
+      {
+        "fileName": "PeaceHaven_Discovery_Agenda.pdf",
+        "fileSize": 102400,
+        "fileType": "application/pdf"
+      }
+    ]
+  }
+  ```
+- **Response `200 OK`**: Returns `{ success: true, message: string, inquiry: object, logId: string }`. Automatically appends entry to `communicationHistory`, transitions status from `NEW` to `CONTACTED`, records in `auditHistory`, logs to `EmailLog`, and creates team notification.
+
+### 4.8 Get Inquiry Communication History
+- **Method**: `GET`
+- **Path**: `/api/v1/admin/inquiries/:id/communication`
+- **Access**: Protected (`inquiries:read`)
+- **Response `200 OK`**: Returns chronological list of all emails, acknowledgments, and client interactions with delivery statuses.
+
+### 4.9 Update Inquiry Priority Tier
+- **Method**: `PATCH`
+- **Path**: `/api/v1/admin/inquiries/:id/priority`
+- **Access**: Protected (`inquiries:update`)
+- **Request Body**:
+  ```json
+  {
+    "priority": "urgent"
+  }
+  ```
+- **Response `200 OK`**: Updates priority tier (`low`, `medium`, `high`, `urgent`) and logs audit entry.
+
+### 4.10 Get Single Inquiry Dossier
+- **Method**: `GET`
+- **Path**: `/api/v1/admin/inquiries/:id`
+- **Access**: Protected (`inquiries:read`)
+- **Response `200 OK`**: Resolves inquiry by either MongoDB ObjectId or reference number (`PH-XXXXXX-XXXX`).
+
 ---
 
 ## 5. Telemetry & Analytics (`/api/v1/analytics`)
