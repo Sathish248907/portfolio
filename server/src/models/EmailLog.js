@@ -90,3 +90,4 @@ emailLogSchema.index({ status: 1, createdAt: -1 });
 emailLogSchema.index({ category: 1, createdAt: -1 });
 
 export const EmailLog = mongoose.model('EmailLog', emailLogSchema);
+

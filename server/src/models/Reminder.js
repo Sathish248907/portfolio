@@ -90,3 +90,4 @@ reminderSchema.index({ assignedTo: 1, status: 1, dueAt: 1 });
 reminderSchema.index({ dueAt: 1, status: 1 });
 
 export const Reminder = mongoose.model('Reminder', reminderSchema);
+

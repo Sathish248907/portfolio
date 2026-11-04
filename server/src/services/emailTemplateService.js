@@ -434,3 +434,4 @@ export const emailTemplateService = {
     return count;
   },
 };
+
