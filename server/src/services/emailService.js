@@ -32,6 +32,73 @@ function getTransporter() {
 
 export const emailService = {
   /**
+   * Direct email dispatcher for custom messages with logging and idempotency
+   */
+  async sendEmail({
+    to,
+    recipientName = '',
+    subject,
+    html,
+    text,
+    category = 'client_communication',
+    relatedResourceId = null,
+    relatedResourceType = 'inquiry',
+    idempotencyKey = null,
+  }) {
+    if (idempotencyKey) {
+      const existing = await EmailLog.findOne({ idempotencyKey, status: 'sent' });
+      if (existing) {
+        console.log(`[Email Idempotency] Skipping duplicate send for key: ${idempotencyKey}`);
+        return existing;
+      }
+    }
+
+    const logRecord = new EmailLog({
+      recipient: to,
+      recipientName,
+      subject,
+      templateId: 'custom_communication',
+      templateName: 'Custom Direct Communication',
+      category,
+      relatedResourceId,
+      relatedResourceType,
+      idempotencyKey: idempotencyKey || `email_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+      status: 'processing',
+      payloadSnapshot: { subject, textSnippet: text ? text.substring(0, 100) : '' },
+      attemptCount: 1,
+      lastAttemptAt: new Date(),
+    });
+    await logRecord.save();
+
+    try {
+      const mailer = getTransporter();
+      const info = await mailer.sendMail({
+        from: config.smtp.from,
+        to,
+        subject,
+        text: text || '',
+        html: html || '',
+      });
+
+      logRecord.status = 'sent';
+      logRecord.sentAt = new Date();
+      logRecord.providerMessageId = info.messageId || `msg_${Date.now()}`;
+      logRecord.failureReason = null;
+      await logRecord.save();
+
+      console.log(`[Email Dispatched] To: ${to} | Subject: "${subject}"`);
+      return logRecord;
+    } catch (err) {
+      logRecord.status = 'failed';
+      logRecord.failureReason = err.message || 'Unknown SMTP Delivery Failure';
+      await logRecord.save();
+
+      console.error(`[Email Failed] To: ${to} | Error: ${err.message}`);
+      return logRecord;
+    }
+  },
+
+  /**
    * Centralized sender that logs to EmailLog, checks idempotency, and delivers mail
    */
   async sendEmailWithTemplate({

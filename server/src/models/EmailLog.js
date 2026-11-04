@@ -30,8 +30,8 @@ const emailLogSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ['inquiry_client', 'inquiry_admin', 'status_update', 'invitation', 'auth', 'cms', 'reminder', 'security', 'test', 'general'],
-      default: 'general',
+      enum: ['inquiry_client', 'inquiry_admin', 'status_update', 'client_communication', 'invitation', 'auth', 'cms', 'reminder', 'security', 'test', 'general'],
+      default: 'inquiry_client',
     },
     relatedResourceId: {
       type: String,

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Inbox, 
   Search, 
@@ -24,15 +25,20 @@ import {
   MessageSquare,
   History,
   Paperclip,
-  Check
+  Check,
+  ExternalLink
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import { useAuth } from '../../context/AuthContext';
 import { ProjectInquiry, InquiryStatus, InquiryMetrics } from '../../types';
 import { Button } from '../../components/common/Button';
+import { ClientCommunication } from '../../components/inquiry/ClientCommunication';
 
 const allStatuses: { value: InquiryStatus; label: string; color: string }[] = [
   { value: 'NEW', label: 'New', color: 'bg-amber-500/10 text-amber-400 border-amber-500/30' },
+  { value: 'UNDER_REVIEW', label: 'Under Review', color: 'bg-blue-500/10 text-blue-300 border-blue-500/30' },
+  { value: 'NEED_MORE_INFORMATION', label: 'Need More Info', color: 'bg-yellow-500/10 text-yellow-300 border-yellow-500/30' },
+  { value: 'CONTACTED', label: 'Contacted', color: 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30' },
   { value: 'REVIEWING', label: 'Reviewing', color: 'bg-blue-500/10 text-blue-300 border-blue-500/30' },
   { value: 'QUALIFIED', label: 'Qualified', color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' },
   { value: 'IN_DISCUSSION', label: 'In Discussion', color: 'bg-purple-500/10 text-purple-300 border-purple-500/30' },
@@ -434,6 +440,69 @@ export const AdminInquiriesPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Extended Pipeline Stage Tracking Cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div
+          onClick={() => setStatusFilter('UNDER_REVIEW')}
+          className={`cursor-pointer p-3 rounded-xl border transition-all flex items-center justify-between ${
+            statusFilter === 'UNDER_REVIEW'
+              ? 'bg-charcoal-800 border-blue-400 ring-1 ring-blue-400/30'
+              : 'bg-charcoal-850/70 border-sage-500/15 hover:border-sage-500/30'
+          }`}
+        >
+          <div>
+            <span className="text-[10px] font-mono uppercase text-blue-400 block">Under Review</span>
+            <span className="text-xs text-slate-400">Technical Assessment</span>
+          </div>
+          <span className="font-mono text-xl font-bold text-blue-300">{metrics.underReview ?? 0}</span>
+        </div>
+
+        <div
+          onClick={() => setStatusFilter('NEED_MORE_INFORMATION')}
+          className={`cursor-pointer p-3 rounded-xl border transition-all flex items-center justify-between ${
+            statusFilter === 'NEED_MORE_INFORMATION'
+              ? 'bg-charcoal-800 border-yellow-400 ring-1 ring-yellow-400/30'
+              : 'bg-charcoal-850/70 border-sage-500/15 hover:border-sage-500/30'
+          }`}
+        >
+          <div>
+            <span className="text-[10px] font-mono uppercase text-yellow-400 block">Need More Info</span>
+            <span className="text-xs text-slate-400">Client Clarification</span>
+          </div>
+          <span className="font-mono text-xl font-bold text-yellow-300">{metrics.needMoreInfo ?? 0}</span>
+        </div>
+
+        <div
+          onClick={() => setStatusFilter('IN_DISCUSSION')}
+          className={`cursor-pointer p-3 rounded-xl border transition-all flex items-center justify-between ${
+            statusFilter === 'IN_DISCUSSION'
+              ? 'bg-charcoal-800 border-purple-400 ring-1 ring-purple-400/30'
+              : 'bg-charcoal-850/70 border-sage-500/15 hover:border-sage-500/30'
+          }`}
+        >
+          <div>
+            <span className="text-[10px] font-mono uppercase text-purple-400 block">In Discussion</span>
+            <span className="text-xs text-slate-400">Active Dialog</span>
+          </div>
+          <span className="font-mono text-xl font-bold text-purple-300">{metrics.inDiscussion ?? 0}</span>
+        </div>
+
+        <div
+          onClick={() => setStatusFilter('PROPOSAL_SENT')}
+          className={`cursor-pointer p-3 rounded-xl border transition-all flex items-center justify-between ${
+            statusFilter === 'PROPOSAL_SENT'
+              ? 'bg-charcoal-800 border-indigo-400 ring-1 ring-indigo-400/30'
+              : 'bg-charcoal-850/70 border-sage-500/15 hover:border-sage-500/30'
+          }`}
+        >
+          <div>
+            <span className="text-[10px] font-mono uppercase text-indigo-400 block">Proposals Sent</span>
+            <span className="text-xs text-slate-400">Commercial Quote</span>
+          </div>
+          <span className="font-mono text-xl font-bold text-indigo-300">{metrics.proposalSent ?? 0}</span>
+        </div>
+      </div>
+
       {/* Filter and Search Bar */}
       <div className="bg-charcoal-850/90 p-4 rounded-2xl border border-sage-500/20 space-y-3 shadow-md">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-3 items-center">
@@ -521,7 +590,7 @@ export const AdminInquiriesPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Inquiries Table (Phase 6 Specification) */}
+      {/* Inquiries Table (Phase 6 Specification & Project Engagement Integration) */}
       <div className="bg-charcoal-850/90 rounded-2xl border border-sage-500/20 overflow-hidden shadow-card-dark">
         {filteredInquiries.length === 0 ? (
           <div className="p-12 text-center text-slate-500 text-xs font-mono space-y-2">
@@ -533,15 +602,17 @@ export const AdminInquiriesPage: React.FC = () => {
             <table className="w-full text-left text-xs">
               <thead className="bg-charcoal-900/90 text-slate-400 uppercase font-mono text-[10px] border-b border-sage-500/20">
                 <tr>
-                  <th className="px-5 py-3.5">Inquiry ID</th>
-                  <th className="px-5 py-3.5">Client & Company</th>
-                  <th className="px-5 py-3.5">Selected Services</th>
-                  <th className="px-5 py-3.5">Industry</th>
-                  <th className="px-5 py-3.5">Budget</th>
-                  <th className="px-5 py-3.5">Assigned To</th>
-                  <th className="px-5 py-3.5">Submission Date</th>
-                  <th className="px-5 py-3.5">Status</th>
-                  <th className="px-5 py-3.5 text-right">Actions</th>
+                  <th className="px-4 py-3.5">Reference ID</th>
+                  <th className="px-4 py-3.5">Client</th>
+                  <th className="px-4 py-3.5">Company</th>
+                  <th className="px-4 py-3.5">Email</th>
+                  <th className="px-4 py-3.5">Service</th>
+                  <th className="px-4 py-3.5">Project</th>
+                  <th className="px-4 py-3.5">Budget</th>
+                  <th className="px-4 py-3.5">Submitted</th>
+                  <th className="px-4 py-3.5">Status</th>
+                  <th className="px-4 py-3.5">Assigned To</th>
+                  <th className="px-4 py-3.5 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-sage-500/15 font-sans">
@@ -552,27 +623,41 @@ export const AdminInquiriesPage: React.FC = () => {
 
                   return (
                     <tr
-                      key={inquiry.referenceNumber}
+                      key={inquiry.referenceNumber || inquiry._id}
                       className="hover:bg-charcoal-900/50 transition-colors cursor-pointer"
                       onClick={() => handleSelectInquiry(inquiry)}
                     >
-                      <td className="px-5 py-3.5 font-mono font-bold text-champagne-400">
-                        {inquiry.referenceNumber}
+                      <td className="px-4 py-3.5 font-mono font-bold text-champagne-400 whitespace-nowrap">
+                        <Link
+                          to={`/admin/inquiries/${inquiry.referenceNumber}`}
+                          className="hover:underline"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {inquiry.referenceNumber}
+                        </Link>
                       </td>
 
-                      <td className="px-5 py-3.5">
-                        <div className="font-medium text-white">{inquiry.clientName}</div>
-                        <div className="text-slate-400 text-[11px] truncate max-w-[180px]">
-                          {inquiry.companyName}
-                        </div>
-                        <div className="text-slate-500 text-[10px] font-mono truncate max-w-[180px]">
+                      <td className="px-4 py-3.5 font-medium text-white whitespace-nowrap">
+                        {inquiry.clientName}
+                      </td>
+
+                      <td className="px-4 py-3.5 text-slate-300 text-[11px] truncate max-w-[150px]">
+                        {inquiry.companyName}
+                      </td>
+
+                      <td className="px-4 py-3.5 text-slate-400 font-mono text-[11px] truncate max-w-[160px]">
+                        <a
+                          href={`mailto:${inquiry.email}`}
+                          className="hover:text-champagne-300 hover:underline"
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           {inquiry.email}
-                        </div>
+                        </a>
                       </td>
 
-                      <td className="px-5 py-3.5">
-                        <div className="flex flex-wrap gap-1 max-w-[190px]">
-                          {servicesList.map((srv) => (
+                      <td className="px-4 py-3.5">
+                        <div className="flex flex-wrap gap-1 max-w-[160px]">
+                          {servicesList.slice(0, 2).map((srv) => (
                             <span
                               key={srv}
                               className="px-1.5 py-0.5 rounded bg-charcoal-900 border border-sage-500/30 text-champagne-300 text-[9px] font-mono"
@@ -580,18 +665,35 @@ export const AdminInquiriesPage: React.FC = () => {
                               {srv}
                             </span>
                           ))}
+                          {servicesList.length > 2 && (
+                            <span className="text-[9px] font-mono text-slate-500">
+                              +{servicesList.length - 2}
+                            </span>
+                          )}
                         </div>
                       </td>
 
-                      <td className="px-5 py-3.5 text-slate-300 text-[11px] max-w-[140px] truncate">
-                        {inquiry.industry || 'General'}
+                      <td className="px-4 py-3.5 text-slate-300 text-[11px] max-w-[150px] truncate" title={inquiry.projectTitle || inquiry.service}>
+                        {inquiry.projectTitle || inquiry.service || 'Untitled'}
                       </td>
 
-                      <td className="px-5 py-3.5 text-slate-300 font-mono text-[11px] whitespace-nowrap">
-                        {inquiry.budgetRange?.split(' ')[0] || 'Undetermined'}
+                      <td className="px-4 py-3.5 text-slate-300 font-mono text-[11px] whitespace-nowrap">
+                        {inquiry.customBudget || inquiry.budgetRange?.split(' ')[0] || 'Undetermined'}
                       </td>
 
-                      <td className="px-5 py-3.5 text-[11px]">
+                      <td className="px-4 py-3.5 text-slate-400 font-mono text-[10px] whitespace-nowrap">
+                        {new Date(inquiry.createdAt).toLocaleDateString(undefined, {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
+                      </td>
+
+                      <td className="px-4 py-3.5 whitespace-nowrap">
+                        {getStatusBadge(inquiry.status)}
+                      </td>
+
+                      <td className="px-4 py-3.5 text-[11px] whitespace-nowrap">
                         <span className="text-slate-200 font-medium block">
                           {inquiry.assignedTo?.name || 'Unassigned'}
                         </span>
@@ -602,20 +704,15 @@ export const AdminInquiriesPage: React.FC = () => {
                         )}
                       </td>
 
-                      <td className="px-5 py-3.5 text-slate-400 font-mono text-[10px] whitespace-nowrap">
-                        {new Date(inquiry.createdAt).toLocaleDateString(undefined, {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric',
-                        })}
-                      </td>
-
-                      <td className="px-5 py-3.5 whitespace-nowrap">
-                        {getStatusBadge(inquiry.status)}
-                      </td>
-
-                      <td className="px-5 py-3.5 text-right whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                      <td className="px-4 py-3.5 text-right whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                         <div className="flex items-center justify-end gap-1.5">
+                          <Link
+                            to={`/admin/inquiries/${inquiry.referenceNumber}`}
+                            className="p-1.5 rounded-lg bg-charcoal-900 hover:bg-charcoal-800 border border-sage-500/30 text-champagne-400 text-[11px] font-mono transition-colors flex items-center gap-1"
+                            title="Full Record"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                          </Link>
                           <button
                             onClick={() => handleSelectInquiry(inquiry)}
                             className="px-2.5 py-1 rounded-lg bg-charcoal-900 hover:bg-charcoal-800 border border-sage-500/30 text-champagne-400 text-[11px] font-mono transition-colors"
@@ -662,12 +759,21 @@ export const AdminInquiriesPage: React.FC = () => {
                   Submitted on {new Date(selectedInquiry.createdAt).toLocaleString()}
                 </div>
               </div>
-              <button
-                onClick={() => setSelectedInquiry(null)}
-                className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <Link
+                  to={`/admin/inquiries/${selectedInquiry.referenceNumber}`}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-champagne-500/10 hover:bg-champagne-500/20 text-champagne-400 border border-champagne-500/30 text-xs font-mono transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Open Full Record</span>
+                </Link>
+                <button
+                  onClick={() => setSelectedInquiry(null)}
+                  className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Quick Actions: Status & Assignment */}
@@ -905,6 +1011,17 @@ export const AdminInquiriesPage: React.FC = () => {
                   </Button>
                 </div>
               </form>
+            </div>
+
+            {/* Client Communication System */}
+            <div className="space-y-3 pt-2 border-t border-sage-500/20">
+              <ClientCommunication
+                inquiry={selectedInquiry}
+                token={token || ''}
+                adminName={user?.name || 'Solutions Architect'}
+                adminEmail={user?.email || 'inquiries@peacehaven.tech'}
+                onCommunicationSent={() => fetchInquiries()}
+              />
             </div>
 
             {/* Audit History Timeline */}

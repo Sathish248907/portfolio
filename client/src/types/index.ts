@@ -143,6 +143,9 @@ export type InquiryServiceCategory =
 
 export type InquiryStatus = 
   | 'NEW'
+  | 'UNDER_REVIEW'
+  | 'NEED_MORE_INFORMATION'
+  | 'CONTACTED'
   | 'REVIEWING'
   | 'QUALIFIED'
   | 'IN_DISCUSSION'
@@ -152,6 +155,8 @@ export type InquiryStatus =
   | 'REJECTED'
   // Legacy aliases
   | 'New'
+  | 'Under Review'
+  | 'Need More Information'
   | 'Reviewing'
   | 'Contacted'
   | 'Qualified'
@@ -159,6 +164,36 @@ export type InquiryStatus =
   | 'Won'
   | 'Lost'
   | 'Archived';
+
+export interface CommunicationEntry {
+  id: string;
+  type: 'email_sent' | 'email_received' | 'status_update' | 'system' | string;
+  direction: 'outbound' | 'inbound';
+  sender: string;
+  recipient: string;
+  subject: string;
+  message: string;
+  templateSlug?: string;
+  templateName?: string;
+  attachments?: {
+    fileName: string;
+    fileSize?: number;
+    fileType?: string;
+    fileUrl?: string;
+  }[];
+  deliveryStatus: 'sent' | 'delivered' | 'failed' | 'pending' | string;
+  sentAt: string;
+  notes?: string;
+}
+
+export interface ClientEmailTemplate {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  subject: string;
+  defaultBody: string;
+}
 
 export interface InternalNote {
   id: string;
@@ -184,31 +219,50 @@ export interface ProjectInquiry {
   service: InquiryServiceCategory | string;
   // Step 1: Contact
   clientName: string;
+  fullName?: string;
   email: string;
+  businessEmail?: string;
   phoneNumber?: string;
+  phone?: string;
   companyName: string;
   jobTitle?: string;
   country?: string;
   // Step 3: Project Requirements
   projectTitle?: string;
+  projectOverview?: string;
+  detailedRequirements?: string;
+  projectObjectives?: string;
+  requiredFeatures?: string;
   projectDescription?: string;
   projectRequirements: string;
   industry?: string;
   projectType?: string;
   deliverables?: string;
   preferredTechnology?: string;
-  // Step 4: Budget & Additional Info
-  timeline: string;
+  technicalRequirements?: string;
+  // Step 4: Budget & Timeline
   budgetRange: string;
+  budgetCurrency?: string;
+  budgetMin?: number | null;
+  budgetMax?: number | null;
+  customBudget?: string;
+  timeline: string;
+  expectedTimeline?: string;
   startPreference?: string;
+  expectedStartDate?: string;
+  urgency?: 'Normal' | 'High' | 'Urgent' | 'Critical' | string;
+  preferredContactMethod?: 'Email' | 'Phone' | 'Video Meeting' | string;
   additionalRequirements?: string;
+  additionalInformation?: string;
   attachments?: {
     fileName: string;
     fileSize?: number;
     fileType?: string;
+    fileUrl?: string;
   }[];
   // Step 5 & Management
   status: InquiryStatus;
+  priority?: 'low' | 'medium' | 'high' | 'urgent';
   assignedTo?: {
     name: string;
     email?: string;
@@ -216,6 +270,8 @@ export interface ProjectInquiry {
   };
   internalNotes?: InternalNote[];
   notes?: string;
+  lastCommunicatedAt?: string;
+  communicationHistory?: CommunicationEntry[];
   auditHistory?: InquiryAuditEntry[];
   createdAt: string;
   updatedAt?: string;
@@ -224,9 +280,15 @@ export interface ProjectInquiry {
 export interface InquiryMetrics {
   total: number;
   new: number;
+  underReview?: number;
+  needMoreInfo?: number;
+  inDiscussion?: number;
+  proposalSent?: number;
+  converted: number;
+  closed?: number;
+  // Backward compatibility keys
   inProgress: number;
   qualified: number;
-  converted: number;
   rejected: number;
 }
 

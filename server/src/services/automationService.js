@@ -36,9 +36,12 @@ export const automationService = {
           const { inquiry, assignee, assignedBy } = payload;
           if (!inquiry || !assignee) break;
 
+          const validRoles = ['superadmin', 'admin', 'content_manager', 'editor', 'marketing_manager', 'sales_manager', 'viewer', 'all'];
+          const role = validRoles.includes(assignee.role) ? assignee.role : 'sales_manager';
+
           await notificationService.createNotification({
-            recipientId: assignee._id,
-            recipientRole: assignee.role,
+            recipientId: assignee._id || assignee.id || null,
+            recipientRole: role,
             title: `Inquiry Assigned: Ref ${inquiry.referenceNumber}`,
             message: `Assigned to you by ${assignedBy?.name || 'an administrator'} for ${inquiry.companyName} (${inquiry.service}).`,
             category: 'inquiry',

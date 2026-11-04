@@ -28,6 +28,22 @@ export const inquiryService = {
       projectRequirements,
       projectDescription,
       status: 'NEW',
+      priority: validatedData.priority || 'medium',
+      communicationHistory: [
+        {
+          id: `comm_${Date.now()}_auto`,
+          type: 'email_sent',
+          direction: 'outbound',
+          sender: 'Peace Haven Intake <inquiries@peacehaven.tech>',
+          recipient: validatedData.email,
+          subject: `[Peace Haven] Inquiry Received: Ref ${referenceNumber}`,
+          message: `Your project requirements for "${validatedData.projectTitle || service}" have been logged into our intake queue under tracking reference ${referenceNumber}. Our solutions engineering team is reviewing your technical specifications.`,
+          templateSlug: 'client_inquiry_confirmation',
+          templateName: 'Client Inquiry Confirmation (Automated)',
+          deliveryStatus: 'sent',
+          sentAt: new Date(),
+        },
+      ],
       auditHistory: [
         {
           action: 'CREATED',
@@ -117,9 +133,15 @@ export const inquiryService = {
     const metrics = {
       total: allForMetrics.length,
       new: 0,
+      underReview: 0,
+      needMoreInfo: 0,
+      inDiscussion: 0,
+      proposalSent: 0,
+      converted: 0,
+      closed: 0,
+      // Backward compatibility keys
       inProgress: 0,
       qualified: 0,
-      converted: 0,
       rejected: 0,
     };
 
@@ -127,13 +149,27 @@ export const inquiryService = {
       const s = (item.status || '').toUpperCase();
       if (s === 'NEW') {
         metrics.new += 1;
-      } else if (['REVIEWING', 'IN_DISCUSSION', 'PROPOSAL_SENT', 'CONTACTED'].includes(s)) {
+      } else if (s === 'UNDER_REVIEW' || s === 'REVIEWING') {
+        metrics.underReview += 1;
+        metrics.inProgress += 1;
+      } else if (s === 'NEED_MORE_INFORMATION') {
+        metrics.needMoreInfo += 1;
+        metrics.inProgress += 1;
+      } else if (s === 'IN_DISCUSSION') {
+        metrics.inDiscussion += 1;
+        metrics.inProgress += 1;
+      } else if (s === 'PROPOSAL_SENT') {
+        metrics.proposalSent += 1;
+        metrics.inProgress += 1;
+      } else if (s === 'CONTACTED') {
         metrics.inProgress += 1;
       } else if (s === 'QUALIFIED') {
         metrics.qualified += 1;
+        metrics.inProgress += 1;
       } else if (['CONVERTED', 'WON'].includes(s)) {
         metrics.converted += 1;
       } else if (['CLOSED', 'REJECTED', 'LOST', 'ARCHIVED'].includes(s)) {
+        metrics.closed += 1;
         metrics.rejected += 1;
       }
     });
@@ -164,12 +200,14 @@ export const inquiryService = {
    * Update lead pipeline status and internal notes
    */
   async updateInquiryStatus(id, updateData = {}, user) {
-    const { status, notes, assignedTo, notifyClient } = updateData;
+    const { status, priority, notes, assignedTo, notifyClient } = updateData;
     const inquiry = await this.getInquiryById(id);
     if (!inquiry) return null;
 
     const prevStatus = inquiry.status;
+    const prevPriority = inquiry.priority;
     if (status) inquiry.status = status;
+    if (priority) inquiry.priority = priority;
     if (notes !== undefined) inquiry.notes = notes;
     if (assignedTo !== undefined) inquiry.assignedTo = assignedTo;
 
@@ -179,7 +217,7 @@ export const inquiryService = {
       changedBy: user?.email || user?.name || 'admin',
       previousStatus: prevStatus,
       newStatus: status || prevStatus,
-      notes: notes || (assignedTo ? `Assigned to: ${assignedTo.name}` : 'Details updated'),
+      notes: notes || (assignedTo ? `Assigned to: ${assignedTo.name}` : priority ? `Priority set to ${priority}` : 'Details updated'),
       timestamp: new Date(),
     });
 
@@ -205,6 +243,28 @@ export const inquiryService = {
       });
     }
 
+    return inquiry;
+  },
+
+  /**
+   * Update priority tier (low, medium, high, urgent)
+   */
+  async updateInquiryPriority(id, priority, user) {
+    const inquiry = await this.getInquiryById(id);
+    if (!inquiry) return null;
+
+    const prevPriority = inquiry.priority;
+    inquiry.priority = priority;
+    inquiry.auditHistory.push({
+      action: 'PRIORITY_CHANGED',
+      changedBy: user?.email || user?.name || 'admin',
+      previousStatus: inquiry.status,
+      newStatus: inquiry.status,
+      notes: `Priority changed from ${prevPriority} to ${priority}`,
+      timestamp: new Date(),
+    });
+
+    await inquiry.save();
     return inquiry;
   },
 

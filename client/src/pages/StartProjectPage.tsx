@@ -89,6 +89,28 @@ const startPreferenceOptions = [
   'Exploring / Planning Stage',
 ];
 
+const currencyOptions = [
+  { code: 'USD', symbol: '$', label: 'USD ($)' },
+  { code: 'EUR', symbol: '€', label: 'EUR (€)' },
+  { code: 'GBP', symbol: '£', label: 'GBP (£)' },
+  { code: 'CAD', symbol: '$', label: 'CAD ($)' },
+  { code: 'AUD', symbol: '$', label: 'AUD ($)' },
+  { code: 'INR', symbol: '₹', label: 'INR (₹)' },
+  { code: 'SGD', symbol: '$', label: 'SGD ($)' },
+];
+
+const urgencyOptions = [
+  'Normal',
+  'High',
+  'Urgent / Critical',
+];
+
+const contactMethodOptions = [
+  'Email',
+  'Phone',
+  'Video Meeting',
+];
+
 const inquiryFormSchema = z.object({
   // Step 1: Contact Information
   clientName: z.string().min(2, 'Full name is required (min 2 characters)'),
@@ -104,16 +126,27 @@ const inquiryFormSchema = z.object({
   // Step 3: Project Requirements
   projectTitle: z.string().min(3, 'Project title is required (min 3 characters)'),
   projectDescription: z.string().min(15, 'Please provide at least 15 characters describing requirements'),
+  projectOverview: z.string().optional().default(''),
+  detailedRequirements: z.string().optional().default(''),
+  projectObjectives: z.string().optional().default(''),
+  requiredFeatures: z.string().optional().default(''),
   industry: z.string().min(1, 'Please select an industry'),
   projectType: z.string().min(1, 'Please select a project type'),
   deliverables: z.string().optional().default(''),
   preferredTechnology: z.string().optional().default(''),
+  technicalRequirements: z.string().optional().default(''),
   timeline: z.string().min(1, 'Please select a timeline'),
 
-  // Step 4: Budget & Additional Information
+  // Step 4: Budget & Timeline
   budgetRange: z.string().min(1, 'Please select an estimated budget tier'),
+  budgetCurrency: z.string().optional().default('USD'),
+  customBudget: z.string().optional().default(''),
   startPreference: z.string().min(1, 'Please select project start preference'),
+  expectedStartDate: z.string().optional().default('Immediately'),
+  urgency: z.string().optional().default('Normal'),
+  preferredContactMethod: z.string().optional().default('Email'),
   additionalRequirements: z.string().optional().default(''),
+  additionalInformation: z.string().optional().default(''),
 
   // Step 5: Consent
   consent: z.literal(true, {
@@ -172,14 +205,25 @@ export const StartProjectPage: React.FC = () => {
       selectedServices: initialService,
       projectTitle: '',
       projectDescription: '',
+      projectOverview: '',
+      detailedRequirements: '',
+      projectObjectives: '',
+      requiredFeatures: '',
       industry: 'Information Technology & Software',
       projectType: 'New Platform / MVP Build',
       deliverables: 'Architecture specifications, scalable codebase, API endpoints',
       preferredTechnology: '',
+      technicalRequirements: '',
       timeline: '1 - 3 months',
       budgetRange: '$50,000 - $100,000 (Production System Build)',
+      budgetCurrency: 'USD',
+      customBudget: '',
       startPreference: 'Within 2 weeks',
+      expectedStartDate: 'Within 2 weeks',
+      urgency: 'Normal',
+      preferredContactMethod: 'Email',
       additionalRequirements: '',
+      additionalInformation: '',
       consent: true,
     },
   });
@@ -193,14 +237,23 @@ export const StartProjectPage: React.FC = () => {
   const watchedPhone = watch('phoneNumber');
   const watchedTitle = watch('projectTitle');
   const watchedDesc = watch('projectDescription');
+  const watchedOverview = watch('projectOverview');
+  const watchedObjectives = watch('projectObjectives');
+  const watchedFeatures = watch('requiredFeatures');
   const watchedIndustry = watch('industry');
   const watchedType = watch('projectType');
   const watchedDeliverables = watch('deliverables');
   const watchedTech = watch('preferredTechnology');
+  const watchedTechReq = watch('technicalRequirements');
   const watchedTimeline = watch('timeline');
   const watchedBudget = watch('budgetRange');
+  const watchedCurrency = watch('budgetCurrency');
+  const watchedCustomBudget = watch('customBudget');
   const watchedStart = watch('startPreference');
+  const watchedUrgency = watch('urgency');
+  const watchedContactMethod = watch('preferredContactMethod');
   const watchedAddReq = watch('additionalRequirements');
+  const watchedAddInfo = watch('additionalInformation');
 
   const toggleService = (serviceName: string) => {
     const current = [...selectedServices];
@@ -281,14 +334,26 @@ export const StartProjectPage: React.FC = () => {
         projectTitle: data.projectTitle,
         projectDescription: data.projectDescription,
         projectRequirements: data.projectDescription,
+        projectOverview: data.projectOverview || data.projectDescription,
+        detailedRequirements: data.detailedRequirements || data.projectDescription,
+        projectObjectives: data.projectObjectives,
+        requiredFeatures: data.requiredFeatures,
         industry: data.industry,
         projectType: data.projectType,
         deliverables: data.deliverables,
         preferredTechnology: data.preferredTechnology,
+        technicalRequirements: data.technicalRequirements || data.preferredTechnology,
         timeline: data.timeline,
-        budgetRange: data.budgetRange,
+        expectedTimeline: data.timeline,
+        budgetRange: data.customBudget ? `Custom: ${data.budgetCurrency} ${data.customBudget}` : data.budgetRange,
+        budgetCurrency: data.budgetCurrency || 'USD',
+        customBudget: data.customBudget,
         startPreference: data.startPreference,
+        expectedStartDate: data.expectedStartDate || data.startPreference,
+        urgency: data.urgency || 'Normal',
+        preferredContactMethod: data.preferredContactMethod || 'Email',
         additionalRequirements: data.additionalRequirements,
+        additionalInformation: data.additionalInformation || data.additionalRequirements,
         attachments: attachedFiles,
       });
 
@@ -457,7 +522,14 @@ export const StartProjectPage: React.FC = () => {
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Assigned Team:</span>
-                <span className="text-teal-300">Engineering Dispatch Desk</span>
+                <span className="text-teal-300">Solutions Engineering Desk</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-400">Next Steps:</span>
+                <span className="text-slate-300">Technical Assessment in 24–48 hrs</span>
+              </div>
+              <div className="pt-2 border-t border-sage-500/20 text-[11px] text-slate-400 font-light">
+                Official Support: <a href="mailto:inquiries@peacehaven.tech" className="text-champagne-400 hover:underline">inquiries@peacehaven.tech</a> &bull; +1 (415) 890-3345
               </div>
             </div>
 
@@ -757,6 +829,35 @@ export const StartProjectPage: React.FC = () => {
                     </div>
                   </div>
 
+                  {/* Expanded Step 3 Detailed Requirements */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label htmlFor="projectObjectives" className="block text-xs font-mono text-slate-300">
+                        Main Project Objectives (Optional)
+                      </label>
+                      <input
+                        id="projectObjectives"
+                        type="text"
+                        {...register('projectObjectives')}
+                        placeholder="e.g. Increase warehouse throughput by 40%, achieve sub-15us trading latency"
+                        className="w-full px-4 py-2.5 rounded-xl bg-charcoal-900 border border-sage-500/30 focus:border-champagne-400 focus:outline-none text-warm-100 text-sm"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label htmlFor="requiredFeatures" className="block text-xs font-mono text-slate-300">
+                        Required Features & Capabilities (Optional)
+                      </label>
+                      <input
+                        id="requiredFeatures"
+                        type="text"
+                        {...register('requiredFeatures')}
+                        placeholder="e.g. Multi-tenant RBAC, automated vault reconciliation, live LiDAR visualizer"
+                        className="w-full px-4 py-2.5 rounded-xl bg-charcoal-900 border border-sage-500/30 focus:border-champagne-400 focus:outline-none text-warm-100 text-sm"
+                      />
+                    </div>
+                  </div>
+
                   <div className="space-y-1.5">
                     <label htmlFor="timeline" className="block text-xs font-mono text-slate-300">
                       Target Project Timeline *
@@ -800,29 +901,122 @@ export const StartProjectPage: React.FC = () => {
 
                 <div className="space-y-6">
                   {/* Budget Options */}
-                  <div className="space-y-2">
-                    <label className="block text-xs font-mono text-slate-300 flex items-center gap-1.5">
-                      <DollarSign className="w-3.5 h-3.5 text-champagne-400" />
-                      <span>Estimated Budget Tier *</span>
-                    </label>
+                  <div className="space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <label className="block text-xs font-mono text-slate-300 flex items-center gap-1.5">
+                        <DollarSign className="w-3.5 h-3.5 text-champagne-400" />
+                        <span>Estimated Budget Tier *</span>
+                      </label>
+
+                      {/* Currency Selector */}
+                      <div className="flex items-center gap-1.5 text-xs font-mono">
+                        <span className="text-slate-400 text-[11px]">Currency:</span>
+                        <div className="flex rounded-lg bg-charcoal-900 border border-sage-500/30 p-0.5">
+                          {currencyOptions.map((c) => (
+                            <button
+                              type="button"
+                              key={c.code}
+                              onClick={() => setValue('budgetCurrency', c.code)}
+                              className={`px-2 py-0.5 rounded text-[11px] font-mono transition-all ${
+                                (watchedCurrency || 'USD') === c.code
+                                  ? 'bg-champagne-500 text-charcoal-950 font-bold'
+                                  : 'text-slate-400 hover:text-white'
+                              }`}
+                            >
+                              {c.code}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                       {budgetOptions.map((b) => (
                         <button
                           type="button"
                           key={b}
-                          onClick={() => setValue('budgetRange', b, { shouldValidate: true })}
+                          onClick={() => {
+                            setValue('budgetRange', b, { shouldValidate: true });
+                            setValue('customBudget', '');
+                          }}
                           className={`px-4 py-3 rounded-xl border text-xs font-mono text-left flex items-center justify-between transition-all ${
-                            watchedBudget === b
+                            watchedBudget === b && !watchedCustomBudget
                               ? 'bg-charcoal-800 border-champagne-400 text-champagne-300 font-bold'
                               : 'bg-charcoal-900/60 border-sage-500/20 text-slate-300 hover:border-sage-500/40'
                           }`}
                         >
                           <span>{b}</span>
-                          {watchedBudget === b && <Check className="w-3.5 h-3.5 text-champagne-400" />}
+                          {watchedBudget === b && !watchedCustomBudget && <Check className="w-3.5 h-3.5 text-champagne-400" />}
                         </button>
                       ))}
                     </div>
+
+                    {/* Custom Budget Amount Option */}
+                    <div className="p-3.5 rounded-xl bg-charcoal-900/70 border border-sage-500/20 space-y-1.5">
+                      <label htmlFor="customBudget" className="text-xs font-mono text-slate-300 block">
+                        Or Specify Custom Budget Amount (Optional)
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-champagne-400 font-mono text-xs font-bold">
+                          {watchedCurrency || 'USD'}
+                        </span>
+                        <input
+                          id="customBudget"
+                          type="text"
+                          {...register('customBudget')}
+                          placeholder="e.g. $75,000 or Target Sprint Allocation"
+                          className="w-full pl-14 pr-4 py-2 rounded-xl bg-charcoal-850 border border-sage-500/30 text-xs text-white focus:outline-none focus:border-champagne-400 font-mono"
+                        />
+                      </div>
+                    </div>
                     {errors.budgetRange && <p className="text-red-400 text-xs">{errors.budgetRange.message}</p>}
+                  </div>
+
+                  {/* Urgency & Preferred Contact Method */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="block text-xs font-mono text-slate-300">
+                        Project Urgency Level
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
+                        {urgencyOptions.map((u) => (
+                          <button
+                            type="button"
+                            key={u}
+                            onClick={() => setValue('urgency', u)}
+                            className={`px-2.5 py-2 rounded-xl border text-xs font-mono text-center transition-all ${
+                              (watchedUrgency || 'Normal') === u
+                                ? 'bg-charcoal-800 border-champagne-400 text-champagne-300 font-bold'
+                                : 'bg-charcoal-900/60 border-sage-500/20 text-slate-400 hover:text-white'
+                            }`}
+                          >
+                            {u}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="block text-xs font-mono text-slate-300">
+                        Preferred Communication Method
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
+                        {contactMethodOptions.map((cm) => (
+                          <button
+                            type="button"
+                            key={cm}
+                            onClick={() => setValue('preferredContactMethod', cm)}
+                            className={`px-2 py-2 rounded-xl border text-xs font-mono text-center transition-all ${
+                              (watchedContactMethod || 'Email') === cm
+                                ? 'bg-charcoal-800 border-champagne-400 text-champagne-300 font-bold'
+                                : 'bg-charcoal-900/60 border-sage-500/20 text-slate-400 hover:text-white'
+                            }`}
+                          >
+                            {cm}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
 
                   {/* Start Preference */}
@@ -1059,18 +1253,24 @@ export const StartProjectPage: React.FC = () => {
                         <span>Edit</span>
                       </button>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
                       <div>
                         <span className="text-slate-500 block text-[10px]">BUDGET TIER</span>
-                        <span className="text-white font-medium">{watchedBudget}</span>
+                        <span className="text-white font-medium">
+                          {watchedCustomBudget ? `${watchedCurrency || 'USD'} ${watchedCustomBudget}` : watchedBudget}
+                        </span>
                       </div>
                       <div>
                         <span className="text-slate-500 block text-[10px]">TIMELINE</span>
                         <span className="text-slate-300">{watchedTimeline}</span>
                       </div>
                       <div>
-                        <span className="text-slate-500 block text-[10px]">START PREFERENCE</span>
-                        <span className="text-teal-300">{watchedStart}</span>
+                        <span className="text-slate-500 block text-[10px]">URGENCY</span>
+                        <span className="text-amber-400">{watchedUrgency || 'Normal'}</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-500 block text-[10px]">CONTACT METHOD</span>
+                        <span className="text-teal-300">{watchedContactMethod || 'Email'}</span>
                       </div>
                     </div>
                     {attachedFiles.length > 0 && (

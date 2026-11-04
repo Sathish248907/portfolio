@@ -1,5 +1,6 @@
-import { inquirySchema, statusUpdateSchema, noteSchema } from '../validators/inquiryValidator.js';
+import { inquirySchema, statusUpdateSchema, noteSchema, clientEmailSchema } from '../validators/inquiryValidator.js';
 import { inquiryService } from '../services/inquiryService.js';
+import { inquiryCommunicationService } from '../services/inquiryCommunicationService.js';
 
 export const inquiryController = {
   /**
@@ -117,6 +118,90 @@ export const inquiryController = {
         `attachment; filename="peace-haven-inquiries-${Date.now()}.csv"`
       );
       res.status(200).send(csvContent);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  /**
+   * Admin: Send a direct email to client and log in communication history
+   */
+  async sendClientEmail(req, res, next) {
+    try {
+      const { id } = req.params;
+      const validatedEmailData = clientEmailSchema.parse(req.body);
+
+      const result = await inquiryCommunicationService.sendClientEmail(
+        id,
+        validatedEmailData,
+        req.user
+      );
+
+      res.status(200).json({
+        success: true,
+        message: 'Client communication dispatched successfully.',
+        data: result.communication,
+        deliveryStatus: result.deliveryStatus,
+        inquiry: result.inquiry,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  /**
+   * Admin: Get client communication history for an inquiry
+   */
+  async getCommunicationHistory(req, res, next) {
+    try {
+      const { id } = req.params;
+      const result = await inquiryCommunicationService.getCommunicationHistory(id);
+
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  /**
+   * Admin: Get available client communication templates
+   */
+  async getCommunicationTemplates(req, res, next) {
+    try {
+      const templates = inquiryCommunicationService.getTemplates();
+      res.status(200).json({
+        success: true,
+        data: templates,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  /**
+   * Admin: Update lead priority
+   */
+  async updatePriority(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { priority } = req.body;
+      if (!['low', 'medium', 'high', 'urgent'].includes(priority)) {
+        return res.status(400).json({ success: false, error: 'Invalid priority level.' });
+      }
+
+      const inquiry = await inquiryService.updateInquiryPriority(id, priority, req.user);
+      if (!inquiry) {
+        return res.status(404).json({ success: false, error: 'Inquiry not found.' });
+      }
+
+      res.json({
+        success: true,
+        message: `Priority set to ${priority}.`,
+        data: inquiry,
+      });
     } catch (err) {
       next(err);
     }

@@ -27,6 +27,7 @@ const AdminLoginPage = lazy(() => import('./pages/admin/AdminLoginPage').then((m
 const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage').then((m) => ({ default: m.AdminDashboardPage })));
 const AdminAnalyticsPage = lazy(() => import('./pages/admin/AdminAnalyticsPage').then((m) => ({ default: m.AdminAnalyticsPage })));
 const AdminInquiriesPage = lazy(() => import('./pages/admin/AdminInquiriesPage').then((m) => ({ default: m.AdminInquiriesPage })));
+const AdminInquiryDetailPage = lazy(() => import('./pages/admin/AdminInquiryDetailPage').then((m) => ({ default: m.AdminInquiryDetailPage })));
 const AdminProjectsPage = lazy(() => import('./pages/admin/AdminProjectsPage').then((m) => ({ default: m.AdminProjectsPage })));
 const AdminCmsPage = lazy(() => import('./pages/admin/AdminCmsPage').then((m) => ({ default: m.AdminCmsPage })));
 const AdminSettingsPage = lazy(() => import('./pages/admin/AdminSettingsPage').then((m) => ({ default: m.AdminSettingsPage })));
@@ -102,6 +103,7 @@ export const App: React.FC = () => {
           <Route path="profile" element={<AdminProfilePage />} />
           <Route path="analytics" element={<PermissionGuard module="analytics" isPage><AdminAnalyticsPage /></PermissionGuard>} />
           <Route path="inquiries" element={<PermissionGuard module="inquiries" isPage><AdminInquiriesPage /></PermissionGuard>} />
+          <Route path="inquiries/:id" element={<PermissionGuard module="inquiries" isPage><AdminInquiryDetailPage /></PermissionGuard>} />
           <Route path="projects" element={<PermissionGuard module="portfolio" isPage><AdminProjectsPage /></PermissionGuard>} />
           <Route path="cms" element={<PermissionGuard module="cms" isPage><AdminCmsPage /></PermissionGuard>} />
           <Route path="content" element={<PermissionGuard module="portfolio" isPage><AdminProjectsPage /></PermissionGuard>} />

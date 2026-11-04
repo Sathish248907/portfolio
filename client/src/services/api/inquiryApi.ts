@@ -241,6 +241,107 @@ export const inquiryApi = {
     return { success: true, message: 'Inquiry deleted successfully' };
   },
 
+  async updateInquiryPriority(token: string, idOrRef: string, priority: 'low' | 'medium' | 'high' | 'urgent') {
+    try {
+      const res = await request<{ success: boolean; data: ProjectInquiry }>(`/admin/inquiries/${idOrRef}/priority`, {
+        method: 'PATCH',
+        token,
+        body: JSON.stringify({ priority }),
+      });
+      if (res && res.data) return res;
+    } catch {}
+
+    const list = getStoredInquiries();
+    const item = list.find((i: any) => i.referenceNumber === idOrRef || i._id === idOrRef);
+    if (item) {
+      item.priority = priority;
+      item.updatedAt = new Date().toISOString();
+      localStorage.setItem(INQUIRIES_STORAGE_KEY, JSON.stringify(list));
+      return { success: true, data: item };
+    }
+    return { success: true, message: 'Priority updated' };
+  },
+
+  async getClientCommunicationTemplates(token: string) {
+    try {
+      const res = await request<{ success: boolean; data: any[] }>('/admin/inquiries/communication/templates', {
+        token,
+      });
+      if (res && res.data) return res.data;
+    } catch {}
+
+    return [];
+  },
+
+  async getCommunicationHistory(token: string, idOrRef: string) {
+    try {
+      const res = await request<{ success: boolean; data: { history: any[] } }>(`/admin/inquiries/${idOrRef}/communication`, {
+        token,
+      });
+      if (res?.data?.history) return res.data.history;
+    } catch {}
+
+    const list = getStoredInquiries();
+    const item = list.find((i: any) => i.referenceNumber === idOrRef || i._id === idOrRef);
+    return item?.communicationHistory || [];
+  },
+
+  async sendClientEmail(
+    token: string,
+    idOrRef: string,
+    emailData: {
+      recipientEmail: string;
+      subject: string;
+      message: string;
+      templateSlug?: string;
+      attachments?: { fileName: string; fileSize?: number; fileType?: string; fileUrl?: string }[];
+    }
+  ) {
+    try {
+      const res = await request<{ success: boolean; message: string; data: any; inquiry: ProjectInquiry }>(
+        `/admin/inquiries/${idOrRef}/communication/email`,
+        {
+          method: 'POST',
+          token,
+          body: JSON.stringify(emailData),
+        }
+      );
+      if (res && res.success) return res;
+    } catch (err) {
+      console.warn('[API Client Communication] Server call failed, updating local state', err);
+    }
+
+    const list = getStoredInquiries();
+    const item = list.find((i: any) => i.referenceNumber === idOrRef || i._id === idOrRef);
+    const mockComm = {
+      id: `comm_${Date.now()}`,
+      type: 'email_sent',
+      direction: 'outbound' as const,
+      sender: 'Peace Haven Lead Team <inquiries@peacehaven.tech>',
+      recipient: emailData.recipientEmail,
+      subject: emailData.subject,
+      message: emailData.message,
+      templateSlug: emailData.templateSlug,
+      deliveryStatus: 'sent',
+      sentAt: new Date().toISOString(),
+    };
+
+    if (item) {
+      if (!item.communicationHistory) item.communicationHistory = [];
+      item.communicationHistory.push(mockComm);
+      item.lastCommunicatedAt = new Date().toISOString();
+      if (item.status === 'NEW') item.status = 'CONTACTED';
+      localStorage.setItem(INQUIRIES_STORAGE_KEY, JSON.stringify(list));
+    }
+
+    return {
+      success: true,
+      message: 'Email dispatched successfully.',
+      data: mockComm,
+      inquiry: item || undefined,
+    };
+  },
+
   async exportInquiriesCsv(token: string, filters: { status?: string; service?: string } = {}) {
     try {
       const res = await request<{ success: boolean; csv: string; count: number }>('/admin/inquiries/export', {

@@ -1,4 +1,5 @@
 import { AdminUser } from '../models/AdminUser.js';
+import { Inquiry } from '../models/Inquiry.js';
 import { Service } from '../models/Service.js';
 import { Project } from '../models/Project.js';
 import { AnalyticsEvent } from '../models/AnalyticsEvent.js';
@@ -1479,6 +1480,182 @@ export async function seedInitialData() {
       ];
       await EmailLog.insertMany(initialEmailLogs);
       console.log(`[SEED] Initialized ${initialEmailLogs.length} baseline email delivery records.`);
+    }
+    // 16. Seed Baseline Project Inquiries
+    const inquiryCount = await Inquiry.countDocuments();
+    if (inquiryCount === 0) {
+      const superAdmin = await AdminUser.findOne({ role: 'superadmin' });
+      const baselineInquiries = [
+        {
+          referenceNumber: 'PH-MW1O45EI-3345',
+          clientName: 'Marcus Vance',
+          email: 'mvance@apexrobotics.io',
+          companyName: 'Apex Robotics Systems',
+          jobTitle: 'VP of Engineering',
+          country: 'United States',
+          phoneNumber: '+1 (415) 555-0199',
+          selectedServices: ['Robotics & Automation'],
+          service: 'Robotics & Automation',
+          projectTitle: 'Warehouse AMR Fleet Dispatcher',
+          projectDescription: 'ROS 2-driven multi-robot fleet dispatching with LiDAR obstacle avoidance, real-time SLAM navigation, and automated charging dock orchestration.',
+          projectRequirements: 'ROS 2-driven multi-robot fleet dispatching with LiDAR obstacle avoidance, real-time SLAM navigation, and automated charging dock orchestration.',
+          projectOverview: 'Autonomous Mobile Robot (AMR) deployment across a 150,000 sq ft logistics facility.',
+          detailedRequirements: 'Sub-second dispatch algorithms, ROS 2 Humble/Iron integration, safety certified obstacle avoidance, and central dashboard monitoring.',
+          projectObjectives: 'Increase warehouse throughput by 45% while reducing transit collision incidents to zero.',
+          requiredFeatures: 'Dynamic route rerouting, fleet battery optimization, RESTful warehouse management API, and live telemetry web visualization.',
+          deliverables: 'Custom ROS 2 navigation stack, dispatching server microservice, operator React dashboard, and simulation testbench.',
+          technicalRequirements: 'ROS 2 Humble, C++, Python, Nav2, Docker, WebSockets.',
+          industry: 'Manufacturing & Industrial Automation',
+          projectType: 'Prototype / Proof-of-Concept',
+          budgetRange: '$100,000 - $250,000 (Enterprise Infrastructure)',
+          budgetCurrency: 'USD',
+          timeline: '3 - 6 months',
+          startPreference: 'Within 2 weeks',
+          urgency: 'High',
+          preferredContactMethod: 'Email',
+          status: 'REVIEWING',
+          priority: 'high',
+          assignedTo: {
+            name: superAdmin?.name || 'David Kim',
+            email: superAdmin?.email || 'dkim@peacehaven.tech',
+            role: 'Robotics & Automation Lead',
+          },
+          communicationHistory: [
+            {
+              id: 'comm_seed_001',
+              type: 'email_sent',
+              direction: 'outbound',
+              sender: 'Peace Haven Intake <inquiries@peacehaven.tech>',
+              recipient: 'mvance@apexrobotics.io',
+              subject: '[Peace Haven] Inquiry Received: Ref PH-MW1O45EI-3345',
+              message: 'Your project requirements for "Warehouse AMR Fleet Dispatcher" have been logged under reference PH-MW1O45EI-3345.',
+              templateSlug: 'client_inquiry_confirmation',
+              templateName: 'Client Inquiry Confirmation (Automated)',
+              deliveryStatus: 'sent',
+              sentAt: new Date(Date.now() - 48 * 3600 * 1000),
+            },
+            {
+              id: 'comm_seed_002',
+              type: 'email_sent',
+              direction: 'outbound',
+              sender: `${superAdmin?.name || 'David Kim'} <${superAdmin?.email || 'dkim@peacehaven.tech'}>`,
+              recipient: 'mvance@apexrobotics.io',
+              subject: 'Re: Project Specifications Review – PH-MW1O45EI-3345 (Apex Robotics Systems)',
+              message: 'Dear Marcus,\n\nOur robotics engineering leads have completed an initial review of your AMR specifications. We see strong alignment with our Nav2 expertise and are preparing initial architectural recommendations.\n\nBest regards,\nDavid Kim',
+              templateSlug: 'thank_you_requirements',
+              templateName: '2. Thank You for Your Project Requirements',
+              deliveryStatus: 'sent',
+              sentAt: new Date(Date.now() - 24 * 3600 * 1000),
+            },
+          ],
+          internalNotes: [
+            {
+              id: 'note_seed_001',
+              text: 'Scoping meeting confirmed with Marcus for Thursday. ROS 2 Nav2 demo prepared on staging environment.',
+              author: superAdmin?.name || 'David Kim',
+              createdAt: new Date(Date.now() - 20 * 3600 * 1000),
+            },
+          ],
+          auditHistory: [
+            {
+              action: 'CREATED',
+              changedBy: 'mvance@apexrobotics.io',
+              previousStatus: null,
+              newStatus: 'NEW',
+              notes: 'Initial 5-step project engagement submission',
+              timestamp: new Date(Date.now() - 48 * 3600 * 1000),
+            },
+            {
+              action: 'UPDATE',
+              changedBy: superAdmin?.email || 'admin@peacehaven.tech',
+              previousStatus: 'NEW',
+              newStatus: 'REVIEWING',
+              notes: 'Assigned to David Kim for technical feasibility review',
+              timestamp: new Date(Date.now() - 24 * 3600 * 1000),
+            },
+          ],
+          createdAt: new Date(Date.now() - 48 * 3600 * 1000),
+        },
+        {
+          referenceNumber: 'PH-VANGUARD-01',
+          clientName: 'Elena Rostova',
+          email: 'elena@vanguardfin.com',
+          companyName: 'Vanguard Global Financials',
+          jobTitle: 'VP of Digital Assets',
+          country: 'United Kingdom',
+          phoneNumber: '+44 20 7946 0912',
+          selectedServices: ['FinTech', 'Web Development'],
+          service: 'FinTech',
+          projectTitle: 'Enterprise Precious Metals Custody Gateway',
+          projectDescription: 'A high-throughput FIX-compliant transaction engine connecting vaulted physical bullion inventory with institutional investors.',
+          projectRequirements: 'A high-throughput FIX-compliant transaction engine connecting vaulted physical bullion inventory with institutional investors.',
+          projectOverview: 'Institutional digital bullion gateway offering real-time fractional allocation and custody audits.',
+          detailedRequirements: 'Double-entry cryptographic ledger core, sub-15 microsecond order routing, FIX 4.4/5.0 protocol bridges, and SOC 2 Type II compliance.',
+          projectObjectives: 'Enable 24/7 institutional trading and instant settlement of physical gold and silver tokens.',
+          requiredFeatures: 'Automated vault reconciliation, multi-custodian cold storage APIs, KYC/AML screening, and responsive client portal.',
+          deliverables: 'Matching engine core, FIX bridge microservices, institutional client web app, and penetration test certification.',
+          technicalRequirements: 'Go, Node.js, React, PostgreSQL, Redis, FIX Protocol, AWS GovCloud.',
+          industry: 'Banking & Financial Services',
+          projectType: 'Enterprise System Modernization',
+          budgetRange: '$250,000+ (Comprehensive Turnkey Deployment)',
+          budgetCurrency: 'USD',
+          timeline: '6+ months / Long-Term Roadmap',
+          startPreference: 'Immediately',
+          urgency: 'Urgent',
+          preferredContactMethod: 'Video Meeting',
+          status: 'IN_DISCUSSION',
+          priority: 'urgent',
+          assignedTo: {
+            name: 'Maya Chen',
+            email: 'mchen@peacehaven.tech',
+            role: 'FinTech Principal',
+          },
+          communicationHistory: [
+            {
+              id: 'comm_seed_003',
+              type: 'email_sent',
+              direction: 'outbound',
+              sender: 'Peace Haven Intake <inquiries@peacehaven.tech>',
+              recipient: 'elena@vanguardfin.com',
+              subject: '[Peace Haven] Inquiry Received: Ref PH-VANGUARD-01',
+              message: 'Your project requirements for "Enterprise Precious Metals Custody Gateway" have been registered under Ref PH-VANGUARD-01.',
+              templateSlug: 'client_inquiry_confirmation',
+              templateName: 'Client Inquiry Confirmation (Automated)',
+              deliveryStatus: 'sent',
+              sentAt: new Date(Date.now() - 72 * 3600 * 1000),
+            },
+          ],
+          internalNotes: [
+            {
+              id: 'note_seed_002',
+              text: 'NDA executed. Shared preliminary FIX engine latency benchmarks (sub-12 microseconds).',
+              author: 'Maya Chen',
+              createdAt: new Date(Date.now() - 36 * 3600 * 1000),
+            },
+          ],
+          auditHistory: [
+            {
+              action: 'CREATED',
+              changedBy: 'elena@vanguardfin.com',
+              previousStatus: null,
+              newStatus: 'NEW',
+              notes: 'Initial 5-step intake submission',
+              timestamp: new Date(Date.now() - 72 * 3600 * 1000),
+            },
+            {
+              action: 'UPDATE',
+              changedBy: 'mchen@peacehaven.tech',
+              previousStatus: 'NEW',
+              newStatus: 'IN_DISCUSSION',
+              notes: 'Discovery workshop scheduled with Vanguard compliance team',
+              timestamp: new Date(Date.now() - 36 * 3600 * 1000),
+            },
+          ],
+          createdAt: new Date(Date.now() - 72 * 3600 * 1000),
+        },
+      ];
+      await Inquiry.insertMany(baselineInquiries);
+      console.log(`[SEED] Initialized ${baselineInquiries.length} baseline project inquiries.`);
     }
   } catch (err) {
     console.error('[SEED ERROR] Failed to seed initial data:', err.message);
