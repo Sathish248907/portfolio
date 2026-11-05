@@ -123,6 +123,17 @@ export const adminManagementController = {
         return res.status(400).json({ success: false, error: 'Name, email, and password are required.' });
       }
 
+      // Single-Admin policy enforcement
+      if (process.env.ALLOW_MULTIPLE_ADMINS !== 'true') {
+        const adminCount = await AdminUser.countDocuments();
+        if (adminCount >= 1) {
+          return res.status(403).json({
+            success: false,
+            error: 'Single-Admin Policy: Peace Haven is restricted to a single administrator. Additional admin accounts cannot be created.',
+          });
+        }
+      }
+
       const existing = await AdminUser.findOne({ email: email.toLowerCase() });
       if (existing) {
         return res.status(409).json({ success: false, error: 'An admin user with this email already exists.' });
@@ -600,6 +611,14 @@ export const adminManagementController = {
 
       if (!email) {
         return res.status(400).json({ success: false, error: 'Email is required for invitation.' });
+      }
+
+      // Single-Admin policy enforcement
+      if (process.env.ALLOW_MULTIPLE_ADMINS !== 'true') {
+        return res.status(403).json({
+          success: false,
+          error: 'Single-Admin Policy: Peace Haven is restricted to a single administrator. Outbound administrator invitations are disabled.',
+        });
       }
 
       const existingUser = await AdminUser.findOne({ email: email.toLowerCase() });

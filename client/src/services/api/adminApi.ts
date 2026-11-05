@@ -129,62 +129,12 @@ export const FALLBACK_USERS: AdminUser[] = [
   {
     id: 'usr-1',
     _id: 'usr-1',
-    name: 'Super Administrator',
+    name: 'Executive Technical Lead',
     email: 'admin@peacehaven.tech',
     role: 'superadmin',
     status: 'active',
     lastLoginAt: new Date().toISOString(),
     createdAt: '2026-01-15T08:00:00.000Z',
-  },
-  {
-    id: 'usr-2',
-    _id: 'usr-2',
-    name: 'Claire Vance',
-    email: 'claire.vance@peacehaven.tech',
-    role: 'content_manager',
-    status: 'active',
-    lastLoginAt: new Date(Date.now() - 3600000).toISOString(),
-    createdAt: '2026-02-10T10:00:00.000Z',
-  },
-  {
-    id: 'usr-3',
-    _id: 'usr-3',
-    name: 'Marcus Chen',
-    email: 'marcus.chen@peacehaven.tech',
-    role: 'editor',
-    status: 'active',
-    lastLoginAt: new Date(Date.now() - 7200000).toISOString(),
-    createdAt: '2026-02-15T11:00:00.000Z',
-  },
-  {
-    id: 'usr-4',
-    _id: 'usr-4',
-    name: 'Sophia Alvarez',
-    email: 'sophia.alvarez@peacehaven.tech',
-    role: 'marketing_manager',
-    status: 'active',
-    lastLoginAt: new Date(Date.now() - 14400000).toISOString(),
-    createdAt: '2026-02-20T12:00:00.000Z',
-  },
-  {
-    id: 'usr-5',
-    _id: 'usr-5',
-    name: 'David Okafor',
-    email: 'david.okafor@peacehaven.tech',
-    role: 'sales_manager',
-    status: 'active',
-    lastLoginAt: new Date(Date.now() - 28800000).toISOString(),
-    createdAt: '2026-03-01T09:00:00.000Z',
-  },
-  {
-    id: 'usr-6',
-    _id: 'usr-6',
-    name: 'Elena Rostova',
-    email: 'elena.rostova@peacehaven.tech',
-    role: 'viewer',
-    status: 'active',
-    lastLoginAt: new Date(Date.now() - 86400000).toISOString(),
-    createdAt: '2026-03-05T14:00:00.000Z',
   },
 ];
 
@@ -257,10 +207,10 @@ export const adminApi = {
 
     return {
       metrics: {
-        totalUsers: 6,
-        activeUsers: 6,
+        totalUsers: 1,
+        activeUsers: 1,
         inactiveUsers: 0,
-        pendingInvitations: 1,
+        pendingInvitations: 0,
         availableRoles: 7,
       },
       recentActivities: FALLBACK_AUDIT_LOGS,
@@ -457,18 +407,8 @@ export const adminApi = {
       if (res?.data) return res.data;
     } catch {}
 
-    return [
-      {
-        _id: 'inv-1',
-        name: 'Rachel Green',
-        email: 'rachel.green@apexrobotics.io',
-        role: 'editor',
-        expiresAt: new Date(Date.now() + 36 * 3600000).toISOString(),
-        status: 'pending',
-        invitedBy: { name: 'Super Administrator', email: 'admin@peacehaven.tech' },
-        createdAt: new Date(Date.now() - 12 * 3600000).toISOString(),
-      },
-    ];
+    // In Single-Admin mode, no invitations are active
+    return [];
   },
 
   async createAdminInvitation(token: string, data: { email: string; name?: string; role: string }) {

@@ -4,16 +4,19 @@ import {
   Menu, 
   X, 
   ChevronDown, 
-  ArrowRight
+  ArrowRight,
+  Lock
 } from 'lucide-react';
 import { Button } from './Button';
 import { ServicesDropdown, servicesList } from './ServicesDropdown';
 import { MobileMenu } from './MobileMenu';
 import { cn } from '../../lib/utils';
+import { useAuth } from '../../context/AuthContext';
 
 export { servicesList as servicesNavItems };
 
 export const Navbar: React.FC = () => {
+  const { isAuthenticated } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
@@ -189,6 +192,14 @@ export const Navbar: React.FC = () => {
 
           {/* Desktop Right CTA */}
           <div className="hidden lg:flex items-center gap-3">
+            <Link
+              to={isAuthenticated ? "/admin" : "/admin/login"}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-champagne-500/10 hover:bg-champagne-500/20 text-champagne-300 border border-champagne-500/30 text-xs font-mono font-medium transition-colors"
+              title={isAuthenticated ? "Go to Admin Console" : "Sign in to Admin Portal"}
+            >
+              <Lock className="w-3.5 h-3.5 text-champagne-400" />
+              <span>{isAuthenticated ? "Admin Console" : "Admin Portal"}</span>
+            </Link>
             <Button
               to="/start-a-project"
               variant="cyan"

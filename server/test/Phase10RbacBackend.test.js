@@ -14,6 +14,7 @@ let salesToken = '';
 let editorToken = '';
 
 beforeAll(async () => {
+  process.env.ALLOW_MULTIPLE_ADMINS = 'true';
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
   await mongoose.connect(uri);
@@ -39,6 +40,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  delete process.env.ALLOW_MULTIPLE_ADMINS;
   await mongoose.disconnect();
   await mongoServer.stop();
 });

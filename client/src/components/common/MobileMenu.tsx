@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowRight, X } from 'lucide-react';
+import { ArrowRight, Lock, X } from 'lucide-react';
 import { Button } from './Button';
 import { servicesList } from './ServicesDropdown';
 import { cn } from '../../lib/utils';
+import { useAuth } from '../../context/AuthContext';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface MobileMenuProps {
 }
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
+  const { isAuthenticated } = useAuth();
   const location = useLocation();
 
   if (!isOpen) return null;
@@ -92,7 +94,15 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Mobile Primary CTA */}
-        <div className="pt-2">
+        <div className="pt-2 space-y-2">
+          <Link
+            to={isAuthenticated ? "/admin" : "/admin/login"}
+            onClick={onClose}
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-champagne-500/10 hover:bg-champagne-500/20 text-champagne-300 border border-champagne-500/30 text-sm font-mono font-medium transition-colors"
+          >
+            <Lock className="w-4 h-4 text-champagne-400" />
+            <span>{isAuthenticated ? "Enter Admin Console" : "Admin Portal"}</span>
+          </Link>
           <Button
             to="/start-a-project"
             variant="cyan"

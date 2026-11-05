@@ -423,7 +423,7 @@ describe('Peace Haven — Project Engagement Form, Admin Integration & Client Co
           ...mockInquiry,
           lastCommunicatedAt: new Date().toISOString(),
           communicationHistory: [
-            ...mockInquiry.communicationHistory,
+            ...(mockInquiry.communicationHistory || []),
             {
               id: 'comm-2',
               type: 'email',

@@ -16,6 +16,7 @@ import {
   RotateCcw,
   Trash2,
   Edit2,
+  Lock,
   X
 } from 'lucide-react';
 import { api } from '../../lib/api';
@@ -259,11 +260,11 @@ export const AdminUsersPage: React.FC = () => {
           <div className="flex items-center gap-2">
             <h1 className="font-heading text-2xl font-bold text-white">Admin User Management</h1>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-teal-500/10 text-teal-300 border border-teal-500/30">
-              RBAC Governed
+              Single-Admin Policy
             </span>
           </div>
           <p className="text-slate-400 text-xs mt-1">
-            Provision internal accounts, send secure email invitations, assign roles, and manage access statuses.
+            Sole root administrative account for Peace Haven governance, CMS management, client inquiries, and security operations.
           </p>
         </div>
 
@@ -284,6 +285,22 @@ export const AdminUsersPage: React.FC = () => {
           >
             Invite Administrator
           </Button>
+        </div>
+      </div>
+
+      {/* Single Administrator Policy Notice */}
+      <div className="p-4 rounded-2xl bg-charcoal-850/90 border border-champagne-500/30 flex items-start gap-3 shadow-md">
+        <div className="w-9 h-9 rounded-xl bg-champagne-500/10 border border-champagne-500/30 flex items-center justify-center text-champagne-400 shrink-0 mt-0.5">
+          <ShieldCheck className="w-5 h-5" />
+        </div>
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">Single-Administrator Architecture Active</span>
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">Enforced</span>
+          </div>
+          <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+            Peace Haven is strictly configured with one primary root administrator (<span className="text-champagne-300 font-mono">admin@peacehaven.tech</span>). All governance, CMS publishing, technical inquiries, and system notifications are centralized under this single authority. Creation of additional administrator accounts and outbound invitations is locked by system policy.
+          </p>
         </div>
       </div>
 
@@ -614,6 +631,13 @@ export const AdminUsersPage: React.FC = () => {
             </div>
 
             <form onSubmit={handleInviteSubmit} className="space-y-4 text-xs">
+              <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px] flex items-start gap-2">
+                <Lock className="w-4 h-4 shrink-0 mt-0.5 text-amber-400" />
+                <span>
+                  <strong>Single-Admin Notice:</strong> Peace Haven operates under a single-admin architecture. System policy permits only one administrator (<code className="text-white">admin@peacehaven.tech</code>).
+                </span>
+              </div>
+
               <div className="space-y-1">
                 <label className="text-slate-300 font-medium">Full Name (Optional)</label>
                 <input

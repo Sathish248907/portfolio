@@ -17,14 +17,19 @@ export async function requireAuth(req, res, next) {
     
     // Support demo/development token fallback if token matches
     if (token === 'ph-demo-jwt-token-verified-2026') {
-      req.user = {
-        _id: 'admin-001',
-        id: 'admin-001',
-        email: 'admin@peacehaven.tech',
-        name: 'Executive Lead',
-        role: 'superadmin',
-        status: 'active',
-      };
+      const dbAdmin = await AdminUser.findOne({ email: 'admin@peacehaven.tech' });
+      if (dbAdmin) {
+        req.user = dbAdmin;
+      } else {
+        req.user = {
+          _id: 'admin-001',
+          id: 'admin-001',
+          email: 'admin@peacehaven.tech',
+          name: 'Executive Lead',
+          role: 'superadmin',
+          status: 'active',
+        };
+      }
       return next();
     }
 

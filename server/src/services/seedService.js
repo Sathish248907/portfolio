@@ -21,17 +21,26 @@ import { config } from '../config/env.js';
 
 export async function seedInitialData() {
   try {
-    // 1. Seed initial Administrator if no admin exists
-    const adminCount = await AdminUser.countDocuments();
-    if (adminCount === 0) {
-      const admin = new AdminUser({
+    // 1. Seed initial Administrator if no admin exists (Single-Admin Policy)
+    let admin = await AdminUser.findOne({ email: config.initialAdmin.email });
+    if (!admin) {
+      admin = new AdminUser({
         email: config.initialAdmin.email,
         password: config.initialAdmin.password,
         name: config.initialAdmin.name,
         role: 'superadmin',
       });
       await admin.save();
-      console.log(`[SEED] Initial superadmin created: ${admin.email}`);
+      console.log(`[SEED] Single superadmin verified/created: ${admin.email}`);
+    }
+
+    // In Single-Admin mode, prune any secondary accounts and pending invitations
+    if (process.env.ALLOW_MULTIPLE_ADMINS !== 'true') {
+      const removed = await AdminUser.deleteMany({ email: { $ne: config.initialAdmin.email } });
+      if (removed.deletedCount > 0) {
+        console.log(`[SEED] Pruned ${removed.deletedCount} secondary admin accounts to enforce single-admin policy.`);
+      }
+      await AdminInvitation.deleteMany({});
     }
 
     // 2. Seed 8 core services if none exists
@@ -1193,75 +1202,77 @@ export async function seedInitialData() {
       console.log(`[SEED] Initialized ${ROLE_DEFINITIONS.length} RBAC system roles.`);
     }
 
-    // 9. Seed representative multi-role admin users (Phase 10)
-    const totalAdmins = await AdminUser.countDocuments();
-    if (totalAdmins <= 1) {
-      const demoUsers = [
-        {
-          name: 'Claire Vance',
-          email: 'claire.vance@peacehaven.tech',
-          password: 'Password123!',
-          role: 'content_manager',
-          status: 'active',
-        },
-        {
-          name: 'Marcus Chen',
-          email: 'marcus.chen@peacehaven.tech',
-          password: 'Password123!',
-          role: 'editor',
-          status: 'active',
-        },
-        {
-          name: 'Sophia Alvarez',
-          email: 'sophia.alvarez@peacehaven.tech',
-          password: 'Password123!',
-          role: 'marketing_manager',
-          status: 'active',
-        },
-        {
-          name: 'David Okafor',
-          email: 'david.okafor@peacehaven.tech',
-          password: 'Password123!',
-          role: 'sales_manager',
-          status: 'active',
-        },
-        {
-          name: 'Elena Rostova',
-          email: 'elena.rostova@peacehaven.tech',
-          password: 'Password123!',
-          role: 'viewer',
-          status: 'active',
-        },
-      ];
+    // 9. Seed representative multi-role admin users (Phase 10 — only in multi-user test environments)
+    if (process.env.ALLOW_MULTIPLE_ADMINS === 'true') {
+      const totalAdmins = await AdminUser.countDocuments();
+      if (totalAdmins <= 1) {
+        const demoUsers = [
+          {
+            name: 'Claire Vance',
+            email: 'claire.vance@peacehaven.tech',
+            password: 'Password123!',
+            role: 'content_manager',
+            status: 'active',
+          },
+          {
+            name: 'Marcus Chen',
+            email: 'marcus.chen@peacehaven.tech',
+            password: 'Password123!',
+            role: 'editor',
+            status: 'active',
+          },
+          {
+            name: 'Sophia Alvarez',
+            email: 'sophia.alvarez@peacehaven.tech',
+            password: 'Password123!',
+            role: 'marketing_manager',
+            status: 'active',
+          },
+          {
+            name: 'David Okafor',
+            email: 'david.okafor@peacehaven.tech',
+            password: 'Password123!',
+            role: 'sales_manager',
+            status: 'active',
+          },
+          {
+            name: 'Elena Rostova',
+            email: 'elena.rostova@peacehaven.tech',
+            password: 'Password123!',
+            role: 'viewer',
+            status: 'active',
+          },
+        ];
 
-      for (const u of demoUsers) {
-        const exists = await AdminUser.findOne({ email: u.email });
-        if (!exists) {
-          const newUser = new AdminUser(u);
-          await newUser.save();
+        for (const u of demoUsers) {
+          const exists = await AdminUser.findOne({ email: u.email });
+          if (!exists) {
+            const newUser = new AdminUser(u);
+            await newUser.save();
+          }
         }
+        console.log(`[SEED] Seeded multi-role demonstration administrator accounts.`);
       }
-      console.log(`[SEED] Seeded multi-role demonstration administrator accounts.`);
-    }
 
-    // 10. Seed Sample Pending Admin Invitation (Phase 10)
-    const inviteCount = await AdminInvitation.countDocuments();
-    if (inviteCount === 0) {
-      await AdminInvitation.create({
-        name: 'Rachel Green',
-        email: 'rachel.green@apexrobotics.io',
-        role: 'editor',
-        token: 'invite-tok-sample-apex-2026',
-        tokenHash: 'sample-hash-2026',
-        expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000),
-        status: 'pending',
-        invitedBy: {
-          id: 'admin-001',
-          name: 'Super Administrator',
-          email: 'admin@peacehaven.tech',
-        },
-      });
-      console.log(`[SEED] Initialized sample administrator invitation.`);
+      // 10. Seed Sample Pending Admin Invitation (Phase 10)
+      const inviteCount = await AdminInvitation.countDocuments();
+      if (inviteCount === 0) {
+        await AdminInvitation.create({
+          name: 'Rachel Green',
+          email: 'rachel.green@apexrobotics.io',
+          role: 'editor',
+          token: 'invite-tok-sample-apex-2026',
+          tokenHash: 'sample-hash-2026',
+          expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000),
+          status: 'pending',
+          invitedBy: {
+            id: 'admin-001',
+            name: 'Super Administrator',
+            email: 'admin@peacehaven.tech',
+          },
+        });
+        console.log(`[SEED] Initialized sample administrator invitation.`);
+      }
     }
 
     // 11. Seed Baseline Audit Logs (Phase 10)

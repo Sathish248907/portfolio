@@ -168,11 +168,15 @@ export type InquiryStatus =
 export interface CommunicationEntry {
   id: string;
   type: 'email_sent' | 'email_received' | 'status_update' | 'system' | string;
-  direction: 'outbound' | 'inbound';
-  sender: string;
-  recipient: string;
+  direction: 'outbound' | 'inbound' | 'sent' | 'received' | string;
+  sender?: string;
+  senderName?: string;
+  senderEmail?: string;
+  recipient?: string;
+  recipientEmail?: string;
   subject: string;
-  message: string;
+  message?: string;
+  body?: string;
   templateSlug?: string;
   templateName?: string;
   attachments?: {
@@ -181,7 +185,8 @@ export interface CommunicationEntry {
     fileType?: string;
     fileUrl?: string;
   }[];
-  deliveryStatus: 'sent' | 'delivered' | 'failed' | 'pending' | string;
+  deliveryStatus?: 'sent' | 'delivered' | 'failed' | 'pending' | string;
+  status?: string;
   sentAt: string;
   notes?: string;
 }
@@ -193,6 +198,7 @@ export interface ClientEmailTemplate {
   description: string;
   subject: string;
   defaultBody: string;
+  body?: string;
 }
 
 export interface InternalNote {

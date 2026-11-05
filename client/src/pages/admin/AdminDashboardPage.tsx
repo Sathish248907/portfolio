@@ -71,11 +71,11 @@ export const AdminDashboardPage: React.FC = () => {
 
   const quickModules = [
     {
-      title: 'Users & Staff',
-      desc: 'Provision staff, assign roles, and audit invitations.',
+      title: 'Admin Governance',
+      desc: 'Sole administrator profile, credentials, and security controls.',
       path: '/admin/users',
       icon: Users,
-      badge: `${dashboardMetrics.activeUsers} Active`,
+      badge: `${dashboardMetrics.activeUsers} Sole Admin`,
       color: 'text-teal-400',
     },
     {

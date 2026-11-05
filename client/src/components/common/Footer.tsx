@@ -188,9 +188,9 @@ export const Footer: React.FC = () => {
             </span>
             <Link
               to="/admin/login"
-              className="text-slate-500 hover:text-slate-300 flex items-center gap-1 transition-colors"
+              className="text-slate-400 hover:text-champagne-300 flex items-center gap-1.5 transition-colors font-mono"
             >
-              <Lock className="w-3 h-3" />
+              <Lock className="w-3 h-3 text-champagne-400" />
               <span>Admin Portal</span>
             </Link>
           </div>
