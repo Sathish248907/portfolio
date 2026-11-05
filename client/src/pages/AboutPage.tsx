@@ -105,7 +105,7 @@ export const AboutPage: React.FC = () => {
           </div>
           <h3 className="font-heading text-lg font-bold text-white">Financial & Capital Core</h3>
           <p className="text-slate-300 text-xs leading-relaxed font-light">
-            Institutional double-entry ledgers, ultra-low latency FIX trading gateways, and compliance reporting pipelines.
+            Institutional double-entry ledgers, high-throughput cloud platforms, and compliance reporting pipelines.
           </p>
         </div>
 

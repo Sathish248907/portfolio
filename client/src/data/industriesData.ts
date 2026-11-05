@@ -164,9 +164,9 @@ export const industriesData: IndustryDetail[] = [
         description: 'Financial software, payment integrations, double-entry ledgers, and transaction workflows.'
       },
       {
-        title: 'Trading',
-        slug: 'trading',
-        description: 'Market data interfaces, trading dashboards, and analytics software.'
+        title: 'Web Development',
+        slug: 'web-development',
+        description: 'Secure customer web portals, responsive financial dashboards, and API integrations.'
       }
     ],
     relatedProjectSlugs: ['grow-capital', 'ai-command-center'],
@@ -734,9 +734,9 @@ export const industriesData: IndustryDetail[] = [
         description: 'E-commerce platform engineering, custom storefronts, and payment gateway integrations.'
       },
       {
-        title: 'Digital Marketing',
-        slug: 'digital-marketing',
-        description: 'E-commerce SEO, conversion rate optimization, and digital campaign analytics.'
+        title: 'FinTech',
+        slug: 'fintech',
+        description: 'Payment gateway integration, digital ledger reconciliation, and secure checkout workflows.'
       }
     ],
     relatedProjectSlugs: ['artistry-gold-diamonds'],
@@ -924,9 +924,9 @@ export const industriesData: IndustryDetail[] = [
         description: 'Educational web portals, interactive learning interfaces, and student management systems.'
       },
       {
-        title: 'Digital Marketing',
-        slug: 'digital-marketing',
-        description: 'Student acquisition campaigns, educational content strategy, and course enrollments.'
+        title: 'US Staffing',
+        slug: 'us-staffing',
+        description: 'Instructional designers, technical curriculum developers, and dedicated engineering squad talent.'
       }
     ],
     relatedProjectSlugs: [],

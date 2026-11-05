@@ -206,56 +206,6 @@ export async function seedInitialData() {
           techStack: ['React', 'Node.js', 'Python', 'Go', 'AWS'],
           deliverables: ['Pre-vetted Candidate Profiles', 'Technical Assessment Reports'],
           relatedProjectSlugs: []
-        },
-        {
-          serviceId: 'trading',
-          slug: 'trading',
-          title: 'Trading & Algorithmic Systems',
-          tagline: 'Ultra-Low Latency Execution Engines, Market Feeds & Quantitative Risk',
-          heroHeadline: 'Powering automated capital markets with microsecond execution and quantitative precision.',
-          shortDescription: 'High-performance trading software engineering including FIX protocol gateways, low-latency market data parsers, and automated risk management.',
-          iconName: 'TrendingUp',
-          capabilities: [
-            {
-              title: 'Sub-Millisecond Execution Engines',
-              description: 'Ultra-low latency order routing written in modern C++ and Rust, optimized for zero-allocation runtime.',
-              features: ['Kernel-bypass networking', 'Lock-free ring buffers', 'Sub-15µs processing latency']
-            }
-          ],
-          benefits: [
-            { title: '< 15µs Latency', description: 'Optimized C++ execution pipelines.', metric: '< 15µs' }
-          ],
-          workflow: [
-            { step: '01', title: 'Market Protocol Specification', description: 'Exchange venue protocol analysis.' }
-          ],
-          techStack: ['C++', 'Rust', 'Python', 'FIX Protocol', 'ZeroMQ'],
-          deliverables: ['C++ Low Latency Execution Gateway', 'Pre-Trade Risk Engine'],
-          relatedProjectSlugs: []
-        },
-        {
-          serviceId: 'digital-marketing',
-          slug: 'digital-marketing',
-          title: 'Digital Marketing & Growth Engineering',
-          tagline: 'Technical B2B SEO, Multi-Touch Attribution & Enterprise Funnel Automation',
-          heroHeadline: 'Transforming technical capabilities into qualified enterprise pipeline and market leadership.',
-          shortDescription: 'Full-funnel digital marketing tailored for B2B tech and industrial organizations, combining programmatic SEO, paid performance, and revenue analytics.',
-          iconName: 'Megaphone',
-          capabilities: [
-            {
-              title: 'Technical B2B SEO & Authority Building',
-              description: 'Technical site architecture, schema markup, and authoritative thought leadership engineered to dominate search.',
-              features: ['Core Web Vitals optimization', 'Structured JSON-LD schema', 'B2B keyword cluster targeting']
-            }
-          ],
-          benefits: [
-            { title: '340% Pipeline Increase', description: 'High-intent search driving decision-makers to inquiry form.', metric: '+340%' }
-          ],
-          workflow: [
-            { step: '01', title: 'Market Deep Dive', description: 'Ideal Customer Profile and positioning messaging matrix.' }
-          ],
-          techStack: ['Google Analytics 4', 'BigQuery', 'Segment', 'HubSpot'],
-          deliverables: ['Custom Attribution Dashboard', 'B2B SEO Blueprint'],
-          relatedProjectSlugs: []
         }
       ];
 
@@ -286,7 +236,7 @@ export async function seedInitialData() {
           statusBadge: 'Verified Live Production Platform',
           thumbnail: '/images/projects/artistry-homepage.png',
           heroImage: '/images/projects/artistry-homepage.png',
-          overview: 'Artistry Gold & Diamonds is a premium jewellery e-commerce platform designed to provide customers with an elegant and convenient online shopping experience. The website combines luxury-inspired visual design, product-focused navigation and a sophisticated shopping interface for a gold and diamond jewellery business.',
+          overview: 'Established in 1998, Artistry Gold & Diamonds is a premier fine jewellery brand and concept store network operating over 40 physical boutiques across India alongside a high-performance digital flagship. The platform connects generations of authentic Indian karigar craftsmanship with modern e-commerce convenience, featuring 100% BIS-hallmarked 22K and 18K gold, HUID verification, certified natural diamonds, real-time commodity gold rate tickers, and bespoke design studio services.',
           challenge: 'Luxury jewellery retail demands an uncompromising digital presentation where customers expect certified authenticity, real-time gold market pricing, intricate high-resolution product inspection, and seamless shopping cart experiences across mobile and desktop devices without performance degradation.',
           solution: 'Architected a full-stack MERN (React.js, Node.js, Express.js, MongoDB) platform featuring responsive component-driven layouts, a live 22K gold rate ticker with BIS 916 Hallmark verification badges, structured product categorization across Gold, Diamonds, and Gemstones, persistent shopping bag workflows, and instant customer service connectivity.',
           architectureHighlights: [
@@ -686,7 +636,7 @@ export async function seedInitialData() {
     if (analyticsCount === 0) {
       const services = [
         'web-development', 'fintech', 'robotics', 'drone-technology', 
-        'healthcare', 'us-staffing', 'trading', 'digital-marketing'
+        'healthcare', 'us-staffing'
       ];
       const industries = [
         'it-software', 'banking-finance', 'manufacturing-automation', 'healthcare-medical',
@@ -929,7 +879,7 @@ export async function seedInitialData() {
           status: 'published',
           hero: {
             headline: 'Engineering Ideas. Empowering Industries.',
-            subheadline: 'From digital experiences and financial technology to healthcare, engineering, staffing, trading, and marketing.',
+            subheadline: 'From digital experiences and financial technology to healthcare, engineering, and technical staffing.',
             ctaText: 'Start a Project',
             ctaLink: '/start-a-project',
             badge: 'Multi-Disciplinary Technology Company',
@@ -937,7 +887,7 @@ export async function seedInitialData() {
           sections: [
             { id: 'sec-hero', type: 'hero', title: 'Cinematic Hero Banner', order: 1, isVisible: true },
             { id: 'sec-intro', type: 'intro', title: 'Company Introduction', order: 2, isVisible: true },
-            { id: 'sec-services', type: 'grid', title: 'Eight Specialized Service Divisions', order: 3, isVisible: true },
+            { id: 'sec-services', type: 'grid', title: 'Six Specialized Service Divisions', order: 3, isVisible: true },
             { id: 'sec-industries', type: 'grid', title: 'Industries We Serve', order: 4, isVisible: true },
             { id: 'sec-cta', type: 'cta', title: 'Final Call to Action', order: 5, isVisible: true },
           ],
@@ -946,7 +896,7 @@ export async function seedInitialData() {
             description: 'Peace Haven delivers innovative technology solutions across web development, FinTech, robotics, healthcare and digital transformation.',
             canonicalUrl: 'https://peacehaven.tech/',
             ogTitle: 'Peace Haven | Engineering Ideas. Empowering Industries.',
-            ogDescription: 'From digital experiences and financial technology to healthcare, engineering, staffing, trading, and marketing.',
+            ogDescription: 'From digital experiences and financial technology to healthcare, engineering, and technical staffing.',
             ogImage: '/og-image.png',
             indexable: true,
           },

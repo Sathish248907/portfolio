@@ -28,8 +28,8 @@ describe('Navigation and Layout System', () => {
     expect(screen.getByRole('link', { name: /contact/i })).toBeInTheDocument();
   });
 
-  it('contains verified data for all 8 core services', () => {
-    expect(servicesData).toHaveLength(8);
+  it('contains verified data for all 6 core services', () => {
+    expect(servicesData).toHaveLength(6);
     
     const serviceSlugs = servicesData.map((s) => s.slug);
     expect(serviceSlugs).toContain('web-development');
@@ -38,8 +38,6 @@ describe('Navigation and Layout System', () => {
     expect(serviceSlugs).toContain('drone-technology');
     expect(serviceSlugs).toContain('healthcare');
     expect(serviceSlugs).toContain('us-staffing');
-    expect(serviceSlugs).toContain('trading');
-    expect(serviceSlugs).toContain('digital-marketing');
   });
 
   it('marks all laboratory projects as prototypes/demonstrations for transparency', () => {

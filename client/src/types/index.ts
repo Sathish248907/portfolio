@@ -4,9 +4,7 @@ export type ServiceId =
   | 'robotics'
   | 'drone-technology'
   | 'healthcare'
-  | 'us-staffing'
-  | 'trading'
-  | 'digital-marketing';
+  | 'us-staffing';
 
 export interface ServiceCapabilityItem {
   title: string;
@@ -106,11 +104,6 @@ export interface ProjectCaseStudy {
   liveUrl?: string;
   seoTitle?: string;
   seoDescription?: string;
-  designApproach?: {
-    palette?: { name: string; hex: string }[];
-    typography?: string[];
-    visualDetails?: string[];
-  };
   implementedFeatures?: {
     title: string;
     description: string;
@@ -136,8 +129,6 @@ export type InquiryServiceCategory =
   | 'Drones'
   | 'Healthcare'
   | 'US Staffing'
-  | 'Trading'
-  | 'Digital Marketing'
   | 'Multiple Services'
   | 'Other';
 

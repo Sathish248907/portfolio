@@ -65,8 +65,6 @@ const allServiceOptions = [
   'Drone Technology',
   'Healthcare Solutions',
   'US Staffing',
-  'Trading & Investment',
-  'Digital Marketing',
   'Other',
 ];
 

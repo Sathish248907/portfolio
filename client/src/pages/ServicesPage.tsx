@@ -16,16 +16,16 @@ export const ServicesPage: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
 
   const seoTitle = cmsPage?.seo?.title || cmsPage?.title || 'Services & Engineering Capabilities | Peace Haven';
-  const seoDesc = cmsPage?.seo?.description || cmsPage?.description || "Explore Peace Haven's 8 specialized engineering divisions: Web Development, FinTech, Robotics, Drone Technology, Healthcare, US Staffing, Trading, and Digital Marketing.";
-  const heroBadge = cmsPage?.hero?.badge || 'Eight Integrated Engineering Divisions';
+  const seoDesc = cmsPage?.seo?.description || cmsPage?.description || "Explore Peace Haven's 6 specialized engineering divisions: Web Development, FinTech, Robotics, Drone Technology, Healthcare, and US Staffing.";
+  const heroBadge = cmsPage?.hero?.badge || 'Six Integrated Engineering Divisions';
   const heroHeadline = cmsPage?.hero?.headline || 'Capabilities Built Around Your Ambition.';
-  const heroSubheadline = cmsPage?.hero?.subheadline || 'From full-stack cloud software and financial systems to industrial robotics, aerial workflows, and market technologies — Peace Haven delivers connected capabilities across eight specialized divisions.';
+  const heroSubheadline = cmsPage?.hero?.subheadline || 'From full-stack cloud software and financial systems to industrial robotics, aerial workflows, and technical staffing — Peace Haven delivers connected capabilities across six specialized divisions.';
 
   const filterTabs = [
     { id: 'all', label: `All Disciplines (${allServices.length})` },
     { id: 'cloud', label: 'Cloud & Software' },
     { id: 'engineering', label: 'Robotics & Aerial' },
-    { id: 'business', label: 'Operations & Markets' },
+    { id: 'business', label: 'Talent & Operations' },
   ];
 
   const filteredServices = allServices.filter((service) => {
@@ -45,7 +45,7 @@ export const ServicesPage: React.FC = () => {
       return ['robotics', 'drone-technology'].includes(service.id || service.slug);
     }
     if (selectedFilter === 'business') {
-      return ['us-staffing', 'trading', 'digital-marketing'].includes(service.id || service.slug);
+      return ['us-staffing'].includes(service.id || service.slug);
     }
     return true;
   });

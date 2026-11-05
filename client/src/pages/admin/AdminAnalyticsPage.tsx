@@ -212,7 +212,7 @@ export const AdminAnalyticsPage: React.FC = () => {
                 onClick={() => handleExport('services')}
                 className="w-full text-left px-3 py-2 text-xs text-slate-300 hover:text-white hover:bg-charcoal-800 rounded-lg transition-colors flex items-center justify-between"
               >
-                <span>8 Services Report</span>
+                <span>6 Services Report</span>
                 <ArrowUpRight className="w-3 h-3 text-slate-500" />
               </button>
               <button
@@ -363,7 +363,7 @@ export const AdminAnalyticsPage: React.FC = () => {
       <div className="flex items-center gap-1 sm:gap-2 border-b border-sage-500/20 overflow-x-auto pb-px">
         {[
           { id: 'overview', label: 'Traffic & Growth Overview', icon: BarChart3 },
-          { id: 'services', label: '8 Service Divisions', icon: Layers },
+          { id: 'services', label: '6 Service Divisions', icon: Layers },
           { id: 'industries', label: '10 Industry Sectors', icon: Building2 },
           { id: 'portfolio', label: '10 Portfolio Projects', icon: Briefcase },
           { id: 'funnel', label: '8-Stage Conversion Funnel', icon: Activity },
@@ -615,7 +615,7 @@ export const AdminAnalyticsPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
               <div>
                 <h3 className="text-base font-heading font-semibold text-white">
-                  Eight Specialized Service Divisions — Demand Analytics
+                  Six Specialized Service Divisions — Demand Analytics
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
                   Evaluating visitor engagement, CTA click-through rate, and project inquiry generation per service division.

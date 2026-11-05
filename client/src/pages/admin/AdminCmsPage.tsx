@@ -225,7 +225,7 @@ export const AdminCmsPage: React.FC = () => {
     draftProjects: 0,
     publishedBlogs: 3,
     draftBlogs: 0,
-    totalServices: 8,
+    totalServices: 6,
     totalIndustries: 10,
     totalMedia: 4,
   };
@@ -334,7 +334,7 @@ export const AdminCmsPage: React.FC = () => {
         {[
           { id: 'overview', label: 'Overview', icon: Sparkles },
           { id: 'homepage', label: 'Homepage', icon: Home },
-          { id: 'services', label: 'Services Hub', ariaLabel: 'Services (8 Services)', icon: Layers, badge: metrics.totalServices },
+          { id: 'services', label: 'Services Hub', ariaLabel: 'Services (6 Services)', icon: Layers, badge: metrics.totalServices },
           { id: 'projects', label: 'Portfolio', ariaLabel: 'Portfolio (10 Projects)', icon: Briefcase, badge: metrics.publishedProjects },
           { id: 'industries', label: 'Industries', ariaLabel: 'Industries (10 Industries)', icon: Building2, badge: metrics.totalIndustries },
           { id: 'about', label: 'About Us', icon: Compass },

@@ -140,9 +140,7 @@ export const analyticsApi = {
         { id: 'robotics', slug: 'robotics', title: 'Robotics & Automation', division: 'Automation & Hardware', pageViews: 610, uniqueVisitors: 410, ctaClicks: 65, inquirySubmissions: 8, avgDurationSecs: 104, engagementRate: 15.9, conversionRate: 2.0 },
         { id: 'drone-technology', slug: 'drone-technology', title: 'Drone Technology', division: 'Aerospace & Geospatial', pageViews: 450, uniqueVisitors: 310, ctaClicks: 42, inquirySubmissions: 4, avgDurationSecs: 86, engagementRate: 13.5, conversionRate: 1.3 },
         { id: 'healthcare', slug: 'healthcare', title: 'Healthcare Solutions', division: 'Clinical Systems', pageViews: 390, uniqueVisitors: 270, ctaClicks: 39, inquirySubmissions: 5, avgDurationSecs: 92, engagementRate: 14.4, conversionRate: 1.9 },
-        { id: 'trading', slug: 'trading', title: 'Trading & Investment', division: 'Quantitative Markets', pageViews: 320, uniqueVisitors: 230, ctaClicks: 31, inquirySubmissions: 3, avgDurationSecs: 78, engagementRate: 13.5, conversionRate: 1.3 },
         { id: 'us-staffing', slug: 'us-staffing', title: 'US Staffing', division: 'Global Talent', pageViews: 280, uniqueVisitors: 195, ctaClicks: 26, inquirySubmissions: 4, avgDurationSecs: 64, engagementRate: 13.3, conversionRate: 2.1 },
-        { id: 'digital-marketing', slug: 'digital-marketing', title: 'Digital Marketing', division: 'Growth & SEO', pageViews: 240, uniqueVisitors: 170, ctaClicks: 22, inquirySubmissions: 2, avgDurationSecs: 58, engagementRate: 12.9, conversionRate: 1.2 },
       ],
     };
   },

@@ -51,7 +51,7 @@ export const CareersPage: React.FC = () => {
     <div className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
       <SEO
         title="Careers & Engineering Opportunities | Peace Haven"
-        description="Join Peace Haven to build high-stakes technology across robotics, algorithmic trading, and cloud platforms."
+        description="Join Peace Haven to build high-stakes technology across robotics, aerospace drones, and cloud platforms."
       />
 
       {/* Header */}

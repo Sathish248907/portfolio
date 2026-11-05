@@ -167,8 +167,6 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
                 <option value="healthcare">Healthcare</option>
                 <option value="drone-technology">Drone Technology</option>
                 <option value="us-staffing">US Staffing</option>
-                <option value="trading">Trading</option>
-                <option value="digital-marketing">Digital Marketing</option>
               </select>
             </div>
 

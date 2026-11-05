@@ -7,8 +7,6 @@ import {
   Navigation, 
   HeartPulse, 
   Users, 
-  TrendingUp, 
-  Megaphone,
   ArrowRight,
   Sparkles
 } from 'lucide-react';
@@ -62,22 +60,6 @@ export const servicesList = [
     path: '/services/us-staffing',
     badge: 'Talent'
   },
-  {
-    id: 'trading',
-    title: 'Trading',
-    shortDesc: 'Trading software & analytics dashboards',
-    icon: TrendingUp,
-    path: '/services/trading',
-    badge: 'Markets'
-  },
-  {
-    id: 'digital-marketing',
-    title: 'Digital Marketing',
-    shortDesc: 'SEO, campaigns, content & growth services',
-    icon: Megaphone,
-    path: '/services/digital-marketing',
-    badge: 'Growth'
-  },
 ];
 
 interface ServicesDropdownProps {
@@ -98,7 +80,7 @@ export const ServicesDropdown: React.FC<ServicesDropdownProps> = ({ isOpen, onCl
         <div className="col-span-2 pb-2 mb-1 border-b border-sage-500/20 flex items-center justify-between">
           <span className="text-xs font-mono uppercase tracking-wider text-champagne-400 flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-champagne-400" />
-            Eight Specialized Service Divisions
+            Six Specialized Service Divisions
           </span>
           <Link 
             to="/services" 

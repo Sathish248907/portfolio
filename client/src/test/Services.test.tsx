@@ -6,9 +6,9 @@ import { ServicesPage } from '../pages/ServicesPage';
 import { ServiceDetailPage } from '../pages/ServiceDetailPage';
 import { StartProjectPage } from '../pages/StartProjectPage';
 
-describe('Phase 3: Dedicated Service Architecture & Eight Service Experience', () => {
-  it('contains all 8 required service divisions in servicesData with verified models', () => {
-    expect(servicesData.length).toBe(8);
+describe('Phase 3: Dedicated Service Architecture & Six Service Experience', () => {
+  it('contains all 6 required service divisions in servicesData with verified models', () => {
+    expect(servicesData.length).toBe(6);
     
     const requiredSlugs = [
       'web-development',
@@ -16,9 +16,7 @@ describe('Phase 3: Dedicated Service Architecture & Eight Service Experience', (
       'robotics',
       'drone-technology',
       'healthcare',
-      'us-staffing',
-      'trading',
-      'digital-marketing'
+      'us-staffing'
     ];
 
     requiredSlugs.forEach((slug) => {
@@ -55,7 +53,7 @@ describe('Phase 3: Dedicated Service Architecture & Eight Service Experience', (
     });
   });
 
-  it('renders central ServicesPage listing all eight service divisions', () => {
+  it('renders central ServicesPage listing all six service divisions', () => {
     render(
       <MemoryRouter initialEntries={['/services']}>
         <ServicesPage />
@@ -65,15 +63,13 @@ describe('Phase 3: Dedicated Service Architecture & Eight Service Experience', (
     // Title and heading check
     expect(screen.getByText('Capabilities Built Around Your Ambition.')).toBeInTheDocument();
 
-    // Verify all 8 titles are rendered
+    // Verify all 6 titles are rendered
     expect(screen.getByText('Web Development')).toBeInTheDocument();
     expect(screen.getByText('FinTech Solutions')).toBeInTheDocument();
     expect(screen.getByText('Robotics & Automation')).toBeInTheDocument();
     expect(screen.getByText('Drone Technology')).toBeInTheDocument();
     expect(screen.getByText('Healthcare Solutions')).toBeInTheDocument();
     expect(screen.getByText('US Staffing')).toBeInTheDocument();
-    expect(screen.getByText('Trading')).toBeInTheDocument();
-    expect(screen.getByText('Digital Marketing')).toBeInTheDocument();
   });
 
   it('renders dedicated ServiceDetailPage with all Phase 3 sections for Web Development', () => {

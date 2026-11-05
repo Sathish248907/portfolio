@@ -5,9 +5,7 @@ import {
   Bot, 
   Navigation, 
   HeartPulse, 
-  Users, 
-  TrendingUp, 
-  Megaphone 
+  Users
 } from 'lucide-react';
 import { Container } from '../common/Container';
 import { SectionHeading } from '../common/SectionHeading';
@@ -76,27 +74,9 @@ export const eightServices: ServiceCardData[] = [
     badge: 'Talent Sourcing',
     route: '/services/us-staffing',
   },
-  {
-    id: 'trading',
-    title: 'Trading',
-    slug: 'trading',
-    description: 'Trading-related software, analytics dashboards, market-data interfaces, and business workflow tools.',
-    icon: TrendingUp,
-    image: 'https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=800&q=80',
-    badge: 'Market Analytics',
-    route: '/services/trading',
-  },
-  {
-    id: 'digital-marketing',
-    title: 'Digital Marketing',
-    slug: 'digital-marketing',
-    description: 'Search engine optimization, content strategy, campaign management, analytics, and digital growth services.',
-    icon: Megaphone,
-    image: 'https://images.unsplash.com/photo-1533750516457-a7f992034fec?auto=format&fit=crop&w=800&q=80',
-    badge: 'Growth Strategy',
-    route: '/services/digital-marketing',
-  },
 ];
+
+export const sixServices = eightServices;
 
 export const ServiceGrid: React.FC = () => {
   return (
@@ -121,8 +101,8 @@ export const ServiceGrid: React.FC = () => {
           />
         </Reveal>
 
-        {/* Responsive Grid: 4 cols desktop, 2 tablets, 1-2 mobile */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Responsive Grid: 3 cols desktop, 2 tablets, 1 mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {eightServices.map((service, index) => (
             <Reveal key={service.id} direction="up" delay={index * 0.05}>
               <ServiceCard service={service} index={index} />

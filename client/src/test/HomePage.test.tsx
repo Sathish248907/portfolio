@@ -73,8 +73,8 @@ describe('Phase 2 Homepage Implementation Tests', () => {
     ).toBeInTheDocument();
   });
 
-  it('verifies that all eight service cards are defined with exact requested descriptions', () => {
-    expect(eightServices).toHaveLength(8);
+  it('verifies that all six service cards are defined with exact requested descriptions', () => {
+    expect(eightServices).toHaveLength(6);
 
     const webDev = eightServices.find((s) => s.id === 'web-development');
     expect(webDev?.description).toBe(
@@ -104,16 +104,6 @@ describe('Phase 2 Homepage Implementation Tests', () => {
     const staffing = eightServices.find((s) => s.id === 'us-staffing');
     expect(staffing?.description).toBe(
       'Recruitment support, candidate sourcing, talent coordination, and staffing workflows for eligible US-market clients.'
-    );
-
-    const trading = eightServices.find((s) => s.id === 'trading');
-    expect(trading?.description).toBe(
-      'Trading-related software, analytics dashboards, market-data interfaces, and business workflow tools.'
-    );
-
-    const marketing = eightServices.find((s) => s.id === 'digital-marketing');
-    expect(marketing?.description).toBe(
-      'Search engine optimization, content strategy, campaign management, analytics, and digital growth services.'
     );
   });
 });

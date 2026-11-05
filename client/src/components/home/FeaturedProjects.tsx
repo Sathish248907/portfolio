@@ -18,7 +18,6 @@ export const FeaturedProjects: React.FC = () => {
     { id: 'robotics', label: 'Robotics' },
     { id: 'drone-technology', label: 'Drones' },
     { id: 'healthcare', label: 'Healthcare' },
-    { id: 'trading', label: 'Trading' },
   ];
 
   const filteredProjects = selectedCategory === 'all'

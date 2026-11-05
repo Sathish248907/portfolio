@@ -162,19 +162,17 @@ describe('Phase 8 — Admin Analytics Dashboard Page (/admin/analytics)', () => 
       </MemoryRouter>
     );
 
-    const servicesTab = screen.getByRole('button', { name: /8 Service Divisions/i });
+    const servicesTab = screen.getByRole('button', { name: /6 Service Divisions/i });
     fireEvent.click(servicesTab);
 
     await waitFor(() => {
-      expect(screen.getByText(/Eight Specialized Service Divisions — Demand Analytics/i)).toBeInTheDocument();
+      expect(screen.getByText(/Six Specialized Service Divisions — Demand Analytics/i)).toBeInTheDocument();
       expect(screen.getByText('Web Development')).toBeInTheDocument();
       expect(screen.getByText('FinTech')).toBeInTheDocument();
       expect(screen.getByText('Robotics & Automation')).toBeInTheDocument();
       expect(screen.getByText('Drone Technology')).toBeInTheDocument();
       expect(screen.getByText('Healthcare Solutions')).toBeInTheDocument();
       expect(screen.getByText('US Staffing')).toBeInTheDocument();
-      expect(screen.getByText('Trading & Investment')).toBeInTheDocument();
-      expect(screen.getByText('Digital Marketing')).toBeInTheDocument();
     });
   });
 

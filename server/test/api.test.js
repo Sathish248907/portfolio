@@ -295,7 +295,7 @@ describe('Peace Haven Backend API Integration Tests', () => {
     expect(Array.isArray(res.body.devices)).toBe(true);
   });
 
-  it('GET /api/v1/admin/analytics/services returns performance for all 8 service divisions', async () => {
+  it('GET /api/v1/admin/analytics/services returns performance for all 6 service divisions', async () => {
     const res = await request(app)
       .get('/api/v1/admin/analytics/services?period=30d')
       .set('Authorization', `Bearer ${adminToken}`);
@@ -303,7 +303,7 @@ describe('Peace Haven Backend API Integration Tests', () => {
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
     expect(Array.isArray(res.body.services)).toBe(true);
-    expect(res.body.services.length).toBe(8);
+    expect(res.body.services.length).toBe(6);
 
     const slugs = res.body.services.map((s) => s.slug);
     expect(slugs).toContain('web-development');
@@ -312,8 +312,6 @@ describe('Peace Haven Backend API Integration Tests', () => {
     expect(slugs).toContain('drone-technology');
     expect(slugs).toContain('healthcare');
     expect(slugs).toContain('us-staffing');
-    expect(slugs).toContain('trading');
-    expect(slugs).toContain('digital-marketing');
   });
 
   it('GET /api/v1/admin/analytics/industries returns engagement for all 10 industries', async () => {

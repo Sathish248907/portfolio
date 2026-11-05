@@ -37,8 +37,6 @@ const serviceOptions = [
   { id: 'Drone Technology', label: 'Drone Technology', desc: 'Aerial mapping, thermography inspection & autonomous flight algorithms' },
   { id: 'Healthcare Solutions', label: 'Healthcare Solutions', desc: 'HIPAA-compliant platforms, clinic portals & SMART on FHIR interoperability' },
   { id: 'US Staffing', label: 'US Staffing', desc: 'Dedicated technical squads & pre-vetted senior software/robotics talent' },
-  { id: 'Trading & Investment', label: 'Trading & Investment', desc: 'Ultra-low latency execution engines, market feeds & quantitative analytics' },
-  { id: 'Digital Marketing', label: 'Digital Marketing', desc: 'Technical B2B SEO, multi-touch attribution & enterprise pipeline growth' },
   { id: 'Other', label: 'Other Deep-Tech Challenge', desc: 'Specialized hardware-software research, prototypes or custom engineering' },
 ];
 
@@ -181,8 +179,6 @@ export const StartProjectPage: React.FC = () => {
     if (p.includes('drone')) return ['Drone Technology'];
     if (p.includes('health')) return ['Healthcare Solutions'];
     if (p.includes('staff')) return ['US Staffing'];
-    if (p.includes('trad')) return ['Trading & Investment'];
-    if (p.includes('market')) return ['Digital Marketing'];
     return ['Web Development'];
   })();
 

@@ -24,7 +24,7 @@ vi.mock('../services/api', () => ({
           draftProjects: 0,
           publishedBlogs: 3,
           draftBlogs: 0,
-          totalServices: 8,
+          totalServices: 6,
           totalIndustries: 10,
           totalMedia: 4,
         },

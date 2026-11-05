@@ -39,8 +39,6 @@ export function generateOrganizationSchema() {
       'Drone Technology',
       'Healthcare Technology',
       'Technical Staff Augmentation',
-      'Quantitative Trading Systems',
-      'B2B Growth Engineering',
     ],
   };
 }

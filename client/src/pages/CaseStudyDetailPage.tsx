@@ -20,7 +20,6 @@ import {
   ChevronRight,
   Maximize2,
   X,
-  Palette,
   FileCode2,
   Lock,
   Server,
@@ -322,9 +321,17 @@ export const CaseStudyDetailPage: React.FC = () => {
                 PH Homes brings property discovery, intelligent search, real estate analytics, agent workflows, communication and home services into one unified digital ecosystem. Operating across seven role-based experiences, the platform combines Google Maps geospatial querying, AI-powered natural language search, real-time Socket.IO messaging, and automated listing verification workflows to resolve fragmentation across modern real estate transactions.
               </p>
             ) : isArtistry ? (
-              <p className="text-slate-300 text-sm font-light leading-relaxed">
-                Operating at the intersection of traditional gold craftsmanship and contemporary online retail, the platform bridges digital convenience with the tactile trust required when acquiring certified 22K and 18K gold and diamond jewellery. Every interaction was designed to reflect luxury prestige while ensuring responsive speed and absolute pricing transparency.
-              </p>
+              <div className="space-y-4 text-slate-300 text-sm font-light leading-relaxed">
+                <p>
+                  Operating at the intersection of generational gold craftsmanship and modern digital commerce, Artistry Gold & Diamonds bridges online accessibility with the uncompromising trust required for high-value fine jewellery acquisition. With a retail legacy dating back to 1998 and concept boutiques across major metropolitan hubs—including Mumbai, Delhi, Bengaluru, Chennai, Hyderabad, and Kozhikode—the platform serves as both a comprehensive digital showcase and a frictionless direct-to-consumer store.
+                </p>
+                <p>
+                  Every gold creation is hand-finished by master Indian karigars and certified under Bureau of Indian Standards (BIS) Hallmarking with 6-digit Hallmark Unique Identification (HUID) traceability for 22K (916 purity) and 18K (750 purity) gold. Natural diamond pieces, certified gemstones, and 24K (999 pure) bullion coins are catalogued with complete gemological specifications, gross and net weights, and transparent pricing models linked directly to live daily market gold fixes.
+                </p>
+                <p>
+                  Beyond traditional e-commerce browsing, the digital flagship integrates interactive virtual video shopping consultations, a custom bespoke design studio for personalized engravings and bridal heirlooms, an unconditional lifetime exchange policy at prevailing gold market rates, and fully insured pan-India delivery—bringing tactile showroom confidence to digital luxury retail.
+                </p>
+              </div>
             ) : isClinic ? (
               <p className="text-slate-300 text-sm font-light leading-relaxed">
                 The clinic platform bridges patient-centered convenience with clinical scheduling accuracy. Designed with accessibility, data privacy, and rapid doctor discovery in mind, the system simplifies both in-person clinic visits and teleconsultation bookings without complex phone queues or registration friction.
@@ -4848,74 +4855,7 @@ export const CaseStudyDetailPage: React.FC = () => {
       )}
 
       {/* ========================================================================= */}
-      {/* SECTION C: DESIGN APPROACH                                                */}
-      {/* ========================================================================= */}
-      {project.designApproach && (
-        <section className="space-y-8" aria-labelledby="design-approach-heading">
-          <div className="flex items-center gap-2.5 border-b border-sage-500/20 pb-4">
-            <Palette className="w-5 h-5 text-champagne-400" />
-            <h2 id="design-approach-heading" className="font-heading text-2xl sm:text-3xl font-bold text-white">
-              Design Approach & Observable Aesthetics
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Color Palette Analysis */}
-            <div className="glass-card bg-charcoal-850/80 p-8 rounded-2xl border border-sage-500/25 space-y-6 shadow-card-dark">
-              <div className="space-y-2">
-                <h3 className="font-heading text-xl font-bold text-white">
-                  Curated Colour Palette
-                </h3>
-                <p className="text-slate-300 text-xs leading-relaxed font-light">
-                  Directly derived from the live website aesthetic: soft blush tones, warm champagne highlights, and luxury rose-gold accents tailored for high-end jewellery retail.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {project.designApproach.palette?.map((color) => (
-                  <div
-                    key={color.name}
-                    className="flex items-center gap-3 p-3 rounded-xl bg-charcoal-900 border border-sage-500/20"
-                  >
-                    <div
-                      className="w-10 h-10 rounded-lg shadow-inner shrink-0 border border-white/10"
-                      style={{ backgroundColor: color.hex }}
-                    />
-                    <div className="overflow-hidden">
-                      <span className="font-mono text-xs text-white block truncate">{color.name}</span>
-                      <span className="font-mono text-[11px] text-slate-400 block">{color.hex}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Typography & Visual Details */}
-            <div className="glass-card bg-charcoal-850/80 p-8 rounded-2xl border border-sage-500/25 space-y-6 shadow-card-dark">
-              <div className="space-y-2">
-                <h3 className="font-heading text-xl font-bold text-white">
-                  Typography & Visual Details
-                </h3>
-                <p className="text-slate-300 text-xs leading-relaxed font-light">
-                  Observable stylistic choices that reinforce prestige, trust, and effortless product exploration.
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                {project.designApproach.visualDetails?.map((detail, idx) => (
-                  <div key={idx} className="p-3.5 rounded-xl bg-charcoal-900 border border-sage-500/20 flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-champagne-400 shrink-0 mt-0.5" />
-                    <span className="text-xs text-slate-300 leading-relaxed font-light">{detail}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ========================================================================= */}
-      {/* SECTION C: KEY FEATURES (VERIFIED ON LIVE SITE)                           */}
+      {/* KEY FEATURES (VERIFIED ON LIVE SITE)                                      */}
       {/* ========================================================================= */}
       <section className="space-y-8" aria-labelledby="key-features-heading">
         <div className="flex items-center justify-between border-b border-sage-500/20 pb-4">

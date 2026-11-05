@@ -15,7 +15,7 @@ export const projectsData: ProjectCaseStudy[] = [
     thumbnail: '/images/projects/artistry-homepage.png',
     heroImage: '/images/projects/artistry-homepage.png',
     shortDescription: 'A premium jewellery e-commerce experience built for modern gold and diamond retail.',
-    overview: 'Artistry Gold & Diamonds is a premium jewellery e-commerce platform designed to provide customers with an elegant and convenient online shopping experience. The website combines luxury-inspired visual design, product-focused navigation and a sophisticated shopping interface for a gold and diamond jewellery business.',
+    overview: 'Established in 1998, Artistry Gold & Diamonds is a premier fine jewellery brand and concept store network operating over 40 physical boutiques across India alongside a high-performance digital flagship. The platform connects generations of authentic Indian karigar craftsmanship with modern e-commerce convenience, featuring 100% BIS-hallmarked 22K and 18K gold, HUID verification, certified natural diamonds, real-time commodity gold rate tickers, and bespoke design studio services.',
     challenge: 'Luxury jewellery retail demands an uncompromising digital presentation where customers expect certified authenticity, real-time gold market pricing, intricate high-resolution product inspection, and seamless shopping cart experiences across mobile and desktop devices without performance degradation.',
     solution: 'Architected a full-stack MERN (React.js, Node.js, Express.js, MongoDB) platform featuring responsive component-driven layouts, a live 22K gold rate ticker with BIS 916 Hallmark verification badges, structured product categorization across Gold, Diamonds, and Gemstones, persistent shopping bag workflows, and instant customer service connectivity.',
     architectureHighlights: [
@@ -46,25 +46,6 @@ export const projectsData: ProjectCaseStudy[] = [
     liveUrl: 'https://www.artistrygoldanddiamonds.shop/',
     seoTitle: 'Artistry Gold & Diamonds | Jewellery E-commerce Project | Peace Haven',
     seoDescription: 'Explore Artistry Gold & Diamonds, a premium jewellery e-commerce website developed using React.js, Node.js and MongoDB by Peace Haven.',
-    designApproach: {
-      palette: [
-        { name: 'Blush Pearl Background', hex: '#FFFAF9' },
-        { name: 'Rose Gold Accent', hex: '#B76E79' },
-        { name: 'Muted Champagne', hex: '#C4A77D' },
-        { name: 'Deep Charcoal Navy', hex: '#17232B' },
-        { name: 'Pure White', hex: '#FFFFFF' }
-      ],
-      typography: [
-        'Cormorant Garamond — High-contrast editorial serif for luxury collection headings and product titles',
-        'Jost & Inter — Modern geometric sans-serif for crystal-clear pricing, product specs, and ergonomic navigation'
-      ],
-      visualDetails: [
-        'Curated rose-gold and blush-inspired color palette reflecting luxury jewellery aesthetics',
-        'High-resolution photography showcasing gold jewellery, certified diamonds, and daily wear ornaments',
-        'Clear multi-tier product category navigation spanning Gold, Diamonds, Jewellery, Collections, Wedding, and Gold Coins',
-        'Clean, shopping-focused interface with uncluttered product grids and transparent hallmark certifications'
-      ]
-    },
     implementedFeatures: [
       { title: 'Live 22K Gold Rate Ticker', description: 'Real-time daily gold rate banner with direct BIS 916 Hallmark transparency guarantee.', tag: 'Market Integration' },
       { title: 'Comprehensive Jewellery Catalogue', description: 'Structured categorization spanning Gold, Diamonds, Gemstones, Rings, Bangles, Necklaces, and Mangalsutras.', tag: 'Catalogue Architecture' },
@@ -125,25 +106,6 @@ export const projectsData: ProjectCaseStudy[] = [
     liveUrl: 'https://peacehaven.clinic/',
     seoTitle: 'Peace Haven Clinic Website | Healthcare Web Development | Peace Haven',
     seoDescription: 'Explore the Peace Haven Clinic website, a healthcare web development project featuring a modern patient experience and appointment management platform built with React, Node.js and MongoDB.',
-    designApproach: {
-      palette: [
-        { name: 'Deep Charcoal Navy', hex: '#17232B' },
-        { name: 'Warm Off-White', hex: '#E8E5DC' },
-        { name: 'Muted Teal', hex: '#344B50' },
-        { name: 'Champagne Accent', hex: '#C4A77D' },
-        { name: 'Pure White', hex: '#FFFFFF' }
-      ],
-      typography: [
-        'Plus Jakarta Sans — Welcoming, highly legible modern geometric sans-serif for patient reassurance and medical headings',
-        'Inter — Clean, ergonomic sans-serif for clinical readability, appointment forms, and schedule selectors'
-      ],
-      visualDetails: [
-        'Clean, accessible visual hierarchy prioritizing intuitive patient navigation and reassurance',
-        'Prominent 24/7 emergency care contact banner and direct helpline integration',
-        'Comprehensive clinical department cards covering General Medicine, Diabetes, and Preventive Health',
-        'Transparent doctor credentials showcase detailing qualifications, experience, and consultation modes'
-      ]
-    },
     implementedFeatures: [
       { title: 'Online Appointment Booking', description: 'Interactive appointment scheduling allowing patients to select consultation date and appointment slots for clinic visits.', tag: 'Patient Experience' },
       { title: 'Google OAuth & User Authentication', description: 'Seamless patient and staff login supporting Google OAuth (gsi/client) and secure email credentials.', tag: 'Authentication' },
@@ -234,26 +196,6 @@ export const projectsData: ProjectCaseStudy[] = [
     liveUrl: 'https://ai.peacehavencorp.com/',
     seoTitle: 'AI Command Center | AI-Powered Technology Platform | Peace Haven',
     seoDescription: 'Explore AI Command Center, an intelligent digital platform developed by Peace Haven. Discover its verified AI capabilities, technology architecture and business applications.',
-    designApproach: {
-      palette: [
-        { name: 'Deep Canvas Slate', hex: '#0F172A' },
-        { name: 'Sidebar Dark Navy', hex: '#111C2E' },
-        { name: 'Surface Slate', hex: '#1E293B' },
-        { name: 'Ice Blue Accent', hex: '#93C5FD' },
-        { name: 'Primary Tech Blue', hex: '#3B82F6' },
-        { name: 'Pure White Text', hex: '#FFFFFF' }
-      ],
-      typography: [
-        'Inter (400, 500, 600, 700) — Modern, legible geometric sans-serif engineered for dense data visualization, executive dashboards, and rapid scanning',
-        'UI Monospace — Precision tabular figures for financial values, ledger account hashes, NAICS classifications, and timestamped audit logs'
-      ],
-      visualDetails: [
-        'Enterprise executive dashboard aesthetic built with subtle borders, dark mode canvas, and high-contrast metric typography',
-        'Dynamic status indicators with glowing green operational pulses confirming active connector health across Plaid and OpenAI',
-        'Multi-bank financial card grid displaying available liquidity versus ledger balance with zero reconciliation drift callouts',
-        'Intuitive multi-agent board organizing tasks, attention flags, and payment resolution items by status and confidence score'
-      ]
-    },
     implementedFeatures: [
       { title: 'Plaid Multi-Bank Aggregation', description: 'Direct financial connection via Plaid API aggregating commercial checking, treasury cash reserves, and term liabilities with continuous balance tracking.', tag: 'FinTech Banking' },
       { title: 'Automated Payment Stream Triage', description: 'Smart extraction of incoming billing, lender notices, and trade invoices from Google Workspace mailboxes, matching payments directly to ledger accounts.', tag: 'Financial Automation' },
@@ -342,26 +284,6 @@ export const projectsData: ProjectCaseStudy[] = [
     ],
     seoTitle: 'PH Google | Enterprise Productivity Platform | Peace Haven',
     seoDescription: 'Discover PH Google, Peace Haven\'s internal digital workspace platform developed with React.js and Python to centralize workplace tools, documents and collaboration.',
-    designApproach: {
-      palette: [
-        { name: 'Deep Charcoal Navy', hex: '#17232B' },
-        { name: 'Dark Workspace Canvas', hex: '#0F172A' },
-        { name: 'Sidebar Dark Navy', hex: '#111C2E' },
-        { name: 'Surface Slate', hex: '#1E293B' },
-        { name: 'Muted Champagne', hex: '#C4A77D' },
-        { name: 'Teal Accent', hex: '#2DD4BF' }
-      ],
-      typography: [
-        'Inter (400, 500, 600, 700) — Precision geometric sans-serif engineered for clean document listings, schedule timelines, and directory tables',
-        'UI Monospace — Fixed-width figures for storage metrics, Google API quotas, timestamps, and access audit events'
-      ],
-      visualDetails: [
-        'Centralized Google service dock with recognizable iconography for Drive, Gmail, Calendar, and Sheets',
-        'Subtle status indicators with glowing green operational pulses confirming active connector health',
-        'High-density document tables with department tags and last-modified metadata',
-        'Comprehensive user directory with role badges and active session indicators'
-      ]
-    },
     implementedFeatures: [
       { title: 'Unified Digital Workspace', description: 'Centralized access to essential business tools, organizational resources, and team workflows from a single ergonomic interface.', tag: 'Workspace Core' },
       { title: 'Google Services Integration', description: 'Seamless connectivity to Google Drive, Gmail, Google Calendar, and Google Sheets, simplifying information sharing and collaboration.', tag: 'Service Federation' },
@@ -459,26 +381,6 @@ export const projectsData: ProjectCaseStudy[] = [
     liveUrl: 'https://growcapital.app/',
     seoTitle: 'Grow Capital | Digital Gold & Silver Platform | Peace Haven',
     seoDescription: 'Explore Grow Capital, a digital gold and silver platform that makes precious-metal ownership accessible through digital purchases and bullion infrastructure.',
-    designApproach: {
-      palette: [
-        { name: 'Deep Bullion Navy', hex: '#17232B' },
-        { name: '24K Gold Primary Accent', hex: '#E5A93C' },
-        { name: '999 Fine Silver Slate', hex: '#A8B5AE' },
-        { name: 'Muted Teal Surface', hex: '#344B50' },
-        { name: 'Warm Cream Off-White', hex: '#E8E5DC' },
-        { name: 'Pure White & Glass', hex: '#FFFFFF' }
-      ],
-      typography: [
-        'Plus Jakarta Sans & Inter — Modern, high-trust geometric typography designed for clear bullion rates, investment amounts, and transactional receipts',
-        'JetBrains Mono — Monospace precision figures for metal weights (grams), live bullion ticker feeds, and transaction identifiers'
-      ],
-      visualDetails: [
-        'Lustrous gold and silver interactive cards with real-time buy and sell rates and live price lock indicators',
-        'Dual-metal investment calculator and systematic accumulation planner (SIP) with intuitive contribution sliders',
-        'Transparent security matrix featuring verified institution credentials: Augmont, Brinks, and IDBI Trusteeship',
-        'Responsive dark and light mode theme switcher with high-contrast accessibility across all viewports'
-      ]
-    },
     implementedFeatures: [
       { title: 'Digital Gold Purchases', description: 'Fractional purchase of 24K 999 pure gold by rupee value or gram weight with transparent pricing and live price locks.', tag: 'Bullion Core' },
       { title: 'Digital Silver Purchases', description: 'Fractional purchase of 999 fine silver starting from ₹10 with instant allocation to user holdings.', tag: 'Bullion Core' },
@@ -578,26 +480,6 @@ export const projectsData: ProjectCaseStudy[] = [
     ],
     seoTitle: 'AI Agricultural Animal Detection System | Robotics & Automation | Peace Haven',
     seoDescription: 'Explore Peace Haven\'s AI-based agricultural animal detection system, combining ESP32-CAM, computer vision, embedded systems and IoT notifications for smart farming.',
-    designApproach: {
-      palette: [
-        { name: 'Deep Charcoal Navy', hex: '#17232B' },
-        { name: 'Muted Forest Teal', hex: '#344B50' },
-        { name: 'Alert Coral Orange', hex: '#F97316' },
-        { name: 'Sage Grey', hex: '#A8B5AE' },
-        { name: 'Warm Off-White', hex: '#E8E5DC' },
-        { name: 'Muted Champagne', hex: '#C4A77D' }
-      ],
-      typography: [
-        'Inter — Modern technical sans-serif for telemetry data, detection classifications, and hardware specs',
-        'UI Monospace — Fixed-width figures for confidence percentages, sensor pinouts, and latency benchmarks'
-      ],
-      visualDetails: [
-        'Interactive system architecture diagram detailing PIR, ESP32-CAM, AI classification, and dual output paths',
-        'Simulated Telegram notification interface showing live animal alert with confidence score and photo attachment',
-        'Step-by-step working process cards illustrating the 6-stage detection-to-deterrent flow',
-        'Hardware breakdown cards showcasing the ESP32-CAM, PIR sensor, horn speaker, relay module, and solar panel'
-      ]
-    },
     implementedFeatures: [
       { title: 'PIR Motion Detection', description: 'Passive infrared sensor detecting thermal movement within the monitored perimeter boundary.', tag: 'Sensor Tier' },
       { title: 'ESP32-CAM Image Capture', description: 'Embedded camera module capturing high-resolution still frames when movement triggers are tripped.', tag: 'Vision Tier' },
@@ -687,26 +569,6 @@ export const projectsData: ProjectCaseStudy[] = [
     ],
     seoTitle: 'Smart Blind Stick | IoT Assistive Mobility System | Peace Haven',
     seoDescription: 'Explore Peace Haven\'s Smart Blind Stick project, an ESP32-S3 and IoT-based assistive mobility system featuring ultrasonic obstacle detection, directional vibration feedback, GPS and emergency communication.',
-    designApproach: {
-      palette: [
-        { name: 'Deep Charcoal Navy', hex: '#17232B' },
-        { name: 'Muted Forest Teal', hex: '#344B50' },
-        { name: 'Alert Coral Orange', hex: '#F97316' },
-        { name: 'Sage Grey', hex: '#A8B5AE' },
-        { name: 'Warm Off-White', hex: '#E8E5DC' },
-        { name: 'Muted Champagne', hex: '#C4A77D' }
-      ],
-      typography: [
-        'Inter — Clean modern sans-serif for telemetry readouts, hardware specs, and status metrics',
-        'UI Monospace — Fixed-width figures for GPS latitude/longitude, sensor distances, and latency benchmarks'
-      ],
-      visualDetails: [
-        'Comprehensive system architecture diagram detailing ESP32-S3 inputs, processing logic, and output actuation',
-        'Simulated Emergency SMS notification interface showing Fall Alert, live coordinates, and Google Maps pin',
-        'Interactive 6-step working process explaining sensing, detection, vibration, motion monitoring, GPS, and SMS alert',
-        'Detailed hardware component showcase with technical roles for ESP32-S3, ultrasonic sensors, MPU6050, GPS, and 4G module'
-      ]
-    },
     implementedFeatures: [
       { title: 'Multi-Directional Obstacle Detection', description: 'Three ultrasonic sensors monitor front, left, and right sectors to identify nearby physical obstructions.', tag: 'Sensory Tier' },
       { title: 'Directional Haptic Feedback', description: 'Independent vibration motors buzz according to obstacle direction (left, front, right) for intuitive tactile alerts.', tag: 'Haptic Actuation' },
@@ -799,26 +661,6 @@ export const projectsData: ProjectCaseStudy[] = [
     ],
     seoTitle: 'EB-300 Robotic Arm | 6-Axis Industrial Robotics | Peace Haven',
     seoDescription: 'Explore Peace Haven\'s EB-300 six-axis robotic arm project, demonstrating robotic manipulation, mechanical design, coordinated joint movement and industrial automation concepts.',
-    designApproach: {
-      palette: [
-        { name: 'Deep Charcoal Navy', hex: '#17232B' },
-        { name: 'Muted Forest Teal', hex: '#344B50' },
-        { name: 'Industrial Cyan Glow', hex: '#06B6D4' },
-        { name: 'Sage Grey', hex: '#A8B5AE' },
-        { name: 'Warm Off-White', hex: '#E8E5DC' },
-        { name: 'Muted Champagne', hex: '#C4A77D' }
-      ],
-      typography: [
-        'Inter — Clean modern sans-serif for axis angles, mechanical specs, and joint degrees of freedom',
-        'UI Monospace — Fixed-width figures for workspace dimensions (~500 mm / ~600 mm) and pulse timings'
-      ],
-      visualDetails: [
-        'Comprehensive 6-axis kinematic diagram detailing joint rotations from Base (±180°) through End Effector (±360°)',
-        'Detailed mechanical component showcase exploring base, shoulder, elbow, wrist assemblies, and mounting flange',
-        'Interactive 6-step working process explaining command parsing, joint coordination, arm transit, wrist orientation, and object interaction',
-        'Control system architecture illustration displaying Arduino Mega 2560 controller, motor drivers, and 24V power supply'
-      ]
-    },
     implementedFeatures: [
       { title: 'Six-Axis Joint Articulation', description: 'Coordinated rotational movement across Base (±180°), Shoulder (±135°), Elbow (±135°), Wrist 1 (±180°), Wrist 2 (±180°), and End Effector (±360°).', tag: 'Kinematic Structure' },
       { title: 'Cylindrical Workspace Reach', description: 'Operating envelope providing up to ~500 mm vertical ceiling and ~600 mm horizontal radius for expansive object manipulation.', tag: 'Spatial Reach' },
@@ -909,26 +751,6 @@ export const projectsData: ProjectCaseStudy[] = [
     ],
     seoTitle: 'Rapid MI Screening Test | Point-of-Care Cardiac Assay | Peace Haven',
     seoDescription: 'Explore Peace Haven\'s Rapid MI Screening Test prototype: a point-of-care cardiac biomarker lateral flow immunoassay assay kit for early detection of myocardial infarction.',
-    designApproach: {
-      palette: [
-        { name: 'Deep Crimson & Rose', hex: '#BE123C' },
-        { name: 'Clinical Navy', hex: '#0F172A' },
-        { name: 'Gold Nanoparticle Amber', hex: '#D97706' },
-        { name: 'Capillary Violet', hex: '#7C3AED' },
-        { name: 'Validation Cyan', hex: '#0284C7' },
-        { name: 'Sterile Off-White', hex: '#F8FAFC' }
-      ],
-      typography: [
-        'Inter — Clean clinical sans-serif for assay specifications, reaction times, and diagnostic procedures',
-        'UI Monospace — Fixed-width readout for incubation timings (10–15 min), biomarker sensitivities, and test band statuses'
-      ],
-      visualDetails: [
-        'Comprehensive lateral flow assay strip schematic showing sample pad, conjugate zone, nitrocellulose membrane, and wicking pad',
-        'High-resolution microscopic detail callouts illustrating gold nanoparticle binding, immunocomplex sandwich capture, and control line binding',
-        'Step-by-step capillary migration and reaction sequence detailing specimen application, conjugate rehydration, and chromatic line formation',
-        'Clinical result interpretation matrix demonstrating unequivocal positive, negative, and invalid visual band combinations'
-      ]
-    },
     implementedFeatures: [
       { title: 'Lateral Flow Analytical Membrane', description: 'High-porosity nitrocellulose membrane calibrated for controlled capillary flow velocity and protein adsorption.', tag: 'Reaction Matrix' },
       { title: 'Gold Nanoparticle Conjugate Pad', description: 'Functionalized colloidal gold nanoparticles coupled with anti-cardiac biomarker monoclonal antibodies for rapid target binding.', tag: 'Nanotechnology' },
@@ -1036,26 +858,6 @@ export const projectsData: ProjectCaseStudy[] = [
     ],
     seoTitle: 'PH Homes – Full-Stack Real Estate Platform | Case Study | Peace Haven',
     seoDescription: 'Explore PH Homes, an intelligent full-stack real estate platform developed with React, Node.js, Express, and MongoDB featuring AI property search, maps, CRM, and home services.',
-    designApproach: {
-      palette: [
-        { name: 'Midnight Charcoal', hex: '#17232B' },
-        { name: 'Deep Sage Teal', hex: '#344B50' },
-        { name: 'Warm Champagne Accent', hex: '#C4A77D' },
-        { name: 'Soft Muted Sage', hex: '#A8B5AE' },
-        { name: 'Warm Cream Surface', hex: '#E8E5DC' },
-        { name: 'Pure White & Glass', hex: '#FFFFFF' }
-      ],
-      typography: [
-        'Inter & Plus Jakarta Sans — Modern geometric typography engineered for high-density property cards, financial analytics, and CRM data grids',
-        'JetBrains Mono — Fixed-width typography for coordinate coordinates, ZIP code routing, MLS IDs, and transaction receipts'
-      ],
-      visualDetails: [
-        'Translucent glassmorphism search modal with frosted blur overlays and intuitive multi-parameter property filters',
-        'High-density agent CRM pipeline with draggable Kanban stages, lead qualification badges, and communication shortcuts',
-        'Interactive vector property maps with custom price pin markers, cluster groupings, and dynamic neighborhood polygons',
-        'Responsive property inspection drawers presenting PHWorth valuations, investment return metrics, and commute calculators'
-      ]
-    },
     implementedFeatures: [
       { title: 'AI-Powered Property Discovery', description: 'Natural-language property search allowing users to query homes by conversational preferences, budget ranges, and lifestyle parameters with smart result ranking.', tag: 'AI & Search' },
       { title: 'Interactive Property Maps', description: 'Google Maps JavaScript API integration featuring dynamic price markers, vector map overlays, zoom clustering, and freehand polygon boundary filtering.', tag: 'Geospatial Maps' },

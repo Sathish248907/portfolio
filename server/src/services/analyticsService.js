@@ -9,8 +9,6 @@ export const CANONICAL_SERVICES = [
   { id: 'drone-technology', slug: 'drone-technology', title: 'Drone Technology', division: 'Aerospace & Geospatial' },
   { id: 'healthcare', slug: 'healthcare', title: 'Healthcare Solutions', division: 'Clinical Systems' },
   { id: 'us-staffing', slug: 'us-staffing', title: 'US Staffing', division: 'Global Talent' },
-  { id: 'trading', slug: 'trading', title: 'Trading & Investment', division: 'Quantitative Markets' },
-  { id: 'digital-marketing', slug: 'digital-marketing', title: 'Digital Marketing', division: 'Growth & SEO' },
 ];
 
 // Canonical industry definitions matching client architecture

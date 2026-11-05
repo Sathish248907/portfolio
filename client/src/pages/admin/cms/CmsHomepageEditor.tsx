@@ -36,7 +36,7 @@ export const CmsHomepageEditor: React.FC<CmsHomepageEditorProps> = ({
     status: 'published',
     hero: {
       headline: 'Engineering Ideas. Empowering Industries.',
-      subheadline: 'From digital experiences and financial technology to healthcare, engineering, staffing, trading, and marketing — Peace Haven creates scalable, secure, and modern solutions.',
+      subheadline: 'From digital experiences and financial technology to healthcare, engineering, and technical staffing — Peace Haven creates scalable, secure, and modern solutions.',
       badge: 'Multi-Disciplinary Technology Company',
       ctaText: 'Start a Project',
       ctaLink: '/start-a-project',

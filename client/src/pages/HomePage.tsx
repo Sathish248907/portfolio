@@ -30,9 +30,7 @@ export const HomePage: React.FC = () => {
           'Robotics and Automation',
           'Drone Technology',
           'Healthcare Solutions',
-          'US Staffing',
-          'Trading Systems',
-          'Digital Marketing'
+          'US Staffing'
         ]}
         schema={[
           generateOrganizationSchema(),
@@ -46,7 +44,7 @@ export const HomePage: React.FC = () => {
       {/* Section 3: Company Introduction */}
       <IntroSection cmsIntro={cmsPage?.customContent?.intro} />
 
-      {/* Section 4: Eight Service Divisions */}
+      {/* Section 4: Six Service Divisions */}
       <ServiceGrid />
 
       {/* Section 5: Industries Served */}

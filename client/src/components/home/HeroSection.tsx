@@ -60,7 +60,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ cmsHero }) => {
         {/* Subtitle */}
         <Reveal direction="up" delay={0.3}>
           <p className="max-w-3xl mx-auto text-base sm:text-lg lg:text-xl text-slate-300 leading-relaxed font-light">
-            {cmsHero?.subheadline || 'From digital experiences and financial technology to healthcare, engineering, staffing, trading, and marketing — Peace Haven brings technology and business expertise together to move organizations forward.'}
+            {cmsHero?.subheadline || 'From digital experiences and financial technology to healthcare, engineering, and technical staffing — Peace Haven brings technology and business expertise together to move organizations forward.'}
           </p>
         </Reveal>
 

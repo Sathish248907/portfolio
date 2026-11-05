@@ -138,7 +138,7 @@ describe('Phase 9 — Content Management System (CMS) & Dynamic Insights', () =>
       await waitFor(() => {
         expect(screen.getByText(/Content Management System \(CMS\)/i)).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /Page Management/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /8 Services/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /6 Services/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /10 Projects/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /10 Industries/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /Blog & Insights/i })).toBeInTheDocument();
