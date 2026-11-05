@@ -1,0 +1,1 @@
+import{j as o}from"./vendor-form-Bly3Y8Fl.js";import{c as t}from"./index-CTZpWLNV.js";const e=({children:x,className:s,size:l="lg",...m})=>{const a={sm:"max-w-3xl",md:"max-w-5xl",lg:"max-w-7xl",xl:"max-w-[1400px]",full:"max-w-full"};return o.jsx("div",{className:t("w-full mx-auto px-4 sm:px-6 lg:px-8",a[l],s),...m,children:x})};export{e as C};
