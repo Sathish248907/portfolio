@@ -31,9 +31,17 @@ const MediaAssetSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ['Services', 'Projects', 'Industries', 'Hero', 'Blog', 'General'],
+      enum: ['Services', 'Projects', 'Industries', 'Hero', 'Blog', 'About', 'Team', 'Logos', 'Videos', 'General'],
       default: 'General',
       index: true,
+    },
+    folder: {
+      type: String,
+      default: 'root',
+    },
+    description: {
+      type: String,
+      default: '',
     },
     altText: {
       type: String,

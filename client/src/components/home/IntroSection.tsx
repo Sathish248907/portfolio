@@ -4,7 +4,15 @@ import { Reveal } from '../common/Reveal';
 import { Compass, CheckCircle2, Cpu, Globe2, Zap } from 'lucide-react';
 import { ParticleBackground } from '../effects/ParticleBackground';
 
-export const IntroSection: React.FC = () => {
+interface IntroSectionProps {
+  cmsIntro?: {
+    heading?: string;
+    description?: string;
+    badge?: string;
+  };
+}
+
+export const IntroSection: React.FC<IntroSectionProps> = ({ cmsIntro }) => {
   return (
     <section className="py-24 relative overflow-hidden bg-[#07151e] border-t border-[#1b3240]" aria-labelledby="intro-heading">
       {/* Cinematic Animated Particle Constellation Background */}
@@ -26,7 +34,7 @@ export const IntroSection: React.FC = () => {
               <Reveal direction="left" delay={0.1}>
                 <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-warm-200/10 border border-[#dfa561]/35 text-[#dfa561] text-xs font-mono uppercase tracking-widest">
                   <Compass className="w-3.5 h-3.5 text-[#dfa561]" />
-                  <span>Integrated Enterprise Capabilities</span>
+                  <span>{cmsIntro?.badge || 'Integrated Enterprise Capabilities'}</span>
                 </div>
               </Reveal>
 
@@ -35,13 +43,13 @@ export const IntroSection: React.FC = () => {
                   id="intro-heading"
                   className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight"
                 >
-                  One partner. Multiple capabilities. A shared vision.
+                  {cmsIntro?.heading || 'One partner. Multiple capabilities. A shared vision.'}
                 </h2>
               </Reveal>
 
               <Reveal direction="up" delay={0.3}>
                 <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-light">
-                  Peace Haven brings together technology, business services, and engineering capabilities to help organizations develop digital products, improve workflows, explore new opportunities, and solve practical challenges.
+                  {cmsIntro?.description || 'Peace Haven brings together technology, business services, and engineering capabilities to help organizations develop digital products, improve workflows, explore new opportunities, and solve practical challenges.'}
                 </p>
               </Reveal>
 

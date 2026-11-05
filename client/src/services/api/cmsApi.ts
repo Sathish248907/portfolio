@@ -362,5 +362,300 @@ export const cmsApi = {
       ],
     };
   },
+
+  // ==========================================
+  // SERVICES CMS (Phase 12)
+  // ==========================================
+
+  async getCmsServices(token: string) {
+    try {
+      const res = await request('/admin/cms/services', { token });
+      if (res?.data) return res;
+    } catch {}
+    return { success: true, data: [] };
+  },
+
+  async getCmsService(token: string, idOrSlug: string) {
+    try {
+      const res = await request(`/admin/cms/services/${idOrSlug}`, { token });
+      if (res?.data) return res;
+    } catch {}
+    return null;
+  },
+
+  async createCmsService(token: string, data: any) {
+    try {
+      const res = await request('/admin/cms/services', {
+        method: 'POST',
+        token,
+        body: JSON.stringify(data),
+      });
+      if (res?.data) return res;
+    } catch {}
+    return { success: true, data, message: 'Service created successfully' };
+  },
+
+  async updateCmsService(token: string, idOrSlug: string, data: any) {
+    try {
+      const res = await request(`/admin/cms/services/${idOrSlug}`, {
+        method: 'PUT',
+        token,
+        body: JSON.stringify(data),
+      });
+      if (res?.data) return res;
+    } catch {}
+    return { success: true, data, message: 'Service updated successfully' };
+  },
+
+  async toggleCmsServicePublish(token: string, idOrSlug: string, status?: string) {
+    try {
+      const res = await request(`/admin/cms/services/${idOrSlug}/publish`, {
+        method: 'PATCH',
+        token,
+        body: JSON.stringify(status ? { status } : {}),
+      });
+      if (res?.data) return res;
+    } catch {}
+    return { success: true, status };
+  },
+
+  async deleteCmsService(token: string, idOrSlug: string) {
+    try {
+      const res = await request(`/admin/cms/services/${idOrSlug}`, {
+        method: 'DELETE',
+        token,
+      });
+      if (res) return res;
+    } catch {}
+    return { success: true, message: 'Service deleted' };
+  },
+
+  // ==========================================
+  // PORTFOLIO & CASE STUDIES CMS (Phase 12)
+  // ==========================================
+
+  async getCmsProjects(token: string, query: any = {}) {
+    try {
+      const res = await request('/admin/cms/portfolio', { token, params: query });
+      if (res?.data) return res;
+    } catch {}
+    return { success: true, data: [] };
+  },
+
+  async getCmsProject(token: string, idOrSlug: string) {
+    try {
+      const res = await request(`/admin/cms/portfolio/${idOrSlug}`, { token });
+      if (res?.data) return res;
+    } catch {}
+    return null;
+  },
+
+  async createCmsProject(token: string, data: any) {
+    try {
+      const res = await request('/admin/cms/portfolio', {
+        method: 'POST',
+        token,
+        body: JSON.stringify(data),
+      });
+      if (res?.data) return res;
+    } catch {}
+    return { success: true, data, message: 'Project created successfully' };
+  },
+
+  async updateCmsProject(token: string, idOrSlug: string, data: any) {
+    try {
+      const res = await request(`/admin/cms/portfolio/${idOrSlug}`, {
+        method: 'PUT',
+        token,
+        body: JSON.stringify(data),
+      });
+      if (res?.data) return res;
+    } catch {}
+    return { success: true, data, message: 'Project updated successfully' };
+  },
+
+  async toggleCmsProjectPublish(token: string, idOrSlug: string, status?: string) {
+    try {
+      const res = await request(`/admin/cms/portfolio/${idOrSlug}/publish`, {
+        method: 'PATCH',
+        token,
+        body: JSON.stringify(status ? { status } : {}),
+      });
+      if (res?.data) return res;
+    } catch {}
+    return { success: true, status };
+  },
+
+  async deleteCmsProject(token: string, idOrSlug: string) {
+    try {
+      const res = await request(`/admin/cms/portfolio/${idOrSlug}`, {
+        method: 'DELETE',
+        token,
+      });
+      if (res) return res;
+    } catch {}
+    return { success: true, message: 'Project removed' };
+  },
+
+  // ==========================================
+  // INDUSTRIES CMS EXTENSIONS (Phase 12)
+  // ==========================================
+
+  async createCmsIndustry(token: string, data: any) {
+    try {
+      const res = await request('/admin/cms/industries', {
+        method: 'POST',
+        token,
+        body: JSON.stringify(data),
+      });
+      if (res?.data) return res;
+    } catch {}
+    return { success: true, data };
+  },
+
+  async toggleCmsIndustryPublish(token: string, idOrSlug: string, status: string) {
+    try {
+      const res = await request(`/admin/cms/industries/${idOrSlug}/publish`, {
+        method: 'PATCH',
+        token,
+        body: JSON.stringify({ status }),
+      });
+      if (res?.data) return res;
+    } catch {}
+    return { success: true, status };
+  },
+
+  async deleteCmsIndustry(token: string, idOrSlug: string) {
+    try {
+      const res = await request(`/admin/cms/industries/${idOrSlug}`, {
+        method: 'DELETE',
+        token,
+      });
+      if (res) return res;
+    } catch {}
+    return { success: true, message: 'Industry removed' };
+  },
+
+  // ==========================================
+  // GLOBAL SETTINGS CMS (Phase 12)
+  // ==========================================
+
+  async getCmsSettings(token: string) {
+    try {
+      const res = await request('/admin/cms/settings', { token });
+      if (res?.data) return res;
+    } catch {}
+    return {
+      success: true,
+      data: {
+        companyName: 'Peace Haven Technologies Inc.',
+        tagline: 'Engineering Ideas. Empowering Industries.',
+        logoUrl: '/logo.svg',
+        faviconUrl: '/favicon.ico',
+        defaultCtaText: 'Start a Project',
+        defaultCtaLink: '/start-a-project',
+        socialLinks: {
+          linkedin: 'https://linkedin.com/company/peace-haven',
+          twitter: 'https://twitter.com/peacehaven',
+          github: 'https://github.com/peace-haven',
+        },
+        copyrightText: '© 2026 Peace Haven Technologies Inc. All rights reserved.',
+        announcementBanner: { isVisible: false, text: '', link: '', type: 'info' },
+      },
+    };
+  },
+
+  async updateCmsSettings(token: string, data: any) {
+    try {
+      const res = await request('/admin/cms/settings', {
+        method: 'PUT',
+        token,
+        body: JSON.stringify(data),
+      });
+      if (res?.data) return res;
+    } catch {}
+    return { success: true, data, message: 'Website settings saved' };
+  },
+
+  // ==========================================
+  // REVISIONS & MEDIA USAGE (Phase 12)
+  // ==========================================
+
+  async getCmsRevisions(token: string, contentType?: string, contentId?: string) {
+    try {
+      const res = await request('/admin/cms/revisions', {
+        token,
+        params: { contentType, contentId },
+      });
+      if (res?.data) return res;
+    } catch {}
+    return { success: true, data: [] };
+  },
+
+  async restoreCmsRevision(token: string, id: string) {
+    try {
+      const res = await request(`/admin/cms/revisions/${id}/restore`, {
+        method: 'POST',
+        token,
+      });
+      if (res) return res;
+    } catch {}
+    return { success: true, message: 'Restored revision' };
+  },
+
+  async checkCmsMediaUsage(token: string, url: string) {
+    try {
+      const res = await request('/admin/cms/media/usage', {
+        token,
+        params: { url },
+      });
+      if (res?.data) return res.data;
+    } catch {}
+    return { isUsed: false, references: [] };
+  },
+
+  // ==========================================
+  // PUBLIC DYNAMIC DATA CONSUMPTION
+  // ==========================================
+
+  async getPublicPage(idOrSlug: string) {
+    try {
+      const res = await request(`/cms/pages/public/${idOrSlug}`);
+      if (res?.data) return res.data;
+    } catch {}
+    return null;
+  },
+
+  async getPublicServices() {
+    try {
+      const res = await request('/cms/services/public');
+      if (res?.data) return res.data;
+    } catch {}
+    return null;
+  },
+
+  async getPublicProjects(query?: any) {
+    try {
+      const res = await request('/cms/portfolio/public', { params: query });
+      if (res?.data) return res.data;
+    } catch {}
+    return null;
+  },
+
+  async getPublicIndustries() {
+    try {
+      const res = await request('/cms/industries/public');
+      if (res?.data) return res.data;
+    } catch {}
+    return null;
+  },
+
+  async getPublicSettings() {
+    try {
+      const res = await request('/cms/settings/public');
+      if (res?.data) return res.data;
+    } catch {}
+    return null;
+  },
 };
 

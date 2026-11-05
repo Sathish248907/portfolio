@@ -23,6 +23,7 @@ import {
 import { Button } from '../components/common/Button';
 import { SEO } from '../components/common/SEO';
 import { api } from '../lib/api';
+import { useCmsPage, useCmsSettings } from '../hooks/useCmsContent';
 
 const inquiryChannels = [
   {
@@ -79,9 +80,22 @@ const contactSchema = z.object({
 type ContactFormData = z.infer<typeof contactSchema>;
 
 export const ContactPage: React.FC = () => {
+  const { data: cmsPage } = useCmsPage('contact');
+  const { settings } = useCmsSettings();
   const [selectedChannel, setSelectedChannel] = useState<string>('project-inquiry');
   const [submitted, setSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const contactEmail = settings?.contactEmail || 'inquiries@peacehaven.tech';
+  const contactPhone = settings?.contactPhone || '+1 (800) 555-0199';
+  const officeAddress = settings?.address || 'Site No 71, SNV Garden Main Rd, Ramanathapuram, Coimbatore, Tamil Nadu 641036';
+  const officeHours = settings?.businessHours || 'Guaranteed within 24 business hours';
+
+  const seoTitle = cmsPage?.seo?.title || cmsPage?.title || "Contact Us | Let's Build Something Extraordinary | Peace Haven";
+  const seoDesc = cmsPage?.seo?.description || cmsPage?.description || "Have an idea, business challenge or technology requirement? Connect with Peace Haven and explore how we can turn your vision into a practical technology solution.";
+  const heroBadge = cmsPage?.hero?.badge || 'Connect with Peace Haven';
+  const heroHeadline = cmsPage?.hero?.headline || "Let's Build Something Extraordinary.";
+  const heroSubheadline = cmsPage?.hero?.subheadline || "Have an idea, business challenge or technology requirement? Connect with Peace Haven and explore how we can turn your vision into a practical technology solution.";
 
   const {
     register,
@@ -127,21 +141,21 @@ export const ContactPage: React.FC = () => {
   return (
     <div className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
       <SEO
-        title="Contact Us | Let's Build Something Extraordinary | Peace Haven"
-        description="Have an idea, business challenge or technology requirement? Connect with Peace Haven and explore how we can turn your vision into a practical technology solution."
+        title={seoTitle}
+        description={seoDesc}
       />
 
       {/* Header Section per Phase 6 Specification */}
       <div className="text-center max-w-3xl mx-auto space-y-5">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-warm-200/10 border border-champagne-500/30 text-champagne-400 text-xs font-mono">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Connect with Peace Haven</span>
+          <span>{heroBadge}</span>
         </div>
         <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight">
-          Let's Build Something Extraordinary.
+          {heroHeadline}
         </h1>
         <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-light">
-          Have an idea, business challenge or technology requirement? Connect with Peace Haven and explore how we can turn your vision into a practical technology solution.
+          {heroSubheadline}
         </p>
       </div>
 
@@ -254,10 +268,10 @@ export const ContactPage: React.FC = () => {
                 <div>
                   <span className="block text-slate-400 text-[10px] uppercase font-bold">Commercial & Technical Desk</span>
                   <a
-                    href="mailto:inquiries@peacehaven.tech"
+                    href={`mailto:${contactEmail}`}
                     className="text-white hover:text-champagne-300 transition-colors font-medium text-xs"
                   >
-                    inquiries@peacehaven.tech
+                    {contactEmail}
                   </a>
                 </div>
               </div>
@@ -268,10 +282,8 @@ export const ContactPage: React.FC = () => {
                 </div>
                 <div>
                   <span className="block text-slate-400 text-[10px] uppercase font-bold">Registered Technical Center</span>
-                  <span className="text-slate-200 leading-snug block">
-                    Site No 71, SNV Garden Main Rd,<br />
-                    Ramanathapuram, Coimbatore,<br />
-                    Tamil Nadu 641036
+                  <span className="text-slate-200 leading-snug block whitespace-pre-line">
+                    {officeAddress}
                   </span>
                 </div>
               </div>
@@ -282,7 +294,9 @@ export const ContactPage: React.FC = () => {
                 </div>
                 <div>
                   <span className="block text-slate-400 text-[10px] uppercase font-bold">Direct Line</span>
-                  <span className="text-white font-medium">+1 (800) 555-0199</span>
+                  <a href={`tel:${contactPhone}`} className="text-white font-medium hover:text-champagne-300 transition-colors">
+                    {contactPhone}
+                  </a>
                 </div>
               </div>
 
@@ -292,7 +306,7 @@ export const ContactPage: React.FC = () => {
                 </div>
                 <div>
                   <span className="block text-slate-400 text-[10px] uppercase font-bold">Response Standard</span>
-                  <span className="text-slate-200">Guaranteed within 24 business hours</span>
+                  <span className="text-slate-200">{officeHours}</span>
                 </div>
               </div>
             </div>

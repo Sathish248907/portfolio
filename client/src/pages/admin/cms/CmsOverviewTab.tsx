@@ -1,5 +1,18 @@
 import React from 'react';
-import { Clock, CheckCircle2 } from 'lucide-react';
+import { 
+  Clock, 
+  CheckCircle2, 
+  Home, 
+  Layers, 
+  Briefcase, 
+  Building2, 
+  Compass, 
+  Mail, 
+  Settings, 
+  RotateCcw,
+  Sparkles,
+  ArrowRight
+} from 'lucide-react';
 
 interface CmsOverviewTabProps {
   metrics: {
@@ -10,9 +23,25 @@ interface CmsOverviewTabProps {
     totalMedia: number;
   };
   overview: any;
+  onSelectTab?: (tab: string) => void;
 }
 
-export const CmsOverviewTab: React.FC<CmsOverviewTabProps> = ({ metrics, overview }) => {
+export const CmsOverviewTab: React.FC<CmsOverviewTabProps> = ({ 
+  metrics, 
+  overview, 
+  onSelectTab 
+}) => {
+  const quickActions = [
+    { id: 'homepage', label: 'Edit Homepage', desc: 'Hero banner, intro text, value pillars & CTA', icon: Home, color: 'text-champagne-400' },
+    { id: 'services', label: 'Manage Services', desc: '8 engineering divisions, capabilities & workflows', icon: Layers, color: 'text-teal-400' },
+    { id: 'projects', label: 'Manage Portfolio', desc: 'Case studies, prototypes, metrics & architecture', icon: Briefcase, color: 'text-indigo-400' },
+    { id: 'industries', label: 'Manage Industries', desc: '10 industry categories, challenges & solutions', icon: Building2, color: 'text-emerald-400' },
+    { id: 'about', label: 'Manage About Us', desc: 'Engineering creed, principles & leadership', icon: Compass, color: 'text-amber-400' },
+    { id: 'contact', label: 'Manage Contact', desc: 'Direct desk emails, phone, address & hours', icon: Mail, color: 'text-rose-400' },
+    { id: 'settings', label: 'Global Settings', desc: 'Logos, announcements, social links & copyright', icon: Settings, color: 'text-cyan-400' },
+    { id: 'revisions', label: 'Revision History', desc: 'Audit snapshots & 1-click version rollbacks', icon: RotateCcw, color: 'text-purple-400' },
+  ];
+
   return (
     <div className="space-y-6">
       {/* Top Counters Grid */}
@@ -32,7 +61,7 @@ export const CmsOverviewTab: React.FC<CmsOverviewTabProps> = ({ metrics, overvie
             <span className="text-2xl font-bold font-heading text-white">{metrics.publishedProjects}</span>
             <span className="text-xs font-mono text-teal-400">Active</span>
           </div>
-          <span className="text-[11px] text-slate-500 mt-1 block">Prototypes & Demonstrations</span>
+          <span className="text-[11px] text-slate-500 mt-1 block">Prototypes & Case Studies</span>
         </div>
 
         <div className="p-4 rounded-2xl bg-charcoal-850/90 border border-sage-500/20">
@@ -51,6 +80,41 @@ export const CmsOverviewTab: React.FC<CmsOverviewTabProps> = ({ metrics, overvie
             <span className="text-xs font-mono text-indigo-400">Assets</span>
           </div>
           <span className="text-[11px] text-slate-500 mt-1 block">Images & Schematics</span>
+        </div>
+      </div>
+
+      {/* Quick Access Actions Grid */}
+      <div className="p-6 rounded-2xl bg-charcoal-850/80 border border-sage-500/20 space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-champagne-400" />
+            <h3 className="text-sm font-heading font-semibold text-white">
+              CMS Management Quick Actions
+            </h3>
+          </div>
+          <span className="text-xs font-mono text-slate-400">Dynamic Administration</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {quickActions.map((action) => {
+            const Icon = action.icon;
+            return (
+              <button
+                key={action.id}
+                onClick={() => onSelectTab && onSelectTab(action.id)}
+                className="text-left p-3.5 rounded-xl bg-charcoal-900/80 border border-sage-500/15 hover:border-champagne-500/40 hover:bg-charcoal-800 transition-all group flex flex-col justify-between"
+              >
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <Icon className={`w-4 h-4 ${action.color}`} />
+                    <ArrowRight className="w-3 h-3 text-slate-500 group-hover:text-champagne-400 group-hover:translate-x-0.5 transition-all" />
+                  </div>
+                  <h4 className="font-heading font-bold text-white text-xs">{action.label}</h4>
+                  <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">{action.desc}</p>
+                </div>
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -121,4 +185,3 @@ export const CmsOverviewTab: React.FC<CmsOverviewTabProps> = ({ metrics, overvie
     </div>
   );
 };
-

@@ -8,6 +8,7 @@ import { BlogPost } from '../models/BlogPost.js';
 import { MediaAsset } from '../models/MediaAsset.js';
 import { NavigationItem } from '../models/NavigationItem.js';
 import { Industry } from '../models/Industry.js';
+import { SiteSetting } from '../models/SiteSetting.js';
 import { CMSActivityLog } from '../models/CMSActivityLog.js';
 import { Role } from '../models/Role.js';
 import { AdminInvitation } from '../models/AdminInvitation.js';
@@ -1054,10 +1055,51 @@ export async function seedInitialData() {
           },
           lastUpdatedBy: 'System Lead',
         },
+        {
+          pageId: 'portfolio',
+          title: 'Engineering Portfolio & Case Studies | Peace Haven',
+          slug: '/portfolio',
+          description: 'Authentic engineering demonstrations, architectural prototypes, and systems benchmarks engineered by Peace Haven.',
+          status: 'published',
+          hero: {
+            headline: 'Verified Systems & Case Studies',
+            subheadline: 'Explore genuine prototypes and reference architectures engineered by our team. In accordance with our transparency standards, all laboratory builds are explicitly identified.',
+            ctaText: 'Explore Works',
+            ctaLink: '#projects',
+            badge: 'Peace Haven Engineering Laboratory',
+          },
+          sections: [
+            { id: 'sec-projects', type: 'grid', title: 'Selected Verified Works', order: 1, isVisible: true },
+          ],
+          seo: {
+            title: 'Engineering Portfolio & Case Studies | Peace Haven',
+            description: 'Authentic engineering demonstrations, architectural prototypes, and systems benchmarks engineered by Peace Haven.',
+            canonicalUrl: 'https://peacehaven.tech/portfolio',
+            ogImage: '/og-image.png',
+            indexable: true,
+          },
+          lastUpdatedBy: 'System Lead',
+        },
       ];
 
       await Page.insertMany(initialPages);
       console.log(`[SEED] Initialized ${initialPages.length} CMS-managed website pages.`);
+    }
+
+    // Seed Global Site Settings (Phase 12)
+    const settingsCount = await SiteSetting.countDocuments();
+    if (settingsCount === 0) {
+      await SiteSetting.create({
+        key: 'global_settings',
+        companyName: 'Peace Haven Technologies Inc.',
+        tagline: 'Engineering Ideas. Empowering Industries.',
+        logoUrl: '/logo.svg',
+        faviconUrl: '/favicon.ico',
+        defaultCtaText: 'Start a Project',
+        defaultCtaLink: '/start-a-project',
+        copyrightText: '© 2026 Peace Haven Technologies Inc. All rights reserved.',
+      });
+      console.log('[SEED] Initialized global website settings.');
     }
 
     // 5. Seed CMS Baseline Blog & Insights Articles (Phase 9)

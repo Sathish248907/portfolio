@@ -5,7 +5,19 @@ import { Container } from '../common/Container';
 import { Reveal } from '../common/Reveal';
 import { ParticleBackground } from '../effects/ParticleBackground';
 
-export const HeroSection: React.FC = () => {
+interface HeroSectionProps {
+  cmsHero?: {
+    headline?: string;
+    subheadline?: string;
+    ctaText?: string;
+    ctaLink?: string;
+    secondaryCtaText?: string;
+    secondaryCtaLink?: string;
+    badge?: string;
+  };
+}
+
+export const HeroSection: React.FC<HeroSectionProps> = ({ cmsHero }) => {
   return (
     <section 
       className="relative min-h-[92vh] flex items-center justify-center pt-14 pb-24 overflow-hidden bg-[#07151e]"
@@ -27,22 +39,28 @@ export const HeroSection: React.FC = () => {
         <Reveal direction="down" delay={0.1}>
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0c1f29]/90 border border-[#dfa561]/40 text-[#dfa561] text-xs font-mono uppercase tracking-widest shadow-sm">
             <Sparkles className="w-3.5 h-3.5 text-[#dfa561]" />
-            <span>INNOVATION MEETS IMPACT</span>
+            <span>{cmsHero?.badge || 'INNOVATION MEETS IMPACT'}</span>
           </div>
         </Reveal>
 
         {/* Headline matching reference: 'solutions.' in signature warm amber */}
         <Reveal direction="up" delay={0.2}>
-          <h1 className="font-heading text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.08] max-w-5xl mx-auto">
-            We turn ambitious ideas into<br className="hidden sm:inline" /> intelligent{' '}
-            <span className="text-[#dfa561]">solutions.</span>
-          </h1>
+          {cmsHero?.headline ? (
+            <h1 className="font-heading text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.08] max-w-5xl mx-auto">
+              {cmsHero.headline}
+            </h1>
+          ) : (
+            <h1 className="font-heading text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.08] max-w-5xl mx-auto">
+              We turn ambitious ideas into<br className="hidden sm:inline" /> intelligent{' '}
+              <span className="text-[#dfa561]">solutions.</span>
+            </h1>
+          )}
         </Reveal>
 
         {/* Subtitle */}
         <Reveal direction="up" delay={0.3}>
           <p className="max-w-3xl mx-auto text-base sm:text-lg lg:text-xl text-slate-300 leading-relaxed font-light">
-            From digital experiences and financial technology to healthcare, engineering, staffing, trading, and marketing — Peace Haven brings technology and business expertise together to move organizations forward.
+            {cmsHero?.subheadline || 'From digital experiences and financial technology to healthcare, engineering, staffing, trading, and marketing — Peace Haven brings technology and business expertise together to move organizations forward.'}
           </p>
         </Reveal>
 
@@ -50,23 +68,23 @@ export const HeroSection: React.FC = () => {
         <Reveal direction="up" delay={0.4}>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Button
-              to="/start-a-project"
+              to={cmsHero?.ctaLink || '/start-a-project'}
               variant="champagne"
               size="lg"
               className="bg-[#dfa561] hover:bg-[#d09550] text-[#08151e] font-semibold px-7 py-3.5 rounded-2xl shadow-lg border-0 transition-transform hover:scale-[1.02]"
               rightIcon={<ArrowRight className="w-4 h-4" />}
             >
-              Start a Project
+              {cmsHero?.ctaText || 'Start a Project'}
             </Button>
 
             <Button
-              to="/portfolio"
+              to={cmsHero?.secondaryCtaLink || '/portfolio'}
               variant="secondary"
               size="lg"
               className="bg-[#0b1c26]/90 hover:bg-[#122835] text-white border border-[#213a48] hover:border-[#dfa561]/40 px-7 py-3.5 rounded-2xl transition-transform hover:scale-[1.02]"
               rightIcon={<ArrowRight className="w-4 h-4" />}
             >
-              Explore Our Work
+              {cmsHero?.secondaryCtaText || 'Explore Our Work'}
             </Button>
           </div>
         </Reveal>

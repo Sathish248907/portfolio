@@ -4,7 +4,7 @@ const ContentRevisionSchema = new mongoose.Schema(
   {
     contentType: {
       type: String,
-      enum: ['page', 'service', 'industry', 'project', 'blog', 'navigation'],
+      enum: ['page', 'service', 'industry', 'project', 'blog', 'navigation', 'settings'],
       required: true,
       index: true,
     },

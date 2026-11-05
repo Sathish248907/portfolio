@@ -8,13 +8,19 @@ import { ProcessSection } from '../components/home/ProcessSection';
 import { WhyPeaceHaven } from '../components/home/WhyPeaceHaven';
 import { FinalCTA } from '../components/home/FinalCTA';
 import { generateOrganizationSchema, generateWebSiteSchema } from '../utils/seo';
+import { useCmsPage } from '../hooks/useCmsContent';
 
 export const HomePage: React.FC = () => {
+  const { data: cmsPage } = useCmsPage('home');
+
+  const pageTitle = cmsPage?.seo?.title || cmsPage?.title || 'Peace Haven | Technology, FinTech, Robotics & Healthcare Solutions';
+  const pageDescription = cmsPage?.seo?.description || cmsPage?.description || 'Peace Haven delivers innovative technology solutions across web development, FinTech, robotics, healthcare and digital transformation for businesses and industries.';
+
   return (
     <div className="relative overflow-hidden">
       <SEO 
-        title="Peace Haven | Technology, FinTech, Robotics & Healthcare Solutions"
-        description="Peace Haven delivers innovative technology solutions across web development, FinTech, robotics, healthcare and digital transformation for businesses and industries."
+        title={pageTitle}
+        description={pageDescription}
         canonicalUrl="https://peacehaven.tech/"
         keywords={[
           'Peace Haven',
@@ -35,10 +41,10 @@ export const HomePage: React.FC = () => {
       />
 
       {/* Section 2: Cinematic Hero */}
-      <HeroSection />
+      <HeroSection cmsHero={cmsPage?.hero} />
 
       {/* Section 3: Company Introduction */}
-      <IntroSection />
+      <IntroSection cmsIntro={cmsPage?.customContent?.intro} />
 
       {/* Section 4: Eight Service Divisions */}
       <ServiceGrid />
@@ -53,7 +59,7 @@ export const HomePage: React.FC = () => {
       <WhyPeaceHaven />
 
       {/* Section 9: Final Project CTA */}
-      <FinalCTA />
+      <FinalCTA cmsCta={cmsPage?.customContent?.finalCta} />
     </div>
   );
 };

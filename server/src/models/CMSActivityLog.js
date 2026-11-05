@@ -10,7 +10,7 @@ const CMSActivityLogSchema = new mongoose.Schema(
     },
     entityType: {
       type: String,
-      enum: ['page', 'service', 'industry', 'project', 'blog', 'media', 'navigation'],
+      enum: ['page', 'service', 'industry', 'project', 'blog', 'media', 'navigation', 'settings'],
       required: true,
       index: true,
     },

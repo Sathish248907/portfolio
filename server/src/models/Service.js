@@ -32,7 +32,7 @@ const ServiceSchema = new mongoose.Schema(
     },
     iconName: {
       type: String,
-      required: true,
+      default: 'Cpu',
     },
     capabilities: [
       {
@@ -58,6 +58,34 @@ const ServiceSchema = new mongoose.Schema(
     techStack: [String],
     deliverables: [String],
     relatedProjectSlugs: [String],
+    faqs: [
+      {
+        question: String,
+        answer: String,
+      },
+    ],
+    displayOrder: {
+      type: Number,
+      default: 0,
+    },
+    status: {
+      type: String,
+      enum: ['draft', 'published', 'unpublished'],
+      default: 'published',
+      index: true,
+    },
+    seo: {
+      title: { type: String, default: '' },
+      description: { type: String, default: '' },
+      canonicalUrl: { type: String, default: '' },
+      ogTitle: { type: String, default: '' },
+      ogDescription: { type: String, default: '' },
+      ogImage: { type: String, default: '/og-image.png' },
+    },
+    lastUpdatedBy: {
+      type: String,
+      default: 'System',
+    },
   },
   {
     timestamps: true,

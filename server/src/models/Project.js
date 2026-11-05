@@ -24,11 +24,11 @@ const ProjectSchema = new mongoose.Schema(
     },
     serviceName: {
       type: String,
-      required: true,
+      default: 'Engineering Solutions',
     },
     industry: {
       type: String,
-      required: true,
+      default: 'Technology & Enterprise',
     },
     category: {
       type: String,
@@ -46,11 +46,11 @@ const ProjectSchema = new mongoose.Schema(
     },
     thumbnail: {
       type: String,
-      required: true,
+      default: '/images/projects/artistry-homepage.png',
     },
     heroImage: {
       type: String,
-      required: true,
+      default: '/images/projects/artistry-homepage.png',
     },
     overview: {
       type: String,
@@ -80,6 +80,39 @@ const ProjectSchema = new mongoose.Schema(
     isPublished: {
       type: Boolean,
       default: true,
+      index: true,
+    },
+    status: {
+      type: String,
+      enum: ['draft', 'published', 'unpublished', 'archived'],
+      default: 'published',
+      index: true,
+    },
+    clientName: {
+      type: String,
+      default: '',
+    },
+    businessChallenge: {
+      type: String,
+      default: '',
+    },
+    isFeatured: {
+      type: Boolean,
+      default: false,
+    },
+    displayOrder: {
+      type: Number,
+      default: 0,
+    },
+    seo: {
+      title: { type: String, default: '' },
+      description: { type: String, default: '' },
+      canonicalUrl: { type: String, default: '' },
+      ogImage: { type: String, default: '/og-image.png' },
+    },
+    lastUpdatedBy: {
+      type: String,
+      default: 'System',
     },
   },
   {

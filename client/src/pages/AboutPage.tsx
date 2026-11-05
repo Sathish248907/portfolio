@@ -11,9 +11,12 @@ import {
 } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { SEO } from '../components/common/SEO';
+import { useCmsPage } from '../hooks/useCmsContent';
 
 export const AboutPage: React.FC = () => {
-  const principles = [
+  const { data: cmsPage } = useCmsPage('about');
+
+  const defaultPrinciples = [
     {
       title: 'First-Principles Systems Engineering',
       desc: 'We do not wrap superficial wrappers over outdated foundations. From low-level C++ robotics drivers to event-driven cloud systems, we design architectures from root mechanical and algorithmic requirements.',
@@ -32,25 +35,37 @@ export const AboutPage: React.FC = () => {
     },
   ];
 
+  interface Principle {
+    title: string;
+    desc: string;
+  }
+
+  const principles: Principle[] = cmsPage?.customContent?.principles || defaultPrinciples;
+  const heroBadge = cmsPage?.hero?.badge || 'Engineering Organization Overview';
+  const heroHeadline = cmsPage?.hero?.headline || 'Architecting Systems That Move Real Industries.';
+  const heroSubheadline = cmsPage?.hero?.subheadline || 'Peace Haven is an integrated technology and engineering firm founded on the principle that the most valuable digital systems are those that securely power physical and commercial infrastructure.';
+
+  const seoTitle = cmsPage?.seo?.title || cmsPage?.title || 'About Peace Haven | Engineering Principles';
+  const seoDesc = cmsPage?.seo?.description || cmsPage?.description || "Learn about Peace Haven's engineering methodology, cross-disciplinary technical capabilities, and transparency ethos.";
+
   return (
     <div className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-20">
       <SEO
-        title="About Peace Haven | Engineering Principles"
-        description="Learn about Peace Haven's engineering methodology, cross-disciplinary technical capabilities, and transparency ethos."
+        title={seoTitle}
+        description={seoDesc}
       />
 
       {/* Hero */}
       <div className="text-center max-w-3xl mx-auto space-y-6">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-warm-200/10 border border-champagne-500/30 text-champagne-400 text-xs font-mono">
           <Compass className="w-3.5 h-3.5" />
-          <span>Engineering Organization Overview</span>
+          <span>{heroBadge}</span>
         </div>
         <h1 className="font-heading text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight">
-          Architecting Systems That <br />
-          <span className="text-gradient-champagne">Move Real Industries.</span>
+          {heroHeadline}
         </h1>
         <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-light">
-          Peace Haven is an integrated technology and engineering firm founded on the principle that the most valuable digital systems are those that securely power physical and commercial infrastructure.
+          {heroSubheadline}
         </p>
       </div>
 
@@ -108,13 +123,13 @@ export const AboutPage: React.FC = () => {
       {/* CTA */}
       <div className="glass-card bg-charcoal-850 p-10 rounded-3xl border border-sage-500/25 text-center space-y-4 max-w-4xl mx-auto shadow-xl">
         <h3 className="font-heading text-2xl font-bold text-white">
-          Collaborate With Peace Haven Engineers
+          {cmsPage?.customContent?.cta?.title || 'Collaborate With Peace Haven Engineers'}
         </h3>
         <p className="text-slate-300 text-sm max-w-xl mx-auto font-light leading-relaxed">
-          Whether you need a dedicated technical squad or a complete end-to-end autonomous robotics build, we are ready to architect your solution.
+          {cmsPage?.customContent?.cta?.description || 'Whether you need a dedicated technical squad or a complete end-to-end autonomous robotics build, we are ready to architect your solution.'}
         </p>
-        <Button to="/start-a-project" variant="cyan" size="lg">
-          Initiate Engineering Consultation &rarr;
+        <Button to={cmsPage?.customContent?.cta?.buttonLink || '/start-a-project'} variant="cyan" size="lg">
+          {cmsPage?.customContent?.cta?.buttonText || 'Initiate Engineering Consultation'} &rarr;
         </Button>
       </div>
     </div>

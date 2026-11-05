@@ -6,37 +6,46 @@ import { SEO } from '../components/common/SEO';
 import { Breadcrumbs } from '../components/seo/Breadcrumbs';
 import { Button } from '../components/common/Button';
 import { servicesData } from '../data/servicesData';
+import { useCmsPage, useCmsServices } from '../hooks/useCmsContent';
 
 export const ServicesPage: React.FC = () => {
+  const { data: cmsPage } = useCmsPage('services');
+  const { services: allServices } = useCmsServices(servicesData);
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const shouldReduceMotion = useReducedMotion();
 
+  const seoTitle = cmsPage?.seo?.title || cmsPage?.title || 'Services & Engineering Capabilities | Peace Haven';
+  const seoDesc = cmsPage?.seo?.description || cmsPage?.description || "Explore Peace Haven's 8 specialized engineering divisions: Web Development, FinTech, Robotics, Drone Technology, Healthcare, US Staffing, Trading, and Digital Marketing.";
+  const heroBadge = cmsPage?.hero?.badge || 'Eight Integrated Engineering Divisions';
+  const heroHeadline = cmsPage?.hero?.headline || 'Capabilities Built Around Your Ambition.';
+  const heroSubheadline = cmsPage?.hero?.subheadline || 'From full-stack cloud software and financial systems to industrial robotics, aerial workflows, and market technologies — Peace Haven delivers connected capabilities across eight specialized divisions.';
+
   const filterTabs = [
-    { id: 'all', label: 'All Disciplines (8)' },
+    { id: 'all', label: `All Disciplines (${allServices.length})` },
     { id: 'cloud', label: 'Cloud & Software' },
     { id: 'engineering', label: 'Robotics & Aerial' },
     { id: 'business', label: 'Operations & Markets' },
   ];
 
-  const filteredServices = servicesData.filter((service) => {
+  const filteredServices = allServices.filter((service) => {
     // Search query matching
     const matchesSearch = 
       service.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       service.shortDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      service.capabilities.some((c) => c.title.toLowerCase().includes(searchQuery.toLowerCase()));
+      (service.capabilities || []).some((c: any) => c.title?.toLowerCase().includes(searchQuery.toLowerCase()));
 
     if (!matchesSearch) return false;
 
     if (selectedFilter === 'all') return true;
     if (selectedFilter === 'cloud') {
-      return ['web-development', 'fintech', 'healthcare'].includes(service.id);
+      return ['web-development', 'fintech', 'healthcare'].includes(service.id || service.slug);
     }
     if (selectedFilter === 'engineering') {
-      return ['robotics', 'drone-technology'].includes(service.id);
+      return ['robotics', 'drone-technology'].includes(service.id || service.slug);
     }
     if (selectedFilter === 'business') {
-      return ['us-staffing', 'trading', 'digital-marketing'].includes(service.id);
+      return ['us-staffing', 'trading', 'digital-marketing'].includes(service.id || service.slug);
     }
     return true;
   });
@@ -57,8 +66,8 @@ export const ServicesPage: React.FC = () => {
   return (
     <div className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
       <SEO 
-        title="Services & Engineering Capabilities | Peace Haven" 
-        description="Explore Peace Haven's 8 specialized engineering divisions: Web Development, FinTech, Robotics, Drone Technology, Healthcare, US Staffing, Trading, and Digital Marketing."
+        title={seoTitle} 
+        description={seoDesc}
         canonicalUrl="https://peacehaven.tech/services"
         breadcrumbs={[{ name: 'Services', url: '/services' }]}
       />
@@ -70,15 +79,15 @@ export const ServicesPage: React.FC = () => {
       <div className="text-center max-w-3xl mx-auto space-y-5">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-warm-200/10 border border-champagne-500/30 text-champagne-400 text-xs font-mono">
           <Layers className="w-3.5 h-3.5 text-champagne-400" />
-          <span>Eight Integrated Engineering Divisions</span>
+          <span>{heroBadge}</span>
         </div>
         
         <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
-          Capabilities Built Around Your Ambition.
+          {heroHeadline}
         </h1>
         
         <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-light">
-          From full-stack cloud software and financial systems to industrial robotics, aerial workflows, and market technologies — Peace Haven delivers connected capabilities across eight specialized divisions.
+          {heroSubheadline}
         </p>
       </div>
 

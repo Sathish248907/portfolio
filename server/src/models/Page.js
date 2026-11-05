@@ -40,7 +40,7 @@ const PageSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['draft', 'review', 'approved', 'published', 'unpublished'],
+      enum: ['draft', 'review', 'in_review', 'approved', 'published', 'unpublished', 'archived'],
       default: 'published',
       index: true,
     },
@@ -49,9 +49,16 @@ const PageSchema = new mongoose.Schema(
       subheadline: { type: String, default: '' },
       ctaText: { type: String, default: '' },
       ctaLink: { type: String, default: '' },
+      secondaryCtaText: { type: String, default: '' },
+      secondaryCtaLink: { type: String, default: '' },
       badge: { type: String, default: '' },
+      bgImage: { type: String, default: '' },
     },
     sections: [ContentSectionSchema],
+    customContent: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    },
     seo: {
       title: { type: String, default: '' },
       description: { type: String, default: '' },

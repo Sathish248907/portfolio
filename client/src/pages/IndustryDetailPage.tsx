@@ -20,24 +20,28 @@ import { Button } from '../components/common/Button';
 import { getIndustryBySlug, industriesData } from '../data/industriesData';
 import { projectsData } from '../data/projectsData';
 import { generateIndustrySchema } from '../utils/seo';
+import { useCmsIndustries, useCmsPortfolio } from '../hooks/useCmsContent';
 
 export const IndustryDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { industries } = useCmsIndustries(industriesData);
+  const { projects } = useCmsPortfolio(projectsData);
 
   // Ensure scroll to top on route change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [slug]);
 
-  const industry = getIndustryBySlug(slug || '');
+  const industry = industries.find((i) => i.slug === slug || i.id === slug) || getIndustryBySlug(slug || '');
 
   if (!industry) {
     return <Navigate to="/industries" replace />;
   }
 
   // Find linked portfolio projects
-  const connectedProjects = projectsData.filter((p) => 
-    industry.relatedProjectSlugs.includes(p.slug)
+  const relatedSlugs = industry.relatedProjectSlugs || [];
+  const connectedProjects = projects.filter((p) => 
+    relatedSlugs.includes(p.slug)
   );
 
   return (

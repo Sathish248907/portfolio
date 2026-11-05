@@ -12,7 +12,12 @@ import {
   RefreshCw, 
   Sparkles,
   AlertCircle,
-  BookOpen
+  BookOpen,
+  Home,
+  Compass,
+  Mail,
+  Settings,
+  RotateCcw
 } from 'lucide-react';
 import { SEO } from '../../components/common/SEO';
 import { Button } from '../../components/common/Button';
@@ -21,6 +26,11 @@ import { cn } from '../../lib/utils';
 
 // Modular CMS sub-components
 import { CmsOverviewTab } from './cms/CmsOverviewTab';
+import { CmsHomepageEditor } from './cms/CmsHomepageEditor';
+import { CmsAboutEditor } from './cms/CmsAboutEditor';
+import { CmsContactEditor } from './cms/CmsContactEditor';
+import { CmsSettingsTab } from './cms/CmsSettingsTab';
+import { CmsRevisionsTab } from './cms/CmsRevisionsTab';
 import { CmsPagesTab } from './cms/CmsPagesTab';
 import { CmsServicesTab } from './cms/CmsServicesTab';
 import { CmsProjectsTab } from './cms/CmsProjectsTab';
@@ -32,7 +42,20 @@ import { PageEditorModal } from './cms/PageEditorModal';
 import { BlogEditorModal } from './cms/BlogEditorModal';
 import { MediaUploadModal } from './cms/MediaUploadModal';
 
-type CmsTab = 'overview' | 'pages' | 'services' | 'projects' | 'industries' | 'blogs' | 'media' | 'navigation';
+export type CmsTab = 
+  | 'overview' 
+  | 'homepage' 
+  | 'services' 
+  | 'projects' 
+  | 'industries' 
+  | 'about' 
+  | 'contact' 
+  | 'pages' 
+  | 'settings' 
+  | 'revisions' 
+  | 'blogs' 
+  | 'media' 
+  | 'navigation';
 
 export const AdminCmsPage: React.FC = () => {
   const [token] = useState<string>(() => localStorage.getItem('ph_admin_token') || 'ph-demo-jwt-token-verified-2026');
@@ -78,8 +101,8 @@ export const AdminCmsPage: React.FC = () => {
       const [ov, pg, srv, prj, ind, blg, med, nav] = await Promise.all([
         api.getCmsOverview(token),
         api.getCmsPages(token),
-        api.getServiceAnalytics(token),
-        api.getPortfolioAnalytics(token),
+        api.getCmsServices(token),
+        api.getCmsProjects(token),
         api.getCmsIndustries(token),
         api.getAdminBlogs(token),
         api.getCmsMedia(token),
@@ -88,8 +111,8 @@ export const AdminCmsPage: React.FC = () => {
 
       if (ov?.data) setOverview(ov.data);
       if (pg?.data) setPages(pg.data);
-      if (srv?.services) setServices(srv.services);
-      if (prj?.projects) setProjects(prj.projects);
+      if (srv?.data) setServices(srv.data);
+      if (prj?.data) setProjects(prj.data);
       if (ind?.data) setIndustries(ind.data);
       if (blg?.data) setBlogs(blg.data);
       if (med?.data) setMediaList(med.data);
@@ -183,7 +206,11 @@ export const AdminCmsPage: React.FC = () => {
   const handleDeleteMedia = async (id: string) => {
     if (!window.confirm('Delete this media asset?')) return;
     try {
-      await api.deleteCmsMedia(token, id);
+      const res = await api.deleteCmsMedia(token, id);
+      if (res?.success === false) {
+        showNotification(res.message || 'Asset is in use and cannot be deleted.', 'error');
+        return;
+      }
       showNotification('Media asset deleted.');
       loadAllCmsData();
     } catch {
@@ -192,7 +219,7 @@ export const AdminCmsPage: React.FC = () => {
   };
 
   const metrics = overview?.metrics || {
-    publishedPages: 5,
+    publishedPages: 6,
     draftPages: 0,
     publishedProjects: 10,
     draftProjects: 0,
@@ -228,22 +255,31 @@ export const AdminCmsPage: React.FC = () => {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2.5 py-0.5 rounded-full bg-teal-700/20 text-champagne-300 text-xs font-mono border border-champagne-500/30">
-              CMS Engine v1.0
+              CMS Dynamic Suite v2.0
             </span>
             <span className="text-xs font-mono text-slate-400">
-              Live Production Content Architecture
+              Admin-to-Website Content Pipeline
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-heading font-bold text-warm-100 tracking-tight">
             Content Management System (CMS)
           </h1>
           <p className="text-sm text-slate-400 max-w-2xl mt-1">
-            Centralized hub to draft, update, organize, preview, and publish pages, service capabilities, laboratory case studies, technical journal articles, and media assets.
+            Centralized hub to add, edit, reorder, preview, and publish pages, service divisions, portfolio case studies, site branding, and media assets without touching React source code.
           </p>
         </div>
 
         {/* Global Quick Action Toolbar */}
         <div className="flex flex-wrap items-center gap-2.5">
+          <Button
+            onClick={() => setActiveTab('homepage')}
+            variant="outline"
+            size="sm"
+            leftIcon={<Home className="w-3.5 h-3.5 text-champagne-400" />}
+          >
+            Edit Homepage
+          </Button>
+
           <Button
             onClick={() => {
               setIsCreatingBlog(true);
@@ -261,6 +297,7 @@ export const AdminCmsPage: React.FC = () => {
                 authorName: 'Peace Haven Lead',
                 authorRole: 'Engineering Architect',
               });
+              setActiveTab('blogs');
             }}
             variant="champagne"
             size="sm"
@@ -293,13 +330,18 @@ export const AdminCmsPage: React.FC = () => {
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex items-center gap-1 sm:gap-2 border-b border-sage-500/20 overflow-x-auto pb-px">
+      <div className="flex items-center gap-1 sm:gap-1.5 border-b border-sage-500/20 overflow-x-auto pb-px">
         {[
-          { id: 'overview', label: 'CMS Overview', icon: Sparkles },
-          { id: 'pages', label: 'Page Management', icon: FileText, badge: metrics.publishedPages },
-          { id: 'services', label: '8 Services', icon: Layers, badge: metrics.totalServices },
-          { id: 'projects', label: '10 Projects', icon: Briefcase, badge: metrics.publishedProjects },
-          { id: 'industries', label: '10 Industries', icon: Building2, badge: metrics.totalIndustries },
+          { id: 'overview', label: 'Overview', icon: Sparkles },
+          { id: 'homepage', label: 'Homepage', icon: Home },
+          { id: 'services', label: 'Services Hub', ariaLabel: 'Services (8 Services)', icon: Layers, badge: metrics.totalServices },
+          { id: 'projects', label: 'Portfolio', ariaLabel: 'Portfolio (10 Projects)', icon: Briefcase, badge: metrics.publishedProjects },
+          { id: 'industries', label: 'Industries', ariaLabel: 'Industries (10 Industries)', icon: Building2, badge: metrics.totalIndustries },
+          { id: 'about', label: 'About Us', icon: Compass },
+          { id: 'contact', label: 'Contact', icon: Mail },
+          { id: 'pages', label: 'All Pages', ariaLabel: 'Page Management (All Pages)', icon: FileText, badge: metrics.publishedPages },
+          { id: 'settings', label: 'Settings', icon: Settings },
+          { id: 'revisions', label: 'Revisions', icon: RotateCcw },
           { id: 'blogs', label: 'Blog & Insights', icon: BookOpen, badge: metrics.publishedBlogs },
           { id: 'media', label: 'Media Library', icon: ImageIcon, badge: metrics.totalMedia },
           { id: 'navigation', label: 'Navigation & Menus', icon: MenuIcon },
@@ -309,15 +351,16 @@ export const AdminCmsPage: React.FC = () => {
           return (
             <button
               key={tab.id}
+              aria-label={tab.ariaLabel || tab.label}
               onClick={() => setActiveTab(tab.id as CmsTab)}
               className={cn(
-                'inline-flex items-center gap-2 px-3.5 py-2.5 text-xs sm:text-sm font-medium border-b-2 transition-all whitespace-nowrap',
+                'inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium border-b-2 transition-all whitespace-nowrap',
                 active
                   ? 'border-champagne-400 text-champagne-300 font-semibold bg-white/5 rounded-t-lg'
                   : 'border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-700'
               )}
             >
-              <Icon className={cn('w-4 h-4', active ? 'text-champagne-400' : 'text-slate-400')} />
+              <Icon className={cn('w-3.5 h-3.5', active ? 'text-champagne-400' : 'text-slate-400')} />
               <span>{tab.label}</span>
               {tab.badge !== undefined && (
                 <span className={cn(
@@ -334,7 +377,51 @@ export const AdminCmsPage: React.FC = () => {
 
       {/* Modular Tab Views */}
       {activeTab === 'overview' && (
-        <CmsOverviewTab metrics={metrics} overview={overview} />
+        <CmsOverviewTab 
+          metrics={metrics} 
+          overview={overview} 
+          onSelectTab={(tabId) => setActiveTab(tabId as CmsTab)}
+        />
+      )}
+
+      {activeTab === 'homepage' && (
+        <CmsHomepageEditor
+          token={token}
+          onSuccess={(msg) => showNotification(msg, 'success')}
+          onError={(msg) => showNotification(msg, 'error')}
+        />
+      )}
+
+      {activeTab === 'about' && (
+        <CmsAboutEditor
+          token={token}
+          onSuccess={(msg) => showNotification(msg, 'success')}
+          onError={(msg) => showNotification(msg, 'error')}
+        />
+      )}
+
+      {activeTab === 'contact' && (
+        <CmsContactEditor
+          token={token}
+          onSuccess={(msg) => showNotification(msg, 'success')}
+          onError={(msg) => showNotification(msg, 'error')}
+        />
+      )}
+
+      {activeTab === 'settings' && (
+        <CmsSettingsTab
+          token={token}
+          onSuccess={(msg) => showNotification(msg, 'success')}
+          onError={(msg) => showNotification(msg, 'error')}
+        />
+      )}
+
+      {activeTab === 'revisions' && (
+        <CmsRevisionsTab
+          token={token}
+          onSuccess={(msg) => showNotification(msg, 'success')}
+          onError={(msg) => showNotification(msg, 'error')}
+        />
       )}
 
       {activeTab === 'pages' && (
@@ -347,11 +434,23 @@ export const AdminCmsPage: React.FC = () => {
       )}
 
       {activeTab === 'services' && (
-        <CmsServicesTab services={services} />
+        <CmsServicesTab
+          services={services}
+          token={token}
+          onRefresh={loadAllCmsData}
+          onSuccess={(msg) => showNotification(msg, 'success')}
+          onError={(msg) => showNotification(msg, 'error')}
+        />
       )}
 
       {activeTab === 'projects' && (
-        <CmsProjectsTab projects={projects} />
+        <CmsProjectsTab
+          projects={projects}
+          token={token}
+          onRefresh={loadAllCmsData}
+          onSuccess={(msg) => showNotification(msg, 'success')}
+          onError={(msg) => showNotification(msg, 'error')}
+        />
       )}
 
       {activeTab === 'industries' && (

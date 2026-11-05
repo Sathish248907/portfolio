@@ -15,36 +15,45 @@ import { Breadcrumbs } from '../components/seo/Breadcrumbs';
 import { Button } from '../components/common/Button';
 import { IndustryCard } from '../components/industries/IndustryCard';
 import { industriesData } from '../data/industriesData';
+import { useCmsPage, useCmsIndustries } from '../hooks/useCmsContent';
 
 export const IndustriesPage: React.FC = () => {
+  const { data: cmsPage } = useCmsPage('industries');
+  const { industries: allIndustries } = useCmsIndustries(industriesData);
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const shouldReduceMotion = useReducedMotion();
 
+  const seoTitle = cmsPage?.seo?.title || cmsPage?.title || 'Industries We Serve | Technology Solutions Across Industries | Peace Haven';
+  const seoDesc = cmsPage?.seo?.description || cmsPage?.description || 'Discover how Peace Haven delivers technology-driven solutions across finance, healthcare, manufacturing, agriculture, real estate and other industries.';
+  const heroBadge = cmsPage?.hero?.badge || 'INDUSTRIES WE SERVE';
+  const heroHeadline = cmsPage?.hero?.headline || 'Technology That Moves Industries Forward.';
+  const heroSubheadline = cmsPage?.hero?.subheadline || 'From intelligent software and financial technology to robotics and healthcare innovation, Peace Haven develops technology-driven solutions that help businesses modernize operations, solve complex challenges and explore new opportunities.';
+
   const filterTabs = [
-    { id: 'all', label: 'All Industries (10)' },
+    { id: 'all', label: `All Industries (${allIndustries.length || 10})` },
     { id: 'software', label: 'Software & SaaS (5)' },
     { id: 'engineering', label: 'Robotics & Hardware (2)' },
     { id: 'operations', label: 'Operations & Commerce (3)' },
   ];
 
-  const filteredIndustries = industriesData.filter((ind) => {
+  const filteredIndustries = allIndustries.filter((ind) => {
     const matchesSearch = 
       ind.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       ind.shortDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      ind.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+      (ind.tags || []).some((t: string) => t.toLowerCase().includes(searchQuery.toLowerCase()));
 
     if (!matchesSearch) return false;
 
     if (selectedFilter === 'all') return true;
     if (selectedFilter === 'software') {
-      return ['it-software', 'banking-finance', 'healthcare', 'real-estate', 'education'].includes(ind.id);
+      return ['it-software', 'banking-finance', 'healthcare', 'real-estate', 'education'].includes(ind.id || ind.slug);
     }
     if (selectedFilter === 'engineering') {
-      return ['manufacturing', 'agriculture'].includes(ind.id);
+      return ['manufacturing', 'agriculture'].includes(ind.id || ind.slug);
     }
     if (selectedFilter === 'operations') {
-      return ['logistics', 'retail-ecommerce', 'human-resources'].includes(ind.id);
+      return ['logistics', 'retail-ecommerce', 'human-resources'].includes(ind.id || ind.slug);
     }
     return true;
   });
@@ -65,8 +74,8 @@ export const IndustriesPage: React.FC = () => {
   return (
     <div className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
       <SEO
-        title="Industries We Serve | Technology Solutions Across Industries | Peace Haven"
-        description="Discover how Peace Haven delivers technology-driven solutions across finance, healthcare, manufacturing, agriculture, real estate and other industries."
+        title={seoTitle}
+        description={seoDesc}
         canonicalUrl="https://peacehaven.tech/industries"
         breadcrumbs={[{ name: 'Industries', url: '/industries' }]}
       />
@@ -78,15 +87,15 @@ export const IndustriesPage: React.FC = () => {
       <div className="text-center max-w-3xl mx-auto space-y-5">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-warm-200/10 border border-champagne-500/30 text-champagne-400 text-xs font-mono">
           <Building2 className="w-3.5 h-3.5" />
-          <span>INDUSTRIES WE SERVE</span>
+          <span>{heroBadge}</span>
         </div>
         
         <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
-          Technology That Moves Industries Forward.
+          {heroHeadline}
         </h1>
         
         <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-light">
-          From intelligent software and financial technology to robotics and healthcare innovation, Peace Haven develops technology-driven solutions that help businesses modernize operations, solve complex challenges and explore new opportunities.
+          {heroSubheadline}
         </p>
 
         {/* Core Pillars Indicator */}

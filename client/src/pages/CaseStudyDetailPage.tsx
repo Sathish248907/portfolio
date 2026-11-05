@@ -81,16 +81,19 @@ import { Button } from '../components/common/Button';
 import { SEO } from '../components/common/SEO';
 import { Breadcrumbs } from '../components/seo/Breadcrumbs';
 import { generateProjectSchema } from '../utils/seo';
+import { useCmsPortfolio } from '../hooks/useCmsContent';
 
 export const CaseStudyDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { projects: allProjects } = useCmsPortfolio(projectsData);
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
 
   // Normalize aliases like /work/auravia -> artistry-gold-diamonds
   const normalizedSlug = slug === 'auravia' ? 'artistry-gold-diamonds' : slug;
 
   // Find project
-  const project = projectsData.find((p) => p.slug === normalizedSlug || p.slug === slug || p.id === normalizedSlug);
+  const project = allProjects.find((p) => p.slug === normalizedSlug || p.slug === slug || p.id === normalizedSlug)
+    || projectsData.find((p) => p.slug === normalizedSlug || p.slug === slug || p.id === normalizedSlug);
 
   // Ensure scroll to top on mount / slug change
   useEffect(() => {
@@ -102,8 +105,8 @@ export const CaseStudyDetailPage: React.FC = () => {
   }
 
   // Related projects (filter out current project and prioritize real platforms)
-  const relatedProjects = projectsData
-    .filter((p) => p.id !== project.id)
+  const relatedProjects = allProjects
+    .filter((p) => p.id !== project.id && p.slug !== project.slug)
     .sort((a, b) => {
       const aIsReal = a.slug === 'artistry-gold-diamonds' || a.slug === 'peace-haven-clinic' || a.slug === 'ph-homes' || a.slug === 'grow-capital';
       const bIsReal = b.slug === 'artistry-gold-diamonds' || b.slug === 'peace-haven-clinic' || b.slug === 'ph-homes' || b.slug === 'grow-capital';

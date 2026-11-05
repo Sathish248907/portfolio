@@ -4,9 +4,18 @@ import { ArrowRight, ShieldCheck, Terminal, ExternalLink } from 'lucide-react';
 import { projectsData } from '../data/projectsData';
 import { SEO } from '../components/common/SEO';
 import { Breadcrumbs } from '../components/seo/Breadcrumbs';
+import { useCmsPage, useCmsPortfolio } from '../hooks/useCmsContent';
 
 export const PortfolioPage: React.FC = () => {
+  const { data: cmsPage } = useCmsPage('portfolio');
+  const { projects: allProjects } = useCmsPortfolio(projectsData);
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
+
+  const seoTitle = cmsPage?.seo?.title || cmsPage?.title || 'Engineering Portfolio & Case Studies | Peace Haven';
+  const seoDesc = cmsPage?.seo?.description || cmsPage?.description || 'Authentic engineering demonstrations, architectural prototypes, and systems benchmarks engineered by Peace Haven.';
+  const heroBadge = cmsPage?.hero?.badge || 'Peace Haven Engineering Laboratory';
+  const heroHeadline = cmsPage?.hero?.headline || 'Verified Systems & Case Studies';
+  const heroSubheadline = cmsPage?.hero?.subheadline || 'Explore genuine prototypes and reference architectures engineered by our team. In accordance with our transparency standards, all laboratory builds are explicitly identified.';
 
   const filters = [
     { id: 'all', label: 'All Disciplines' },
@@ -17,14 +26,14 @@ export const PortfolioPage: React.FC = () => {
   ];
 
   const filteredProjects = selectedFilter === 'all'
-    ? projectsData
-    : projectsData.filter((p) => p.serviceId === selectedFilter);
+    ? allProjects
+    : allProjects.filter((p) => p.serviceId === selectedFilter);
 
   return (
     <div className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
       <SEO
-        title="Engineering Portfolio & Case Studies | Peace Haven"
-        description="Authentic engineering demonstrations, architectural prototypes, and systems benchmarks engineered by Peace Haven."
+        title={seoTitle}
+        description={seoDesc}
         canonicalUrl="https://peacehaven.tech/portfolio"
         breadcrumbs={[{ name: 'Portfolio', url: '/portfolio' }]}
       />
@@ -36,13 +45,13 @@ export const PortfolioPage: React.FC = () => {
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-warm-200/10 border border-champagne-500/30 text-champagne-400 text-xs font-mono">
           <Terminal className="w-3.5 h-3.5 text-champagne-400" />
-          <span>Peace Haven Engineering Laboratory</span>
+          <span>{heroBadge}</span>
         </div>
         <h1 className="font-heading text-4xl sm:text-5xl font-bold text-white tracking-tight">
-          Verified Systems & Case Studies
+          {heroHeadline}
         </h1>
         <p className="text-slate-300 text-base leading-relaxed font-light">
-          Explore genuine prototypes and reference architectures engineered by our team. In accordance with our transparency standards, all laboratory builds are explicitly identified.
+          {heroSubheadline}
         </p>
       </div>
 
