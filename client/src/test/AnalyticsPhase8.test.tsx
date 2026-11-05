@@ -208,7 +208,7 @@ describe('Phase 8 — Admin Analytics Dashboard Page (/admin/analytics)', () => 
       expect(screen.getByText(/Ten Selected Works & Laboratory Case Studies/i)).toBeInTheDocument();
       expect(screen.getByText('PH Homes')).toBeInTheDocument();
       expect(screen.getByText('Grow Capital')).toBeInTheDocument();
-      expect(screen.getByText('AURAVIA')).toBeInTheDocument();
+      expect(screen.getByText('Artistry Gold & Diamonds')).toBeInTheDocument();
       expect(screen.getByText('EB-300 Robotic Arm')).toBeInTheDocument();
     });
   });

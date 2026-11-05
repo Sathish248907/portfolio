@@ -29,7 +29,7 @@ export const CANONICAL_INDUSTRIES = [
 export const CANONICAL_PROJECTS = [
   { id: 'ph-homes', slug: 'ph-homes', title: 'PH Homes', serviceSlug: 'web-development', category: 'Real Estate' },
   { id: 'grow-capital', slug: 'grow-capital', title: 'Grow Capital', serviceSlug: 'fintech', category: 'FinTech' },
-  { id: 'auravia', slug: 'auravia', title: 'AURAVIA', serviceSlug: 'fintech', category: 'Luxury E-commerce' },
+  { id: 'artistry-gold-diamonds', slug: 'artistry-gold-diamonds', title: 'Artistry Gold & Diamonds', serviceSlug: 'web-development', category: 'Luxury E-commerce' },
   { id: 'peace-haven-clinic', slug: 'peace-haven-clinic', title: 'Peace Haven Clinic', serviceSlug: 'healthcare', category: 'Healthcare' },
   { id: 'ph-google', slug: 'ph-google', title: 'PH Google', serviceSlug: 'web-development', category: 'Enterprise Search' },
   { id: 'ai-resume-analyzer', slug: 'ai-resume-analyzer', title: 'AI Resume Analyzer', serviceSlug: 'web-development', category: 'AI & HR Tech' },

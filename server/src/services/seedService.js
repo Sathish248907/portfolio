@@ -644,7 +644,7 @@ export async function seedInitialData() {
         'retail-ecommerce', 'hr-staffing', 'education-edtech'
       ];
       const projects = [
-        'ph-homes', 'grow-capital', 'auravia', 'peace-haven-clinic', 'ph-google',
+        'ph-homes', 'grow-capital', 'artistry-gold-diamonds', 'peace-haven-clinic', 'ph-google',
         'ai-resume-analyzer', 'eb-300-robotic-arm', 'smart-blind-stick',
         'animal-detection', 'rapid-mi-screening'
       ];

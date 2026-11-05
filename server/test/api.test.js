@@ -338,7 +338,7 @@ describe('Peace Haven Backend API Integration Tests', () => {
     const slugs = res.body.projects.map((p) => p.slug);
     expect(slugs).toContain('ph-homes');
     expect(slugs).toContain('grow-capital');
-    expect(slugs).toContain('auravia');
+    expect(slugs).toContain('artistry-gold-diamonds');
     expect(slugs).toContain('eb-300-robotic-arm');
   });
 

@@ -87,8 +87,8 @@ export const CaseStudyDetailPage: React.FC = () => {
   const { projects: allProjects } = useCmsPortfolio(projectsData);
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
 
-  // Normalize aliases like /work/auravia -> artistry-gold-diamonds
-  const normalizedSlug = slug === 'auravia' ? 'artistry-gold-diamonds' : slug;
+  // Normalize aliases like /work/auravia or /work/artistry -> artistry-gold-diamonds
+  const normalizedSlug = slug === 'auravia' || slug === 'artistry' ? 'artistry-gold-diamonds' : slug;
 
   // Find project
   const project = allProjects.find((p) => p.slug === normalizedSlug || p.slug === slug || p.id === normalizedSlug)
