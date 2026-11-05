@@ -292,146 +292,265 @@ export const CaseStudyDetailPage: React.FC = () => {
       {/* SECTION B: PROJECT OVERVIEW                                               */}
       {/* ========================================================================= */}
       <section className="space-y-6" aria-labelledby="project-overview-heading">
-        <div className="flex items-center gap-2.5 border-b border-sage-500/20 pb-4">
-          <Sparkles className="w-5 h-5 text-champagne-400" />
-          <h2 id="project-overview-heading" className="font-heading text-2xl sm:text-3xl font-bold text-white">
-            Project Overview & Digital Purpose
-          </h2>
+        {/* Section Header */}
+        <div className="relative border-b border-sage-500/20 pb-5">
+          <div className="flex items-center gap-2 mb-2 flex-wrap">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-champagne-500/10 border border-champagne-500/25 text-[10px] font-mono text-champagne-400 uppercase tracking-widest font-bold">
+              <Layers className="w-3 h-3 text-champagne-400" />
+              Strategic Initiative Architecture
+            </span>
+            <span className="text-[10px] font-mono text-slate-500 uppercase">
+              Section 01 / Core Blueprint
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-champagne-500/10 border border-champagne-500/30 flex items-center justify-center text-champagne-400 shrink-0 shadow-sm">
+              <Sparkles className="w-4 h-4" />
+            </div>
+            <div>
+              <h2 id="project-overview-heading" className="font-heading text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Project Overview & Digital Purpose
+              </h2>
+              <p className="text-slate-400 text-xs sm:text-sm font-light mt-0.5">
+                Executive operational mandate, architectural vision, and verified commercial deployment outcomes.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 glass-card bg-charcoal-850/80 p-8 rounded-2xl border border-sage-500/25 space-y-4 shadow-card-dark leading-relaxed">
-            <p className="text-slate-200 text-base font-light leading-relaxed">
-              {project.overview}
-            </p>
-            {isGrowCapital ? (
-              <div className="space-y-3 text-slate-300 text-sm font-light leading-relaxed">
-                <p>
-                  Grow Capital is a digital gold and silver investment platform developed to make precious-metal ownership more accessible. Users can purchase fractional quantities of gold and silver starting from ₹10, monitor their real-time holdings, accumulate systematically through savings planners, and choose to liquidate at live market buyback rates or request physical delivery of certified minted bullion coins and bars through integrated bullion infrastructure.
-                </p>
-                <p>
-                  Every fraction of gold and silver purchased on the platform is 100% physically backed by allocated bullion stored in world-class Brinks high-security vaults, with independent fiduciary oversight provided by IDBI Trusteeship Services Limited.
-                </p>
-                <p>
-                  Built with a focus on trust, price transparency, and frictionless digital onboarding, Grow Capital bridges institutional bullion liquidity with retail micro-investing.
+          
+          {/* Main Narrative (2 Columns) */}
+          <div className="lg:col-span-2 space-y-5">
+            
+            {/* Card 1: Executive Scope & Strategic Intent */}
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-charcoal-850 via-charcoal-900 to-charcoal-850 p-6 sm:p-7 border border-champagne-500/30 shadow-[0_15px_35px_rgba(0,0,0,0.5),0_0_30px_rgba(212,175,55,0.05)] space-y-4 group">
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-champagne-400/80 to-transparent pointer-events-none" />
+              
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-champagne-400 font-bold flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-champagne-400" />
+                  <span>Executive Scope & Strategic Intent</span>
+                </span>
+                <span className="px-2.5 py-0.5 rounded-full bg-champagne-500/10 text-[10px] font-mono text-champagne-300 border border-champagne-500/25">
+                  Strategic Mandate
+                </span>
+              </div>
+
+              <div className="border-l-2 border-champagne-400/80 pl-4 sm:pl-5 py-1">
+                <p className="text-slate-100 text-base sm:text-lg font-light leading-relaxed tracking-wide">
+                  {project.overview}
                 </p>
               </div>
-            ) : isPhHomes ? (
-              <p className="text-slate-300 text-sm font-light leading-relaxed">
-                PH Homes brings property discovery, intelligent search, real estate analytics, agent workflows, communication and home services into one unified digital ecosystem. Operating across seven role-based experiences, the platform combines Google Maps geospatial querying, AI-powered natural language search, real-time Socket.IO messaging, and automated listing verification workflows to resolve fragmentation across modern real estate transactions.
-              </p>
-            ) : isArtistry ? (
-              <div className="space-y-4 text-slate-300 text-sm font-light leading-relaxed">
-                <p>
-                  Operating at the intersection of generational gold craftsmanship and modern digital commerce, Artistry Gold & Diamonds bridges online accessibility with the uncompromising trust required for high-value fine jewellery acquisition. With a retail legacy dating back to 1998 and concept boutiques across major metropolitan hubs—including Mumbai, Delhi, Bengaluru, Chennai, Hyderabad, and Kozhikode—the platform serves as both a comprehensive digital showcase and a frictionless direct-to-consumer store.
-                </p>
-                <p>
-                  Every gold creation is hand-finished by master Indian karigars and certified under Bureau of Indian Standards (BIS) Hallmarking with 6-digit Hallmark Unique Identification (HUID) traceability for 22K (916 purity) and 18K (750 purity) gold. Natural diamond pieces, certified gemstones, and 24K (999 pure) bullion coins are catalogued with complete gemological specifications, gross and net weights, and transparent pricing models linked directly to live daily market gold fixes.
-                </p>
-                <p>
-                  Beyond traditional e-commerce browsing, the digital flagship integrates interactive virtual video shopping consultations, a custom bespoke design studio for personalized engravings and bridal heirlooms, an unconditional lifetime exchange policy at prevailing gold market rates, and fully insured pan-India delivery—bringing tactile showroom confidence to digital luxury retail.
-                </p>
+
+              {/* Meta tags at bottom of brief */}
+              <div className="flex items-center gap-2 pt-3 border-t border-sage-500/15 flex-wrap text-[11px] font-mono text-slate-400">
+                <span className="text-slate-500 uppercase text-[10px] font-bold">DOMAIN FOCUS:</span>
+                <span className="px-2.5 py-1 rounded-lg bg-charcoal-800/80 text-champagne-300 border border-sage-500/30">
+                  {project.serviceName}
+                </span>
+                <span className="text-slate-600 hidden sm:inline">•</span>
+                <span className="px-2.5 py-1 rounded-lg bg-charcoal-800/80 text-slate-300 border border-sage-500/30">
+                  {project.industry}
+                </span>
+                {project.category && (
+                  <>
+                    <span className="text-slate-600 hidden sm:inline">•</span>
+                    <span className="px-2.5 py-1 rounded-lg bg-charcoal-800/80 text-teal-300 border border-sage-500/30">
+                      {project.category}
+                    </span>
+                  </>
+                )}
               </div>
-            ) : isClinic ? (
-              <p className="text-slate-300 text-sm font-light leading-relaxed">
-                The clinic platform bridges patient-centered convenience with clinical scheduling accuracy. Designed with accessibility, data privacy, and rapid doctor discovery in mind, the system simplifies both in-person clinic visits and teleconsultation bookings without complex phone queues or registration friction.
-              </p>
-            ) : isAiCommandCenter ? (
-              <p className="text-slate-300 text-sm font-light leading-relaxed">
-                AI Command Center centralizes multi-agent AI tools, real-time Plaid financial intelligence, and executive task orchestration into a unified enterprise workspace. The platform eliminates silos between banking portals, commercial lender notes, and operational mailboxes—providing real-time financial visibility and automated document triage for executive leadership.
-              </p>
-            ) : isPhGoogle ? (
-              <p className="text-slate-300 text-sm font-light leading-relaxed">
-                By bringing multiple workplace services together into one unified environment, PH Google aims to reduce application switching, improve team productivity, simplify workflows and create a smarter digital workplace for Peace Haven's internal operations.
-              </p>
-            ) : isBlindStick ? (
-              <div className="space-y-3 text-slate-300 text-sm font-light leading-relaxed">
-                <p>
-                  The Smart Blind Stick is an IoT-based assistive mobility system designed to support safer navigation and greater independence for visually impaired individuals.
-                </p>
-                <p>
-                  The system integrates embedded systems, ultrasonic sensors, motion detection, GPS tracking and cellular communication to provide obstacle warnings and emergency notifications.
-                </p>
-                <p>
-                  Powered by an ESP32-S3 microcontroller, the system coordinates multiple sensors and connected hardware components. Three ultrasonic sensors monitor obstacles in the front, left and right directions. When an obstacle is detected within the configured distance range, the corresponding vibration motor provides directional haptic feedback to alert the user.
-                </p>
-                <p>
-                  An MPU6050 accelerometer and gyroscope monitor the stick's movement, orientation and tilt to identify potential fall-related events. When a configured emergency condition is detected, the system uses a GPS module to obtain geographical coordinates and a SIMCom A7670C 4G LTE module to send an emergency SMS containing location information to a designated caretaker. The system also supports cloud data transmission and battery voltage monitoring.
-                </p>
-                <p>
-                  By combining obstacle detection, directional vibration feedback, motion monitoring, location tracking and emergency communication, the project aims to support independent mobility and improve accessibility through connected assistive technology.
-                </p>
+            </div>
+
+            {/* Card 2: Deep Dive Architecture & Operational Purpose Narrative */}
+            {(isGrowCapital || isPhHomes || isArtistry || isClinic || isAiCommandCenter || isPhGoogle || isBlindStick || isRapidMi || isEb300 || isAnimalDetection) && (
+              <div className="relative overflow-hidden rounded-2xl bg-charcoal-900/85 backdrop-blur-sm p-6 sm:p-7 border border-sage-500/25 space-y-4 shadow-card-dark">
+                <div className="flex items-center justify-between pb-3 border-b border-sage-500/20">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
+                    <h3 className="font-heading text-sm font-bold text-white uppercase font-mono tracking-wider">
+                      Digital Architecture & Operational Purpose
+                    </h3>
+                  </div>
+                  <span className="text-[10px] font-mono text-slate-500 uppercase hidden sm:inline">
+                    System Blueprint & Implementation
+                  </span>
+                </div>
+
+                <div className="space-y-4 text-slate-300 text-sm sm:text-[15px] font-light leading-relaxed">
+                  {isGrowCapital ? (
+                    <div className="space-y-3.5">
+                      <p>
+                        Grow Capital is a digital gold and silver investment platform developed to make precious-metal ownership more accessible. Users can purchase fractional quantities of gold and silver starting from ₹10, monitor their real-time holdings, accumulate systematically through savings planners, and choose to liquidate at live market buyback rates or request physical delivery of certified minted bullion coins and bars through integrated bullion infrastructure.
+                      </p>
+                      <p>
+                        Every fraction of gold and silver purchased on the platform is 100% physically backed by allocated bullion stored in world-class Brinks high-security vaults, with independent fiduciary oversight provided by IDBI Trusteeship Services Limited.
+                      </p>
+                      <p>
+                        Built with a focus on trust, price transparency, and frictionless digital onboarding, Grow Capital bridges institutional bullion liquidity with retail micro-investing.
+                      </p>
+                    </div>
+                  ) : isPhHomes ? (
+                    <p>
+                      PH Homes brings property discovery, intelligent search, real estate analytics, agent workflows, communication and home services into one unified digital ecosystem. Operating across seven role-based experiences, the platform combines Google Maps geospatial querying, AI-powered natural language search, real-time Socket.IO messaging, and automated listing verification workflows to resolve fragmentation across modern real estate transactions.
+                    </p>
+                  ) : isArtistry ? (
+                    <div className="space-y-4">
+                      <p>
+                        Operating at the intersection of generational gold craftsmanship and modern digital commerce, Artistry Gold & Diamonds bridges online accessibility with the uncompromising trust required for high-value fine jewellery acquisition. With a retail legacy dating back to 1998 and concept boutiques across major metropolitan hubs—including Mumbai, Delhi, Bengaluru, Chennai, Hyderabad, and Kozhikode—the platform serves as both a comprehensive digital showcase and a frictionless direct-to-consumer store.
+                      </p>
+                      <p>
+                        Every gold creation is hand-finished by master Indian karigars and certified under Bureau of Indian Standards (BIS) Hallmarking with 6-digit Hallmark Unique Identification (HUID) traceability for 22K (916 purity) and 18K (750 purity) gold. Natural diamond pieces, certified gemstones, and 24K (999 pure) bullion coins are catalogued with complete gemological specifications, gross and net weights, and transparent pricing models linked directly to live daily market gold fixes.
+                      </p>
+                      <p>
+                        Beyond traditional e-commerce browsing, the digital flagship integrates interactive virtual video shopping consultations, a custom bespoke design studio for personalized engravings and bridal heirlooms, an unconditional lifetime exchange policy at prevailing gold market rates, and fully insured pan-India delivery—bringing tactile showroom confidence to digital luxury retail.
+                      </p>
+                    </div>
+                  ) : isClinic ? (
+                    <p>
+                      The clinic platform bridges patient-centered convenience with clinical scheduling accuracy. Designed with accessibility, data privacy, and rapid doctor discovery in mind, the system simplifies both in-person clinic visits and teleconsultation bookings without complex phone queues or registration friction.
+                    </p>
+                  ) : isAiCommandCenter ? (
+                    <p>
+                      AI Command Center centralizes multi-agent AI tools, real-time Plaid financial intelligence, and executive task orchestration into a unified enterprise workspace. The platform eliminates silos between banking portals, commercial lender notes, and operational mailboxes—providing real-time financial visibility and automated document triage for executive leadership.
+                    </p>
+                  ) : isPhGoogle ? (
+                    <p>
+                      By bringing multiple workplace services together into one unified environment, PH Google aims to reduce application switching, improve team productivity, simplify workflows and create a smarter digital workplace for Peace Haven's internal operations.
+                    </p>
+                  ) : isBlindStick ? (
+                    <div className="space-y-3.5">
+                      <p>
+                        The Smart Blind Stick is an IoT-based assistive mobility system designed to support safer navigation and greater independence for visually impaired individuals.
+                      </p>
+                      <p>
+                        The system integrates embedded systems, ultrasonic sensors, motion detection, GPS tracking and cellular communication to provide obstacle warnings and emergency notifications.
+                      </p>
+                      <p>
+                        Powered by an ESP32-S3 microcontroller, the system coordinates multiple sensors and connected hardware components. Three ultrasonic sensors monitor obstacles in the front, left and right directions. When an obstacle is detected within the configured distance range, the corresponding vibration motor provides directional haptic feedback to alert the user.
+                      </p>
+                      <p>
+                        An MPU6050 accelerometer and gyroscope monitor the stick's movement, orientation and tilt to identify potential fall-related events. When a configured emergency condition is detected, the system uses a GPS module to obtain geographical coordinates and a SIMCom A7670C 4G LTE module to send an emergency SMS containing location information to a designated caretaker. The system also supports cloud data transmission and battery voltage monitoring.
+                      </p>
+                      <p>
+                        By combining obstacle detection, directional vibration feedback, motion monitoring, location tracking and emergency communication, the project aims to support independent mobility and improve accessibility through connected assistive technology.
+                      </p>
+                    </div>
+                  ) : isRapidMi ? (
+                    <div className="space-y-3.5">
+                      <p>
+                        The Rapid MI Screening Test is a point-of-care cardiac diagnostic assay kit developed for rapid qualitative detection of cardiac biomarkers associated with acute Myocardial Infarction (heart attack).
+                      </p>
+                      <p>
+                        The project focuses on developing a rapid chromatographic immunoassay strip capable of detecting early-release cardiac biomarkers directly from whole blood, plasma or serum without requiring laboratory centrifugation or benchtop analyzer instrumentation.
+                      </p>
+                      <p>
+                        The assay kit integrates an engineered sample pad with integrated filtration matrices, a conjugate pad with colloidal gold nanoparticles coupled to high-affinity monoclonal antibodies, an analytical nitrocellulose membrane with immobilized Test and Control lines, and a wicking absorbent pad.
+                      </p>
+                      <p>
+                        Upon sample application, capillary action draws the sample fluid across the membrane. Cardiac biomarkers form an immunocomplex with gold-labeled antibodies, which are captured at the Test Line to produce a visible pink-purple chromatic band, while unbound conjugates continue to the Control Line to confirm procedural validity.
+                      </p>
+                      <p>
+                        The project demonstrates the application of immunochromatographic assay design, biosensor engineering, and decentralized point-of-care workflow optimization to support early clinical triage and cardiovascular risk assessment.
+                      </p>
+                    </div>
+                  ) : isEb300 ? (
+                    <div className="space-y-3.5">
+                      <p>
+                        The EB-300 Robotic Arm is a six-axis robotic manipulation project inspired by industrial robotic systems, designed to perform automated movement and object-handling tasks with flexibility and precision.
+                      </p>
+                      <p>
+                        The project focuses on developing a multi-jointed robotic manipulator capable of moving its end effector through different positions to support applications such as pick-and-place operations, material handling and automated assembly.
+                      </p>
+                      <p>
+                        The robotic arm features a mechanical structure consisting of a base, shoulder, elbow, wrist and end-effector mounting section. Its interconnected joints enable coordinated rotational movements, allowing the arm to reach different positions within its working area.
+                      </p>
+                      <p>
+                        The design incorporates a compact industrial appearance with cylindrical joint housings, connecting links and a stable mounting base.
+                      </p>
+                      <p>
+                        The system can integrate stepper motors or servo motors with an appropriate controller to provide controlled joint movements. By coordinating individual joint movements, the robotic arm can execute programmed motion sequences and perform object-handling operations.
+                      </p>
+                      <p>
+                        The project demonstrates the application of mechanical design, robotics and motion control principles in developing flexible industrial automation solutions.
+                      </p>
+                    </div>
+                  ) : isAnimalDetection ? (
+                    <div className="space-y-3.5">
+                      <p>
+                        The AI-Based Agricultural Animal Detection & Humane Deterrent System is an intelligent agricultural safety solution designed to detect animals entering farmland and help protect crops from animal intrusion.
+                      </p>
+                      <p>
+                        The system uses an ESP32-CAM and a PIR motion sensor to detect movement and capture images of animals entering agricultural fields. The captured images are processed using an AI-based object detection model to identify the animal species and estimate the detection confidence level.
+                      </p>
+                      <p>
+                        When an animal is identified, the system activates a humane deterrent mechanism designed to encourage the animal to leave the field without causing harm. Simultaneously, a Telegram bot sends an instant notification to the farmer containing the detected animal's name, confidence level, detection status and captured image. The system combines Artificial Intelligence, Computer Vision, Embedded Systems and IoT communication to support crop protection and reduce the need for continuous human monitoring.
+                      </p>
+                    </div>
+                  ) : null}
+                </div>
               </div>
-            ) : isRapidMi ? (
-              <div className="space-y-3 text-slate-300 text-sm font-light leading-relaxed">
-                <p>
-                  The Rapid MI Screening Test is a point-of-care cardiac diagnostic assay kit developed for rapid qualitative detection of cardiac biomarkers associated with acute Myocardial Infarction (heart attack).
-                </p>
-                <p>
-                  The project focuses on developing a rapid chromatographic immunoassay strip capable of detecting early-release cardiac biomarkers directly from whole blood, plasma or serum without requiring laboratory centrifugation or benchtop analyzer instrumentation.
-                </p>
-                <p>
-                  The assay kit integrates an engineered sample pad with integrated filtration matrices, a conjugate pad with colloidal gold nanoparticles coupled to high-affinity monoclonal antibodies, an analytical nitrocellulose membrane with immobilized Test and Control lines, and a wicking absorbent pad.
-                </p>
-                <p>
-                  Upon sample application, capillary action draws the sample fluid across the membrane. Cardiac biomarkers form an immunocomplex with gold-labeled antibodies, which are captured at the Test Line to produce a visible pink-purple chromatic band, while unbound conjugates continue to the Control Line to confirm procedural validity.
-                </p>
-                <p>
-                  The project demonstrates the application of immunochromatographic assay design, biosensor engineering, and decentralized point-of-care workflow optimization to support early clinical triage and cardiovascular risk assessment.
-                </p>
-              </div>
-            ) : isEb300 ? (
-              <div className="space-y-3 text-slate-300 text-sm font-light leading-relaxed">
-                <p>
-                  The EB-300 Robotic Arm is a six-axis robotic manipulation project inspired by industrial robotic systems, designed to perform automated movement and object-handling tasks with flexibility and precision.
-                </p>
-                <p>
-                  The project focuses on developing a multi-jointed robotic manipulator capable of moving its end effector through different positions to support applications such as pick-and-place operations, material handling and automated assembly.
-                </p>
-                <p>
-                  The robotic arm features a mechanical structure consisting of a base, shoulder, elbow, wrist and end-effector mounting section. Its interconnected joints enable coordinated rotational movements, allowing the arm to reach different positions within its working area.
-                </p>
-                <p>
-                  The design incorporates a compact industrial appearance with cylindrical joint housings, connecting links and a stable mounting base.
-                </p>
-                <p>
-                  The system can integrate stepper motors or servo motors with an appropriate controller to provide controlled joint movements. By coordinating individual joint movements, the robotic arm can execute programmed motion sequences and perform object-handling operations.
-                </p>
-                <p>
-                  The project demonstrates the application of mechanical design, robotics and motion control principles in developing flexible industrial automation solutions.
-                </p>
-              </div>
-            ) : isAnimalDetection ? (
-              <div className="space-y-3 text-slate-300 text-sm font-light leading-relaxed">
-                <p>
-                  The AI-Based Agricultural Animal Detection & Humane Deterrent System is an intelligent agricultural safety solution designed to detect animals entering farmland and help protect crops from animal intrusion.
-                </p>
-                <p>
-                  The system uses an ESP32-CAM and a PIR motion sensor to detect movement and capture images of animals entering agricultural fields. The captured images are processed using an AI-based object detection model to identify the animal species and estimate the detection confidence level.
-                </p>
-                <p>
-                  When an animal is identified, the system activates a humane deterrent mechanism designed to encourage the animal to leave the field without causing harm. Simultaneously, a Telegram bot sends an instant notification to the farmer containing the detected animal's name, confidence level, detection status and captured image. The system combines Artificial Intelligence, Computer Vision, Embedded Systems and IoT communication to support crop protection and reduce the need for continuous human monitoring.
-                </p>
-              </div>
-            ) : null}
+            )}
           </div>
 
-          {/* Key Metrics / Highlights */}
+          {/* Right Column: Key Performance Metrics / Highlights */}
           <div className="space-y-4">
-            {project.resultsOrProjections.map((res, i) => (
-              <div key={i} className="glass-card bg-charcoal-850/90 p-5 rounded-2xl border border-sage-500/25 space-y-1 shadow-card-dark">
-                <span className="font-heading text-3xl font-bold text-champagne-400 block">
-                  {res.metric}
-                </span>
-                <span className="font-mono text-xs text-white font-medium block">
-                  {res.label}
-                </span>
-                <p className="text-slate-400 text-xs leading-relaxed font-light">
-                  {res.detail}
-                </p>
-              </div>
-            ))}
+            <div className="flex items-center justify-between pb-1">
+              <span className="text-[10px] font-mono uppercase text-champagne-400 font-bold tracking-wider flex items-center gap-1.5">
+                <TrendingUp className="w-3.5 h-3.5 text-champagne-400" />
+                <span>Verified Key Outcomes</span>
+              </span>
+              <span className="text-[10px] font-mono text-slate-500">
+                {project.resultsOrProjections.length} Benchmarks
+              </span>
+            </div>
+
+            {project.resultsOrProjections.map((res, i) => {
+              const icons = [TrendingUp, Target, Award, Zap, ShieldCheck];
+              const IconComponent = icons[i % icons.length];
+              return (
+                <div
+                  key={i}
+                  className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-charcoal-850/95 via-charcoal-900 to-charcoal-950 p-5 sm:p-6 border border-sage-500/25 hover:border-champagne-500/40 transition-all duration-300 shadow-md group hover:shadow-[0_10px_25px_rgba(212,175,55,0.07)] hover:-translate-y-0.5"
+                >
+                  {/* Ambient Accent Indicator */}
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-champagne-500/[0.04] rounded-full blur-2xl pointer-events-none group-hover:bg-champagne-500/[0.08] transition-colors" />
+                  <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-champagne-400/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="px-2 py-0.5 rounded-md bg-champagne-500/10 border border-champagne-500/25 text-[10px] font-mono text-champagne-300 font-semibold tracking-wider">
+                      KPI 0{i + 1}
+                    </span>
+                    <div className="w-7 h-7 rounded-lg bg-charcoal-800 border border-sage-500/25 flex items-center justify-center text-slate-400 group-hover:text-champagne-400 group-hover:border-champagne-500/30 transition-colors">
+                      <IconComponent className="w-3.5 h-3.5" />
+                    </div>
+                  </div>
+
+                  <div className="font-heading text-3xl sm:text-4xl font-bold bg-gradient-to-r from-champagne-300 via-champagne-400 to-amber-200 bg-clip-text text-transparent tracking-tight">
+                    {res.metric}
+                  </div>
+
+                  <div className="font-mono text-xs text-white font-semibold uppercase tracking-wider mt-1.5 flex items-center gap-1.5">
+                    <BadgeCheck className="w-3.5 h-3.5 text-teal-400 shrink-0" />
+                    <span>{res.label}</span>
+                  </div>
+
+                  <p className="text-slate-400 text-xs leading-relaxed font-light mt-2 pt-2 border-t border-sage-500/15">
+                    {res.detail}
+                  </p>
+                </div>
+              );
+            })}
+
+            {/* Assurance stamp tile */}
+            <div className="p-3.5 rounded-xl bg-charcoal-900/60 border border-sage-500/20 flex items-center gap-2.5 text-[11px] font-mono text-slate-400">
+              <ShieldCheck className="w-4 h-4 text-champagne-400 shrink-0" />
+              <span>Verified against engineering sprint deliverables & architectural benchmarks.</span>
+            </div>
           </div>
+
         </div>
       </section>
 

@@ -51,11 +51,10 @@ const priorityLevels: { value: 'low' | 'medium' | 'high' | 'urgent'; label: stri
 
 const teamMembers = [
   { name: 'Unassigned', email: '', role: 'None' },
-  { name: 'Alex Rivera', email: 'arivera@peacehaven.tech', role: 'Chief Architect' },
-  { name: 'Maya Chen', email: 'mchen@peacehaven.tech', role: 'FinTech Principal' },
-  { name: 'David Kim', email: 'dkim@peacehaven.tech', role: 'Robotics & Automation Lead' },
-  { name: 'Sarah Vance', email: 'svance@peacehaven.tech', role: 'Healthcare Systems Architect' },
-  { name: 'Marcus Sterling', email: 'msterling@peacehaven.tech', role: 'Staffing Director' },
+  { name: 'Sathish & Vishal', email: 'webdev@peacehaven.tech', role: 'Web Development Leads' },
+  { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Lead' },
+  { name: 'Dhanush & Albin', email: 'robotics@peacehaven.tech', role: 'Robotics & Automation Leads' },
+  { name: 'Swarna & Shyam', email: 'healthcare@peacehaven.tech', role: 'Healthcare Systems Architects' },
 ];
 
 export const AdminInquiryDetailPage: React.FC = () => {
