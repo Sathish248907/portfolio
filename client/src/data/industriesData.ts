@@ -944,10 +944,10 @@ export const industriesData: IndustryDetail[] = [
         outcome: 'Enabled targeted intervention, improving overall class passing rates by 18%.'
       },
       {
-        title: 'AI Resume & Skill Readiness Evaluator',
-        challenge: 'Graduates needed objective feedback on their resumes and technical portfolios before entering job markets.',
-        solution: 'Developed an automated evaluator comparing candidate resumes against current industry job market requirements.',
-        outcome: 'Provided actionable skill enhancement recommendations and accelerated student job placements.'
+        title: 'Automated Skill Readiness & Portfolio Evaluator',
+        challenge: 'Graduates needed objective feedback on their technical competencies and engineering portfolios before entering job markets.',
+        solution: 'Developed an automated evaluator comparing candidate competencies against current industry job market requirements.',
+        outcome: 'Provided actionable skill enhancement recommendations and accelerated student career placements.'
       }
     ]
   }

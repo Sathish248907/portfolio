@@ -213,11 +213,11 @@ export async function seedInitialData() {
       console.log(`[SEED] Inserted ${servicesSeed.length} core services.`);
     }
 
-    // Clean up removed project if it exists in DB
-    await Project.deleteOne({ slug: 'nexus-enterprise-cloud-portal' });
-    await Service.updateOne(
-      { serviceId: 'web-development' },
-      { $pull: { relatedProjectSlugs: 'nexus-enterprise-cloud-portal' } }
+    // Clean up removed projects if they exist in DB
+    await Project.deleteMany({ slug: { $in: ['nexus-enterprise-cloud-portal', 'ai-resume-analyzer'] } });
+    await Service.updateMany(
+      {},
+      { $pull: { relatedProjectSlugs: { $in: ['nexus-enterprise-cloud-portal', 'ai-resume-analyzer'] } } }
     );
 
     // 3. Seed initial laboratory projects / prototypes if none exists
@@ -645,7 +645,7 @@ export async function seedInitialData() {
       ];
       const projects = [
         'ph-homes', 'grow-capital', 'artistry-gold-diamonds', 'peace-haven-clinic', 'ph-google',
-        'ai-resume-analyzer', 'eb-300-robotic-arm', 'smart-blind-stick',
+        'ai-command-center', 'eb-300-robotic-arm', 'smart-blind-stick',
         'animal-detection', 'rapid-mi-screening'
       ];
       const sources = [
