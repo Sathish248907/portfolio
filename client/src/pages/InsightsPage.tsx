@@ -85,7 +85,7 @@ export const InsightsPage: React.FC = () => {
           </h1>
 
           <p className="text-base sm:text-lg text-slate-300 font-light leading-relaxed">
-            Architectural breakdowns, embedded systems blueprints, and strategic technology analyses from Peace Haven engineering leads across our eight multidisciplinary divisions.
+            Architectural breakdowns, embedded systems blueprints, and strategic technology analyses from Peace Haven engineering leads across our multidisciplinary engineering divisions.
           </p>
         </div>
 

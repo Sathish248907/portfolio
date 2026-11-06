@@ -129,7 +129,7 @@ export const Footer: React.FC = () => {
                   to="/services"
                   className="text-champagne-400 hover:text-champagne-300 transition-colors font-medium text-xs pt-1 inline-block"
                 >
-                  View All 8 Services &rarr;
+                  View All Services &rarr;
                 </Link>
               </li>
             </ul>

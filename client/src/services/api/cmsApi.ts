@@ -42,7 +42,7 @@ export const cmsApi = {
       data: [
         { pageId: 'home', title: 'Peace Haven | Technology, FinTech, Robotics & Healthcare Solutions', slug: '/', status: 'published', lastUpdatedBy: 'Admin', updatedAt: new Date().toISOString() },
         { pageId: 'about', title: 'About Peace Haven | Multidisciplinary Engineering Firm', slug: '/about', status: 'published', lastUpdatedBy: 'Admin', updatedAt: new Date().toISOString() },
-        { pageId: 'services', title: 'Eight Integrated Engineering Divisions | Peace Haven', slug: '/services', status: 'published', lastUpdatedBy: 'Admin', updatedAt: new Date().toISOString() },
+        { pageId: 'services', title: 'Six Integrated Engineering Divisions | Peace Haven', slug: '/services', status: 'published', lastUpdatedBy: 'Admin', updatedAt: new Date().toISOString() },
         { pageId: 'industries', title: 'Industries We Serve | Peace Haven Multi-Industry Technology', slug: '/industries', status: 'published', lastUpdatedBy: 'Admin', updatedAt: new Date().toISOString() },
         { pageId: 'contact', title: "Contact Peace Haven | Let's Build Something Extraordinary", slug: '/contact', status: 'published', lastUpdatedBy: 'Admin', updatedAt: new Date().toISOString() },
       ],

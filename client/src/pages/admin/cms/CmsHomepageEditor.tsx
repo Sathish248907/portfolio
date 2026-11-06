@@ -47,7 +47,7 @@ export const CmsHomepageEditor: React.FC<CmsHomepageEditorProps> = ({
     customContent: {
       intro: {
         heading: 'Innovating Across Modern Engineering Disciplines',
-        summary: 'Peace Haven is a modern multi-disciplinary technology company focused on delivering purposeful, high-impact solutions across eight vital business domains.',
+        summary: 'Peace Haven is a modern multi-disciplinary technology company focused on delivering purposeful, high-impact solutions across our vital engineering business domains.',
         points: [
           'Enterprise Architecture & High-Scale Web Services',
           'Institutional FinTech & Compliant Ledger Systems',

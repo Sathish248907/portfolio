@@ -58,10 +58,10 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* 8 Services List */}
+        {/* Core Services List */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-mono uppercase text-champagne-400 tracking-wider">All Eight Service Divisions</span>
+            <span className="text-xs font-mono uppercase text-champagne-400 tracking-wider">All Core Service Divisions</span>
             <Link to="/services" onClick={onClose} className="text-xs text-slate-400 hover:text-champagne-300">Overview</Link>
           </div>
           <div className="space-y-1.5 pt-1">
