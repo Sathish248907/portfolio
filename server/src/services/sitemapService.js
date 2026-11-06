@@ -68,3 +68,4 @@ export function generateSitemapXml() {
 ${urlEntries}
 </urlset>`;
 }
+
