@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { SEO } from '../components/common/SEO';
+import { generateOrganizationSchema } from '../utils/seo';
 import { useCmsPage } from '../hooks/useCmsContent';
 
 export const AboutPage: React.FC = () => {
@@ -53,6 +54,9 @@ export const AboutPage: React.FC = () => {
       <SEO
         title={seoTitle}
         description={seoDesc}
+        canonicalUrl="https://peacehaven.tech/about"
+        keywords={['About Peace Haven', 'engineering leadership', 'technology company mission', 'deep tech engineering India', 'multidisciplinary solutions']}
+        schema={generateOrganizationSchema()}
       />
 
       {/* Hero */}

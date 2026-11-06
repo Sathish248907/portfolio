@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { SEO } from '../components/common/SEO';
+import { generateLocalBusinessSchema } from '../utils/seo';
 import { api } from '../lib/api';
 import { useCmsPage, useCmsSettings } from '../hooks/useCmsContent';
 
@@ -143,6 +144,9 @@ export const ContactPage: React.FC = () => {
       <SEO
         title={seoTitle}
         description={seoDesc}
+        canonicalUrl="https://peacehaven.tech/contact"
+        keywords={['contact Peace Haven', 'engineering inquiry', 'technology consultation', 'software development Coimbatore', 'robotics consultation India']}
+        schema={generateLocalBusinessSchema()}
       />
 
       {/* Header Section per Phase 6 Specification */}

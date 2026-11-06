@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Save } from 'lucide-react';
 import { Button } from '../../../components/common/Button';
+import { SeoMetadataEditor } from '../../../components/admin/SeoMetadataEditor';
 
 interface PageEditorModalProps {
   page: any;
@@ -61,15 +62,27 @@ export const PageEditorModal: React.FC<PageEditorModalProps> = ({
             />
           </div>
 
-          <div>
-            <label className="text-xs font-mono text-slate-400 block mb-1">SEO Meta Description</label>
-            <textarea
-              rows={2}
-              value={page.seo?.description || ''}
-              onChange={(e) => onChange({ ...page, seo: { ...page.seo, description: e.target.value } })}
-              className="w-full px-3.5 py-2 rounded-xl bg-charcoal-850 border border-sage-500/30 text-xs text-white"
-            />
-          </div>
+          <SeoMetadataEditor
+            value={{
+              title: page.seo?.title || page.title,
+              description: page.seo?.description || '',
+              canonicalUrl: page.seo?.canonicalUrl || '',
+              keywords: page.seo?.keywords || '',
+              ogImage: page.seo?.ogImage || '',
+              noindex: page.seo?.noindex || false,
+            }}
+            defaultSlug={page.slug}
+            pageContextName={page.title || page.pageId}
+            onChange={(updatedSeo: any) => {
+              onChange({
+                ...page,
+                seo: {
+                  ...page.seo,
+                  ...updatedSeo,
+                },
+              });
+            }}
+          />
         </div>
 
         <div className="flex items-center justify-end gap-3 pt-4 border-t border-sage-500/20">

@@ -137,3 +137,76 @@ export function generateBreadcrumbSchema(items: { name: string; url: string }[])
   };
 }
 
+export function generateLocalBusinessSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${BASE_SITE_URL}/#localbusiness`,
+    name: 'Peace Haven Technologies',
+    legalName: 'Peace Haven Technologies Private Limited',
+    url: BASE_SITE_URL,
+    logo: `${BASE_SITE_URL}/favicon.svg`,
+    image: `${BASE_SITE_URL}/og-image.png`,
+    telephone: '+91-6566226262',
+    email: 'inquiries@peacehaven.tech',
+    priceRange: '$$$',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Site No 71, SNV Garden Main Rd, Ramanathapuram',
+      addressLocality: 'Coimbatore',
+      addressRegion: 'Tamil Nadu',
+      postalCode: '641036',
+      addressCountry: 'IN',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: '11.0016',
+      longitude: '76.9868',
+    },
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '09:00',
+        closes: '18:00',
+      },
+    ],
+    areaServed: [
+      { '@type': 'AdministrativeArea', name: 'Coimbatore, Tamil Nadu' },
+      { '@type': 'Country', name: 'India' },
+      { '@type': 'Country', name: 'United States' },
+      { '@type': 'Country', name: 'Global' },
+    ],
+  };
+}
+
+export function generateArticleSchema(article: {
+  title: string;
+  description: string;
+  slug: string;
+  datePublished?: string;
+  dateModified?: string;
+  authorName?: string;
+  heroImage?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    '@id': `${BASE_SITE_URL}/insights/${article.slug}#article`,
+    headline: article.title,
+    description: article.description,
+    url: `${BASE_SITE_URL}/insights/${article.slug}`,
+    image: article.heroImage || `${BASE_SITE_URL}/og-image.png`,
+    datePublished: article.datePublished || '2026-01-15',
+    dateModified: article.dateModified || new Date().toISOString(),
+    author: {
+      '@type': 'Person',
+      name: article.authorName || 'Peace Haven Engineering Group',
+    },
+    publisher: {
+      '@id': `${BASE_SITE_URL}/#organization`,
+    },
+  };
+}
+
+

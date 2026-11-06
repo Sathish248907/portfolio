@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Save, Plus, Trash2, Layers, CheckCircle2, Globe2 } from 'lucide-react';
 import { Button } from '../../../components/common/Button';
+import { SeoMetadataEditor } from '../../../components/admin/SeoMetadataEditor';
 
 interface ServiceEditorModalProps {
   service: any;
@@ -250,40 +251,28 @@ export const ServiceEditorModal: React.FC<ServiceEditorModalProps> = ({
             </div>
           </div>
 
-          {/* SEO Metadata */}
-          <div className="space-y-3 pt-3 border-t border-sage-500/20">
-            <label className="text-xs font-mono text-champagne-400 font-bold uppercase flex items-center gap-1.5">
-              <Globe2 className="w-3.5 h-3.5" />
-              <span>Service SEO Metadata</span>
-            </label>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="md:col-span-2 space-y-1">
-                <label className="text-xs font-mono text-slate-300">SEO Meta Title</label>
-                <input
-                  type="text"
-                  value={formData.seo?.title || ''}
-                  onChange={(e) => setFormData({
-                    ...formData,
-                    seo: { ...formData.seo, title: e.target.value },
-                  })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-charcoal-850 border border-sage-500/30 text-xs text-white"
-                />
-              </div>
-
-              <div className="md:col-span-2 space-y-1">
-                <label className="text-xs font-mono text-slate-300">SEO Meta Description</label>
-                <textarea
-                  rows={2}
-                  value={formData.seo?.description || ''}
-                  onChange={(e) => setFormData({
-                    ...formData,
-                    seo: { ...formData.seo, description: e.target.value },
-                  })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-charcoal-850 border border-sage-500/30 text-xs text-white resize-none"
-                />
-              </div>
-            </div>
-          </div>
+          {/* Advanced SEO Metadata Controls */}
+          <SeoMetadataEditor
+            value={{
+              title: formData.seo?.title || formData.title,
+              description: formData.seo?.description || formData.shortDescription,
+              canonicalUrl: formData.seo?.canonicalUrl || '',
+              keywords: formData.seo?.keywords || formData.techStack,
+              ogImage: formData.seo?.ogImage || '',
+              noindex: formData.seo?.noindex || false,
+            }}
+            defaultSlug={`services/${formData.slug}`}
+            pageContextName={formData.title || 'Service'}
+            onChange={(updatedSeo: any) => {
+              setFormData({
+                ...formData,
+                seo: {
+                  ...formData.seo,
+                  ...updatedSeo,
+                },
+              });
+            }}
+          />
 
           {/* Form Actions */}
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-sage-500/20">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Save, Plus, Trash2, Briefcase, Globe2, Sparkles } from 'lucide-react';
 import { Button } from '../../../components/common/Button';
+import { SeoMetadataEditor } from '../../../components/admin/SeoMetadataEditor';
 
 interface ProjectEditorModalProps {
   project: any;
@@ -331,6 +332,29 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
               </div>
             ))}
           </div>
+
+          {/* Project SEO Metadata Controls */}
+          <SeoMetadataEditor
+            value={{
+              title: formData.seo?.title || formData.title,
+              description: formData.seo?.description || formData.overview,
+              canonicalUrl: formData.seo?.canonicalUrl || '',
+              keywords: formData.seo?.keywords || formData.technologies,
+              ogImage: formData.seo?.ogImage || formData.heroImage,
+              noindex: formData.seo?.noindex || false,
+            }}
+            defaultSlug={`work/${formData.slug}`}
+            pageContextName={formData.title || 'Case Study'}
+            onChange={(updatedSeo: any) => {
+              setFormData({
+                ...formData,
+                seo: {
+                  ...formData.seo,
+                  ...updatedSeo,
+                },
+              });
+            }}
+          />
 
           {/* Form Actions */}
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-sage-500/20">

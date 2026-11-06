@@ -7,7 +7,7 @@ import { IndustriesSection } from '../components/home/IndustriesSection';
 import { ProcessSection } from '../components/home/ProcessSection';
 import { WhyPeaceHaven } from '../components/home/WhyPeaceHaven';
 import { FinalCTA } from '../components/home/FinalCTA';
-import { generateOrganizationSchema, generateWebSiteSchema } from '../utils/seo';
+import { generateOrganizationSchema, generateWebSiteSchema, generateLocalBusinessSchema } from '../utils/seo';
 import { useCmsPage } from '../hooks/useCmsContent';
 
 export const HomePage: React.FC = () => {
@@ -35,6 +35,7 @@ export const HomePage: React.FC = () => {
         schema={[
           generateOrganizationSchema(),
           generateWebSiteSchema(),
+          generateLocalBusinessSchema(),
         ]}
       />
 

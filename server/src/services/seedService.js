@@ -1519,8 +1519,8 @@ export async function seedInitialData() {
           status: 'REVIEWING',
           priority: 'high',
           assignedTo: {
-            name: superAdmin?.name || 'David Kim',
-            email: superAdmin?.email || 'dkim@peacehaven.tech',
+            name: 'Dhanush',
+            email: 'dhanush@peacehaven.tech',
             role: 'Robotics & Automation Lead',
           },
           communicationHistory: [
@@ -1541,10 +1541,10 @@ export async function seedInitialData() {
               id: 'comm_seed_002',
               type: 'email_sent',
               direction: 'outbound',
-              sender: `${superAdmin?.name || 'David Kim'} <${superAdmin?.email || 'dkim@peacehaven.tech'}>`,
+              sender: 'Dhanush <dhanush@peacehaven.tech>',
               recipient: 'mvance@apexrobotics.io',
               subject: 'Re: Project Specifications Review – PH-MW1O45EI-3345 (Apex Robotics Systems)',
-              message: 'Dear Marcus,\n\nOur robotics engineering leads have completed an initial review of your AMR specifications. We see strong alignment with our Nav2 expertise and are preparing initial architectural recommendations.\n\nBest regards,\nDavid Kim',
+              message: 'Dear Marcus,\n\nOur robotics engineering leads have completed an initial review of your AMR specifications. We see strong alignment with our Nav2 expertise and are preparing initial architectural recommendations.\n\nBest regards,\nDhanush',
               templateSlug: 'thank_you_requirements',
               templateName: '2. Thank You for Your Project Requirements',
               deliveryStatus: 'sent',
@@ -1555,7 +1555,7 @@ export async function seedInitialData() {
             {
               id: 'note_seed_001',
               text: 'Scoping meeting confirmed with Marcus for Thursday. ROS 2 Nav2 demo prepared on staging environment.',
-              author: superAdmin?.name || 'David Kim',
+              author: 'Dhanush',
               createdAt: new Date(Date.now() - 20 * 3600 * 1000),
             },
           ],
@@ -1570,10 +1570,10 @@ export async function seedInitialData() {
             },
             {
               action: 'UPDATE',
-              changedBy: superAdmin?.email || 'admin@peacehaven.tech',
+              changedBy: 'dhanush@peacehaven.tech',
               previousStatus: 'NEW',
               newStatus: 'REVIEWING',
-              notes: 'Assigned to David Kim for technical feasibility review',
+              notes: 'Assigned to Dhanush for technical feasibility review',
               timestamp: new Date(Date.now() - 24 * 3600 * 1000),
             },
           ],
@@ -1609,8 +1609,8 @@ export async function seedInitialData() {
           status: 'IN_DISCUSSION',
           priority: 'urgent',
           assignedTo: {
-            name: 'Maya Chen',
-            email: 'mchen@peacehaven.tech',
+            name: 'PH Hari',
+            email: 'phhari@peacehaven.tech',
             role: 'FinTech Principal',
           },
           communicationHistory: [
@@ -1632,7 +1632,7 @@ export async function seedInitialData() {
             {
               id: 'note_seed_002',
               text: 'NDA executed. Shared preliminary FIX engine latency benchmarks (sub-12 microseconds).',
-              author: 'Maya Chen',
+              author: 'PH Hari',
               createdAt: new Date(Date.now() - 36 * 3600 * 1000),
             },
           ],
@@ -1647,7 +1647,7 @@ export async function seedInitialData() {
             },
             {
               action: 'UPDATE',
-              changedBy: 'mchen@peacehaven.tech',
+              changedBy: 'phhari@peacehaven.tech',
               previousStatus: 'NEW',
               newStatus: 'IN_DISCUSSION',
               notes: 'Discovery workshop scheduled with Vanguard compliance team',
@@ -1660,6 +1660,36 @@ export async function seedInitialData() {
       await Inquiry.insertMany(baselineInquiries);
       console.log(`[SEED] Initialized ${baselineInquiries.length} baseline project inquiries.`);
     }
+
+    // Clean up any legacy team assignments in existing inquiries
+    await Inquiry.updateMany(
+      { 'assignedTo.name': { $in: ['Alex Rivera', 'Marcus Sterling'] } },
+      { $set: { assignedTo: { name: 'Unassigned', email: '', role: 'None' } } }
+    );
+    await Inquiry.updateMany(
+      { 'assignedTo.name': 'Maya Chen' },
+      { $set: { assignedTo: { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Principal' } } }
+    );
+    await Inquiry.updateMany(
+      { 'assignedTo.name': 'David Kim' },
+      { $set: { assignedTo: { name: 'Dhanush', email: 'dhanush@peacehaven.tech', role: 'Robotics & Automation Lead' } } }
+    );
+    await Inquiry.updateMany(
+      { 'assignedTo.name': 'Sarah Vance' },
+      { $set: { assignedTo: { name: 'Swarna', email: 'swarna@peacehaven.tech', role: 'Healthcare Systems Architect' } } }
+    );
+    await Inquiry.updateMany(
+      { 'assignedTo.name': 'Sathish & Vishal' },
+      { $set: { assignedTo: { name: 'Sathish', email: 'sathish@peacehaven.tech', role: 'Web Development Lead' } } }
+    );
+    await Inquiry.updateMany(
+      { 'assignedTo.name': 'Dhanush & Albin' },
+      { $set: { assignedTo: { name: 'Dhanush', email: 'dhanush@peacehaven.tech', role: 'Robotics & Automation Lead' } } }
+    );
+    await Inquiry.updateMany(
+      { 'assignedTo.name': 'Swarna & Shyam' },
+      { $set: { assignedTo: { name: 'Swarna', email: 'swarna@peacehaven.tech', role: 'Healthcare Systems Architect' } } }
+    );
   } catch (err) {
     console.error('[SEED ERROR] Failed to seed initial data:', err.message);
   }

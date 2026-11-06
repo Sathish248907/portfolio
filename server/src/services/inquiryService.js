@@ -1,6 +1,35 @@
 import { Inquiry } from '../models/Inquiry.js';
 import { automationService } from './automationService.js';
 
+export function normalizeAssigned(assignedTo) {
+  if (!assignedTo || !assignedTo.name || assignedTo.name === 'Unassigned') {
+    return { name: 'Unassigned', email: '', role: 'None' };
+  }
+  const n = assignedTo.name.trim();
+  if (n.includes('Alex Rivera') || n.includes('Marcus Sterling')) {
+    return { name: 'Unassigned', email: '', role: 'None' };
+  }
+  if (n.includes('Maya Chen')) {
+    return { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Principal' };
+  }
+  if (n.includes('David Kim')) {
+    return { name: 'Dhanush', email: 'dhanush@peacehaven.tech', role: 'Robotics & Automation Lead' };
+  }
+  if (n.includes('Sarah Vance')) {
+    return { name: 'Swarna', email: 'swarna@peacehaven.tech', role: 'Healthcare Systems Architect' };
+  }
+  if (n.includes('Sathish & Vishal')) {
+    return { name: 'Sathish', email: 'sathish@peacehaven.tech', role: 'Web Development Lead' };
+  }
+  if (n.includes('Dhanush & Albin')) {
+    return { name: 'Dhanush', email: 'dhanush@peacehaven.tech', role: 'Robotics & Automation Lead' };
+  }
+  if (n.includes('Swarna & Shyam')) {
+    return { name: 'Swarna', email: 'swarna@peacehaven.tech', role: 'Healthcare Systems Architect' };
+  }
+  return assignedTo;
+}
+
 export const inquiryService = {
   /**
    * Submit and persist project inquiry, generating reference number and sending email notifications
@@ -174,8 +203,16 @@ export const inquiryService = {
       }
     });
 
+    const normalizedInquiries = inquiries.map((inq) => {
+      const doc = inq.toObject ? inq.toObject() : inq;
+      if (doc.assignedTo) {
+        doc.assignedTo = normalizeAssigned(doc.assignedTo);
+      }
+      return doc;
+    });
+
     return {
-      inquiries,
+      inquiries: normalizedInquiries,
       total,
       metrics,
       pagination: {
@@ -191,9 +228,13 @@ export const inquiryService = {
    * Find inquiry by MongoDB ObjectID or human-readable reference number
    */
   async getInquiryById(id) {
-    return Inquiry.findOne({
+    const inquiry = await Inquiry.findOne({
       $or: [{ _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : null }, { referenceNumber: id }],
     });
+    if (inquiry && inquiry.assignedTo) {
+      inquiry.assignedTo = normalizeAssigned(inquiry.assignedTo);
+    }
+    return inquiry;
   },
 
   /**

@@ -44,9 +44,9 @@ vi.mock('../lib/api', () => ({
           budgetRange: '$100,000 - $250,000 (Enterprise Infrastructure)',
           startPreference: 'Within 2 weeks',
           status: 'NEW',
-          assignedTo: { name: 'Maya Chen', email: 'mchen@peacehaven.tech', role: 'FinTech Principal' },
+          assignedTo: { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Principal' },
           internalNotes: [
-            { id: 'note-1', text: 'Initial scoping session scheduled.', author: 'Maya Chen', createdAt: '2026-03-01T10:00:00.000Z' }
+            { id: 'note-1', text: 'Initial scoping session scheduled.', author: 'PH Hari', createdAt: '2026-03-01T10:00:00.000Z' }
           ],
           auditHistory: [
             { action: 'CREATED', changedBy: 'elena@vanguardfin.com', timestamp: '2026-03-01T09:00:00.000Z' }
@@ -68,7 +68,7 @@ vi.mock('../lib/api', () => ({
           timeline: '1 - 3 months',
           budgetRange: '$50,000 - $100,000 (Production System Build)',
           status: 'REVIEWING',
-          assignedTo: { name: 'David Kim', email: 'dkim@peacehaven.tech', role: 'Robotics & Automation Lead' },
+          assignedTo: { name: 'Dhanush', email: 'dhanush@peacehaven.tech', role: 'Robotics & Automation Lead' },
           createdAt: '2026-03-02T11:00:00.000Z',
         }
       ],
@@ -286,7 +286,7 @@ describe('Phase 6 — Advanced Project Inquiry & Lead Management System', () => 
       expect(await screen.findByText('PH-MWTEST26-4821')).toBeInTheDocument();
       expect(screen.getByText('Elena Rostova')).toBeInTheDocument();
       expect(screen.getByText('Vanguard Global Financials')).toBeInTheDocument();
-      expect(screen.getByText('Maya Chen')).toBeInTheDocument();
+      expect(screen.getByText('PH Hari')).toBeInTheDocument();
 
       expect(screen.getByText('PH-MWTEST26-9932')).toBeInTheDocument();
       expect(screen.getByText('Dr. Michael Vance')).toBeInTheDocument();

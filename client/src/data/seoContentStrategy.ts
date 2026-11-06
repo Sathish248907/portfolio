@@ -182,3 +182,186 @@ export const seoContentStrategy: SEOArticleBlueprint[] = [
   },
 ];
 
+export interface KeywordStrategyEntry {
+  group: 'Company' | 'Service' | 'Industry' | 'Project' | 'Local';
+  primaryKeyword: string;
+  secondaryKeywords: string[];
+  searchIntent: 'Informational' | 'Commercial Investigation' | 'Transactional' | 'Navigational';
+  landingPage: string;
+  contentOpportunity: string;
+  competitionLevel: 'Low' | 'Medium' | 'High';
+}
+
+export const keywordStrategyClusters: KeywordStrategyEntry[] = [
+  // 1. Company Keywords
+  {
+    group: 'Company',
+    primaryKeyword: 'Peace Haven technology company',
+    secondaryKeywords: ['Peace Haven software solutions', 'Peace Haven deep tech', 'technology engineering firm India'],
+    searchIntent: 'Navigational',
+    landingPage: '/',
+    contentOpportunity: 'Establish brand authority, verifiable engineering credentials, multidisciplinary technology showcase.',
+    competitionLevel: 'Low',
+  },
+  {
+    group: 'Company',
+    primaryKeyword: 'technology and engineering solutions firm',
+    secondaryKeywords: ['integrated hardware software development', 'deep tech engineering company', 'full stack enterprise solutions'],
+    searchIntent: 'Commercial Investigation',
+    landingPage: '/about',
+    contentOpportunity: 'Position Peace Haven as an end-to-end partner spanning hardware, robotics, aerial UAVs, and cloud software.',
+    competitionLevel: 'Medium',
+  },
+
+  // 2. Service Keywords
+  {
+    group: 'Service',
+    primaryKeyword: 'custom web application development company',
+    secondaryKeywords: ['MERN stack web engineering', 'enterprise cloud portal development', 'high concurrency web apps'],
+    searchIntent: 'Transactional',
+    landingPage: '/services/web-development',
+    contentOpportunity: 'Demonstrate architectural rigor, component-driven React.js interfaces, sub-second load times, and REST/GraphQL APIs.',
+    competitionLevel: 'High',
+  },
+  {
+    group: 'Service',
+    primaryKeyword: 'fintech software development services',
+    secondaryKeywords: ['digital gold platform architecture', 'fractional bullion software', 'financial ledger technology', 'secure transaction workflows'],
+    searchIntent: 'Transactional',
+    landingPage: '/services/fintech',
+    contentOpportunity: 'Showcase double-entry ledger engineering, real-time commodity price tickers, and certified bullion API integration.',
+    competitionLevel: 'Medium',
+  },
+  {
+    group: 'Service',
+    primaryKeyword: 'robotics automation engineering solutions',
+    secondaryKeywords: ['ROS 2 mobile robot development', 'industrial robotic arm manipulation', 'AMR fleet management software'],
+    searchIntent: 'Commercial Investigation',
+    landingPage: '/services/robotics',
+    contentOpportunity: 'Highlight 6-axis kinematics, Arduino Mega/ROS 2 integration, and real-world micro-factory automation capabilities.',
+    competitionLevel: 'Medium',
+  },
+  {
+    group: 'Service',
+    primaryKeyword: 'commercial drone technology solutions',
+    secondaryKeywords: ['aerial survey drone mapping', 'multispectral drone thermography', 'autonomous flight algorithms'],
+    searchIntent: 'Commercial Investigation',
+    landingPage: '/services/drone-technology',
+    contentOpportunity: 'Detail photogrammetry data pipelines, precision agricultural scouting, and industrial infrastructure inspection.',
+    competitionLevel: 'Medium',
+  },
+  {
+    group: 'Service',
+    primaryKeyword: 'healthcare software development company',
+    secondaryKeywords: ['HIPAA compliant clinic portal', 'point-of-care diagnostics software', 'telehealth appointment booking system'],
+    searchIntent: 'Transactional',
+    landingPage: '/services/healthcare',
+    contentOpportunity: 'Feature slot-based appointment management, clinical triage systems, and lateral flow immunoassay diagnostics.',
+    competitionLevel: 'High',
+  },
+  {
+    group: 'Service',
+    primaryKeyword: 'US technical staffing services',
+    secondaryKeywords: ['dedicated software engineering squad', 'offshore technical talent augmentation', 'vetted senior full-stack developers'],
+    searchIntent: 'Transactional',
+    landingPage: '/services/us-staffing',
+    contentOpportunity: 'Explain time-zone-aligned technical squads, pre-vetted senior software/robotics talent, and transparent engagement models.',
+    competitionLevel: 'High',
+  },
+
+  // 3. Project Keywords
+  {
+    group: 'Project',
+    primaryKeyword: 'PH Homes full-stack real estate platform',
+    secondaryKeywords: ['intelligent property search portal', 'multi-role real estate web app', 'property valuation map search'],
+    searchIntent: 'Commercial Investigation',
+    landingPage: '/work/ph-homes',
+    contentOpportunity: 'Detailed case study on 7 user roles, AI-assisted natural language property queries, and geospatial Mapbox filtering.',
+    competitionLevel: 'Medium',
+  },
+  {
+    group: 'Project',
+    primaryKeyword: 'Artistry Gold and Diamonds ecommerce platform',
+    secondaryKeywords: ['luxury jewellery website development', 'live 22K gold rate ticker website', 'BIS hallmark certified ecommerce'],
+    searchIntent: 'Commercial Investigation',
+    landingPage: '/work/artistry-gold-diamonds',
+    contentOpportunity: 'Case study demonstrating MERN architecture, responsive luxury ergonomics, dynamic gold valuation, and zero layout shift.',
+    competitionLevel: 'Medium',
+  },
+  {
+    group: 'Project',
+    primaryKeyword: 'Grow Capital digital bullion platform',
+    secondaryKeywords: ['fractional gold savings app', 'digital silver purchase protocol', 'Augmont vaulted bullion technology'],
+    searchIntent: 'Informational',
+    landingPage: '/work/grow-capital',
+    contentOpportunity: 'Technical walkthrough of precision 4-decimal place weight calculations, live lock checkout, and physical delivery assay flows.',
+    competitionLevel: 'Medium',
+  },
+  {
+    group: 'Project',
+    primaryKeyword: 'Smart Blind Stick IoT assistive mobility',
+    secondaryKeywords: ['ultrasonic obstacle detection cane', 'GPS emergency tracking blind stick', 'ESP32 assistive device'],
+    searchIntent: 'Commercial Investigation',
+    landingPage: '/work/smart-blind-stick',
+    contentOpportunity: 'Hardware-software teardown detailing ultrasonic sensors, haptic vibration feedback, SIM800L GSM emergency alerts, and fall detection.',
+    competitionLevel: 'Low',
+  },
+  {
+    group: 'Project',
+    primaryKeyword: 'EB-300 robotic arm 6-axis manipulator',
+    secondaryKeywords: ['industrial micro-factory robot arm', 'Arduino Mega 2560 robot kinematics', 'modular end effector pick and place'],
+    searchIntent: 'Informational',
+    landingPage: '/work/eb-300-robotic-arm',
+    contentOpportunity: 'Mechanical and electronic specifications, 600mm reach radius, 500mm height workspace, and coordinated multi-axis trajectory control.',
+    competitionLevel: 'Low',
+  },
+  {
+    group: 'Project',
+    primaryKeyword: 'Rapid MI Screening Test cardiac immunoassay',
+    secondaryKeywords: ['point of care myocardial infarction test', 'cardiac biomarker lateral flow strip', 'emergency cardiac screening test'],
+    searchIntent: 'Commercial Investigation',
+    landingPage: '/work/rapid-mi-screening-test',
+    contentOpportunity: 'Clinical diagnostic principles, 15-minute troponin screening, whole blood lateral flow mechanics, and rural emergency triage value.',
+    competitionLevel: 'Medium',
+  },
+  {
+    group: 'Project',
+    primaryKeyword: 'AI agricultural animal detection system',
+    secondaryKeywords: ['ESP32-CAM farm wildlife deterrence', 'edge computer vision crop protection', 'solar powered animal deterrent'],
+    searchIntent: 'Informational',
+    landingPage: '/work/ai-agricultural-animal-detection',
+    contentOpportunity: 'Edge AI inference on low-power hardware, non-lethal acoustic deterrence, and real-time Telegram bot landowner notifications.',
+    competitionLevel: 'Low',
+  },
+  {
+    group: 'Project',
+    primaryKeyword: 'AI Command Center financial analytics platform',
+    secondaryKeywords: ['fintech high frequency surveillance', 'real-time market anomaly detection', 'institutional trading analytics'],
+    searchIntent: 'Commercial Investigation',
+    landingPage: '/work/ai-command-center',
+    contentOpportunity: 'Platform architecture combining streaming market feeds, automated risk scoring, and interactive compliance dashboards.',
+    competitionLevel: 'Medium',
+  },
+
+  // 4. Local Keywords
+  {
+    group: 'Local',
+    primaryKeyword: 'software development company Coimbatore',
+    secondaryKeywords: ['custom software developers Coimbatore', 'web application development company Tamil Nadu', 'tech engineering Coimbatore'],
+    searchIntent: 'Transactional',
+    landingPage: '/contact',
+    contentOpportunity: 'Target local businesses and industrial enterprises in Coimbatore and Western Tamil Nadu looking for verified technical squads.',
+    competitionLevel: 'Medium',
+  },
+  {
+    group: 'Local',
+    primaryKeyword: 'robotics and automation company Coimbatore',
+    secondaryKeywords: ['industrial automation engineers Coimbatore', 'PLC robotics Tamil Nadu', 'custom automation prototypes Coimbatore'],
+    searchIntent: 'Transactional',
+    landingPage: '/services/robotics',
+    contentOpportunity: 'Capitalize on Coimbatore’s industrial manufacturing and engineering cluster seeking automated manufacturing solutions.',
+    competitionLevel: 'Low',
+  },
+];
+
+

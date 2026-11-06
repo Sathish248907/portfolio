@@ -63,11 +63,44 @@ const allStatuses: { value: InquiryStatus; label: string; color: string }[] = [
 
 const teamMembers = [
   { name: 'Unassigned', email: '', role: 'None' },
-  { name: 'Sathish & Vishal', email: 'webdev@peacehaven.tech', role: 'Web Development Leads' },
-  { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Lead' },
-  { name: 'Dhanush & Albin', email: 'robotics@peacehaven.tech', role: 'Robotics & Automation Leads' },
-  { name: 'Swarna & Shyam', email: 'healthcare@peacehaven.tech', role: 'Healthcare Systems Architects' },
+  { name: 'Sathish', email: 'sathish@peacehaven.tech', role: 'Web Development Lead' },
+  { name: 'Vishal', email: 'vishal@peacehaven.tech', role: 'Web Development Lead' },
+  { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Principal' },
+  { name: 'Dhanush', email: 'dhanush@peacehaven.tech', role: 'Robotics & Automation Lead' },
+  { name: 'Albin', email: 'albin@peacehaven.tech', role: 'Robotics & Automation Lead' },
+  { name: 'Swarna', email: 'swarna@peacehaven.tech', role: 'Healthcare Systems Architect' },
+  { name: 'Shyam', email: 'shyam@peacehaven.tech', role: 'Healthcare Systems Architect' },
 ];
+
+const normalizeAssigned = (assigned?: { name?: string; email?: string; role?: string } | null): { name: string; email: string; role: string } => {
+  if (!assigned || !assigned.name || assigned.name === 'Unassigned') {
+    return { name: 'Unassigned', email: '', role: 'None' };
+  }
+  const n = assigned.name.trim();
+  if (n.includes('Alex Rivera') || n.includes('Marcus Sterling')) {
+    return { name: 'Unassigned', email: '', role: 'None' };
+  }
+  if (n.includes('Maya Chen')) {
+    return { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Principal' };
+  }
+  if (n.includes('David Kim')) {
+    return { name: 'Dhanush', email: 'dhanush@peacehaven.tech', role: 'Robotics & Automation Lead' };
+  }
+  if (n.includes('Sarah Vance')) {
+    return { name: 'Swarna', email: 'swarna@peacehaven.tech', role: 'Healthcare Systems Architect' };
+  }
+  if (n.includes('Sathish & Vishal')) {
+    return { name: 'Sathish', email: 'sathish@peacehaven.tech', role: 'Web Development Lead' };
+  }
+  if (n.includes('Dhanush & Albin')) {
+    return { name: 'Dhanush', email: 'dhanush@peacehaven.tech', role: 'Robotics & Automation Lead' };
+  }
+  if (n.includes('Swarna & Shyam')) {
+    return { name: 'Swarna', email: 'swarna@peacehaven.tech', role: 'Healthcare Systems Architect' };
+  }
+  const match = teamMembers.find((m) => m.name.toLowerCase() === n.toLowerCase());
+  return match || { name: assigned.name, email: assigned.email || '', role: assigned.role || '' };
+};
 
 const allServiceOptions = [
   'All',
@@ -148,10 +181,14 @@ export const AdminInquiriesPage: React.FC = () => {
     setLoading(true);
     try {
       const res = await api.getAdminInquiriesWithMetrics(token || '');
-      setInquiries(res.inquiries);
+      const normalizedInquiries = (res.inquiries || []).map((item) => ({
+        ...item,
+        assignedTo: normalizeAssigned(item.assignedTo),
+      }));
+      setInquiries(normalizedInquiries);
       setMetrics(res.metrics);
       if (selectedInquiry) {
-        const updatedSelected = res.inquiries.find(
+        const updatedSelected = normalizedInquiries.find(
           (i) => i.referenceNumber === selectedInquiry.referenceNumber || i._id === selectedInquiry._id
         );
         if (updatedSelected) {
@@ -168,7 +205,10 @@ export const AdminInquiriesPage: React.FC = () => {
   }, []);
 
   const handleSelectInquiry = (inquiry: ProjectInquiry) => {
-    setSelectedInquiry(inquiry);
+    setSelectedInquiry({
+      ...inquiry,
+      assignedTo: normalizeAssigned(inquiry.assignedTo),
+    });
     setNewNoteText('');
   };
 
@@ -892,40 +932,47 @@ export const AdminInquiriesPage: React.FC = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <div className="relative">
-                      <select
-                        value={selectedInquiry.assignedTo?.name || 'Unassigned'}
-                        onChange={(e) => handleAssignTeamMember(e.target.value)}
-                        disabled={isUpdating}
-                        className="w-full pl-3.5 pr-8 py-2 rounded-xl bg-charcoal-800/90 border border-sage-500/30 text-xs text-white focus:outline-none focus:border-champagne-400 focus:ring-1 focus:ring-champagne-400 font-medium transition-all appearance-none cursor-pointer"
-                      >
-                        {teamMembers.map((m) => (
-                          <option key={m.name} value={m.name} className="bg-charcoal-900 text-white">
-                            {m.name} {m.role !== 'None' ? `(${m.role})` : ''}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                        <ArrowUpDown className="w-3.5 h-3.5" />
-                      </div>
-                    </div>
+                    {(() => {
+                      const currentAssigned = normalizeAssigned(selectedInquiry.assignedTo);
+                      return (
+                        <>
+                          <div className="relative">
+                            <select
+                              value={currentAssigned.name || 'Unassigned'}
+                              onChange={(e) => handleAssignTeamMember(e.target.value)}
+                              disabled={isUpdating}
+                              className="w-full pl-3.5 pr-8 py-2 rounded-xl bg-charcoal-800/90 border border-sage-500/30 text-xs text-white focus:outline-none focus:border-champagne-400 focus:ring-1 focus:ring-champagne-400 font-medium transition-all appearance-none cursor-pointer"
+                            >
+                              {teamMembers.map((m) => (
+                                <option key={m.name} value={m.name} className="bg-charcoal-900 text-white">
+                                  {m.name} {m.role !== 'None' ? `(${m.role})` : ''}
+                                </option>
+                              ))}
+                            </select>
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                              <ArrowUpDown className="w-3.5 h-3.5" />
+                            </div>
+                          </div>
 
-                    {/* Active Architect Pill Display */}
-                    <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-charcoal-800/50 border border-sage-500/20 text-xs">
-                      <div className="w-7 h-7 rounded-lg bg-champagne-500/15 border border-champagne-500/30 flex items-center justify-center text-[10px] font-bold text-champagne-300 font-mono shrink-0">
-                        {getInitials(selectedInquiry.assignedTo?.name)}
-                      </div>
-                      <div className="truncate">
-                        <span className="text-white font-medium block truncate">
-                          {selectedInquiry.assignedTo?.name || 'Unassigned Lead'}
-                        </span>
-                        <span className="text-[10px] font-mono text-champagne-400/90 block truncate">
-                          {selectedInquiry.assignedTo?.role && selectedInquiry.assignedTo.role !== 'None'
-                            ? selectedInquiry.assignedTo.role
-                            : 'Engineering Queue'}
-                        </span>
-                      </div>
-                    </div>
+                          {/* Active Architect Pill Display */}
+                          <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-charcoal-800/50 border border-sage-500/20 text-xs">
+                            <div className="w-7 h-7 rounded-lg bg-champagne-500/15 border border-champagne-500/30 flex items-center justify-center text-[10px] font-bold text-champagne-300 font-mono shrink-0">
+                              {getInitials(currentAssigned.name)}
+                            </div>
+                            <div className="truncate">
+                              <span className="text-white font-medium block truncate">
+                                {currentAssigned.name !== 'Unassigned' ? currentAssigned.name : 'Unassigned Lead'}
+                              </span>
+                              <span className="text-[10px] font-mono text-champagne-400/90 block truncate">
+                                {currentAssigned.role && currentAssigned.role !== 'None'
+                                  ? currentAssigned.role
+                                  : 'Engineering Queue'}
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
 

@@ -51,11 +51,44 @@ const priorityLevels: { value: 'low' | 'medium' | 'high' | 'urgent'; label: stri
 
 const teamMembers = [
   { name: 'Unassigned', email: '', role: 'None' },
-  { name: 'Sathish & Vishal', email: 'webdev@peacehaven.tech', role: 'Web Development Leads' },
-  { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Lead' },
-  { name: 'Dhanush & Albin', email: 'robotics@peacehaven.tech', role: 'Robotics & Automation Leads' },
-  { name: 'Swarna & Shyam', email: 'healthcare@peacehaven.tech', role: 'Healthcare Systems Architects' },
+  { name: 'Sathish', email: 'sathish@peacehaven.tech', role: 'Web Development Lead' },
+  { name: 'Vishal', email: 'vishal@peacehaven.tech', role: 'Web Development Lead' },
+  { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Principal' },
+  { name: 'Dhanush', email: 'dhanush@peacehaven.tech', role: 'Robotics & Automation Lead' },
+  { name: 'Albin', email: 'albin@peacehaven.tech', role: 'Robotics & Automation Lead' },
+  { name: 'Swarna', email: 'swarna@peacehaven.tech', role: 'Healthcare Systems Architect' },
+  { name: 'Shyam', email: 'shyam@peacehaven.tech', role: 'Healthcare Systems Architect' },
 ];
+
+const normalizeAssigned = (assigned?: { name?: string; email?: string; role?: string } | null): { name: string; email: string; role: string } => {
+  if (!assigned || !assigned.name || assigned.name === 'Unassigned') {
+    return { name: 'Unassigned', email: '', role: 'None' };
+  }
+  const n = assigned.name.trim();
+  if (n.includes('Alex Rivera') || n.includes('Marcus Sterling')) {
+    return { name: 'Unassigned', email: '', role: 'None' };
+  }
+  if (n.includes('Maya Chen')) {
+    return { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Principal' };
+  }
+  if (n.includes('David Kim')) {
+    return { name: 'Dhanush', email: 'dhanush@peacehaven.tech', role: 'Robotics & Automation Lead' };
+  }
+  if (n.includes('Sarah Vance')) {
+    return { name: 'Swarna', email: 'swarna@peacehaven.tech', role: 'Healthcare Systems Architect' };
+  }
+  if (n.includes('Sathish & Vishal')) {
+    return { name: 'Sathish', email: 'sathish@peacehaven.tech', role: 'Web Development Lead' };
+  }
+  if (n.includes('Dhanush & Albin')) {
+    return { name: 'Dhanush', email: 'dhanush@peacehaven.tech', role: 'Robotics & Automation Lead' };
+  }
+  if (n.includes('Swarna & Shyam')) {
+    return { name: 'Swarna', email: 'swarna@peacehaven.tech', role: 'Healthcare Systems Architect' };
+  }
+  const match = teamMembers.find((m) => m.name.toLowerCase() === n.toLowerCase());
+  return match || { name: assigned.name, email: assigned.email || '', role: assigned.role || '' };
+};
 
 export const AdminInquiryDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -75,7 +108,10 @@ export const AdminInquiryDetailPage: React.FC = () => {
     try {
       const res = await inquiryApi.getInquiryByRef(token || '', id);
       if (res && res.data) {
-        setInquiry(res.data);
+        setInquiry({
+          ...res.data,
+          assignedTo: normalizeAssigned(res.data.assignedTo),
+        });
       } else {
         setError('Inquiry record not found.');
       }
@@ -505,7 +541,7 @@ export const AdminInquiryDetailPage: React.FC = () => {
                 Assign Responsible Staff
               </label>
               <select
-                value={inquiry.assignedTo?.name || 'Unassigned'}
+                value={normalizeAssigned(inquiry.assignedTo).name || 'Unassigned'}
                 onChange={(e) => handleAssignTeamMember(e.target.value)}
                 className="w-full px-3 py-2 rounded-xl bg-charcoal-900 border border-sage-500/30 text-xs text-white focus:outline-none focus:border-champagne-400"
               >
