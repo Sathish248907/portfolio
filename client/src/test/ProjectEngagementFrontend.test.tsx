@@ -50,14 +50,14 @@ const mockInquiry: ProjectInquiry = {
   status: 'UNDER_REVIEW',
   priority: 'high',
   assignedTo: {
-    name: 'Maya Chen',
-    email: 'mchen@peacehaven.tech',
+    name: 'PH Hari',
+    email: 'phhari@peacehaven.tech',
     role: 'FinTech Principal',
   },
   internalNotes: [
     {
       id: 'note-1',
-      author: 'Maya Chen',
+      author: 'PH Hari',
       text: 'Completed preliminary security architecture review.',
       createdAt: '2026-03-05T10:00:00.000Z',
     },
@@ -71,7 +71,7 @@ const mockInquiry: ProjectInquiry = {
     },
     {
       action: 'STATUS_UPDATED',
-      changedBy: 'Maya Chen',
+      changedBy: 'PH Hari',
       timestamp: '2026-03-05T09:30:00.000Z',
       notes: 'Transitioned from NEW to UNDER_REVIEW.',
     },
@@ -144,7 +144,7 @@ vi.mock('../services/api/inquiryApi', () => ({
 
 describe('Peace Haven — Project Engagement Form, Admin Integration & Client Communication', () => {
   const mockAuthContext = {
-    user: { id: 'admin-1', name: 'Maya Chen', email: 'mchen@peacehaven.tech', role: 'superadmin' as const },
+    user: { id: 'admin-1', name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'superadmin' as const },
     token: 'valid-test-jwt-token',
     isAuthenticated: true,
     login: vi.fn(),
@@ -428,8 +428,8 @@ describe('Peace Haven — Project Engagement Form, Admin Integration & Client Co
               id: 'comm-2',
               type: 'email',
               direction: 'sent',
-              senderEmail: 'mchen@peacehaven.tech',
-              senderName: 'Maya Chen',
+              senderEmail: 'phhari@peacehaven.tech',
+              senderName: 'PH Hari',
               recipientEmail: 'j.sterling@sterlingcap.com',
               subject: 'Discovery Session Invitation [Ref: PH-ENG-2026-9901] – Peace Haven',
               body: 'Dear Julian Sterling,\n\nOur engineering leads have reviewed your specifications for Sterling Global Capital.',
@@ -447,8 +447,8 @@ describe('Peace Haven — Project Engagement Form, Admin Integration & Client Co
         <ClientCommunication
           inquiry={mockInquiry}
           token="valid-test-jwt-token"
-          adminName="Maya Chen"
-          adminEmail="mchen@peacehaven.tech"
+          adminName="PH Hari"
+          adminEmail="phhari@peacehaven.tech"
           onCommunicationSent={onCommunicationSentMock}
         />
       );

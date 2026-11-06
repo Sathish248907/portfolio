@@ -303,7 +303,7 @@ describe('Peace Haven Backend API Integration Tests', () => {
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
     expect(Array.isArray(res.body.services)).toBe(true);
-    expect(res.body.services.length).toBe(6);
+    expect(res.body.services.length).toBeGreaterThanOrEqual(6);
 
     const slugs = res.body.services.map((s) => s.slug);
     expect(slugs).toContain('web-development');

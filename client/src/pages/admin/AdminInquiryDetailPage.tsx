@@ -60,12 +60,21 @@ const teamMembers = [
   { name: 'Shyam', email: 'shyam@peacehaven.tech', role: 'Healthcare Systems Architect' },
 ];
 
-const normalizeAssigned = (assigned?: { name?: string; email?: string; role?: string } | null): { name: string; email: string; role: string } => {
+const normalizeAssigned = (
+  assigned?: { name?: string; email?: string; role?: string } | null,
+  disciplines?: string[]
+): { name: string; email: string; role: string } => {
   if (!assigned || !assigned.name || assigned.name === 'Unassigned') {
     return { name: 'Unassigned', email: '', role: 'None' };
   }
   const n = assigned.name.trim();
   if (n.includes('Alex Rivera') || n.includes('Marcus Sterling')) {
+    if (disciplines && disciplines.some((d) => /fintech/i.test(d))) {
+      return { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Principal' };
+    }
+    if (disciplines && disciplines.some((d) => /web/i.test(d))) {
+      return { name: 'Sathish', email: 'sathish@peacehaven.tech', role: 'Web Development Lead' };
+    }
     return { name: 'Unassigned', email: '', role: 'None' };
   }
   if (n.includes('Maya Chen')) {
@@ -541,7 +550,10 @@ export const AdminInquiryDetailPage: React.FC = () => {
                 Assign Responsible Staff
               </label>
               <select
-                value={normalizeAssigned(inquiry.assignedTo).name || 'Unassigned'}
+                value={
+                  normalizeAssigned(inquiry.assignedTo, inquiry.selectedServices || [inquiry.service]).name ||
+                  'Unassigned'
+                }
                 onChange={(e) => handleAssignTeamMember(e.target.value)}
                 className="w-full px-3 py-2 rounded-xl bg-charcoal-900 border border-sage-500/30 text-xs text-white focus:outline-none focus:border-champagne-400"
               >

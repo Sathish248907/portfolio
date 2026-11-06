@@ -1,12 +1,18 @@
 import { Inquiry } from '../models/Inquiry.js';
 import { automationService } from './automationService.js';
 
-export function normalizeAssigned(assignedTo) {
+export function normalizeAssigned(assignedTo, disciplines = []) {
   if (!assignedTo || !assignedTo.name || assignedTo.name === 'Unassigned') {
     return { name: 'Unassigned', email: '', role: 'None' };
   }
   const n = assignedTo.name.trim();
   if (n.includes('Alex Rivera') || n.includes('Marcus Sterling')) {
+    if (Array.isArray(disciplines) && disciplines.some((d) => /fintech/i.test(d))) {
+      return { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Principal' };
+    }
+    if (Array.isArray(disciplines) && disciplines.some((d) => /web/i.test(d))) {
+      return { name: 'Sathish', email: 'sathish@peacehaven.tech', role: 'Web Development Lead' };
+    }
     return { name: 'Unassigned', email: '', role: 'None' };
   }
   if (n.includes('Maya Chen')) {
@@ -206,7 +212,7 @@ export const inquiryService = {
     const normalizedInquiries = inquiries.map((inq) => {
       const doc = inq.toObject ? inq.toObject() : inq;
       if (doc.assignedTo) {
-        doc.assignedTo = normalizeAssigned(doc.assignedTo);
+        doc.assignedTo = normalizeAssigned(doc.assignedTo, doc.selectedServices || [doc.service]);
       }
       return doc;
     });
@@ -232,7 +238,7 @@ export const inquiryService = {
       $or: [{ _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : null }, { referenceNumber: id }],
     });
     if (inquiry && inquiry.assignedTo) {
-      inquiry.assignedTo = normalizeAssigned(inquiry.assignedTo);
+      inquiry.assignedTo = normalizeAssigned(inquiry.assignedTo, inquiry.selectedServices || [inquiry.service]);
     }
     return inquiry;
   },
@@ -250,7 +256,7 @@ export const inquiryService = {
     if (status) inquiry.status = status;
     if (priority) inquiry.priority = priority;
     if (notes !== undefined) inquiry.notes = notes;
-    if (assignedTo !== undefined) inquiry.assignedTo = assignedTo;
+    if (assignedTo !== undefined) inquiry.assignedTo = normalizeAssigned(assignedTo, inquiry.selectedServices || [inquiry.service]);
 
     // Record in immutable audit trail
     inquiry.auditHistory.push({

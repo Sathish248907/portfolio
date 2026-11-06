@@ -85,14 +85,14 @@ describe('Phase 14 — Advanced SEO, Search Visibility & Organic Growth', () => 
         title: 'Robotics and Industrial Automation: Bridging Hardware and Cloud',
         description: 'How modern manufacturing facilities deploy AMRs and edge vision.',
         slug: 'robotics-and-automation-in-modern-industries',
-        authorName: 'Alex Rivera, Lead Architect',
+        authorName: 'Sathish, Lead Architect',
       };
       const schema = generateArticleSchema(article);
 
       expect(schema['@type']).toBe('TechArticle');
       expect(schema.headline).toBe(article.title);
       expect(schema.url).toContain('/insights/robotics-and-automation-in-modern-industries');
-      expect(schema.author.name).toBe('Alex Rivera, Lead Architect');
+      expect(schema.author.name).toBe('Sathish, Lead Architect');
     });
 
     it('generates compliant SoftwareApplication schema for project case studies', () => {

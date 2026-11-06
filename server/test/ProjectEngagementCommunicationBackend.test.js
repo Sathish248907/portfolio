@@ -150,8 +150,8 @@ describe('Project Engagement Form & Client Communication Backend APIs', () => {
           status: 'UNDER_REVIEW',
           notes: 'Architect assigned to evaluate FHIR interoperability schema.',
           assignedTo: {
-            name: 'Sarah Vance',
-            email: 'svance@peacehaven.tech',
+            name: 'Swarna',
+            email: 'swarna@peacehaven.tech',
             role: 'Healthcare Systems Architect',
           },
         });
@@ -159,7 +159,7 @@ describe('Project Engagement Form & Client Communication Backend APIs', () => {
       expect(res.status).toBe(200);
       expect(res.body.success).toBe(true);
       expect(res.body.data.status).toBe('UNDER_REVIEW');
-      expect(res.body.data.assignedTo.name).toBe('Sarah Vance');
+      expect(res.body.data.assignedTo.name).toBe('Swarna');
     });
   });
 
@@ -186,7 +186,7 @@ describe('Project Engagement Form & Client Communication Backend APIs', () => {
       const responsePayload = {
         recipientEmail: 'jmartinez@quantumhealth.org',
         subject: `Re: Project Engagement – ${testInquiryRef}: Discovery Session Invitation`,
-        message: 'Dear Dr. Martinez,\n\nOur healthcare systems architects have completed the initial assessment of your SMART on FHIR requirements. We would like to schedule a 30-minute discovery call this Thursday to discuss the FHIR translation engine architecture.\n\nBest regards,\nSarah Vance\nPeace Haven Technologies',
+        message: 'Dear Dr. Martinez,\n\nOur healthcare systems architects have completed the initial assessment of your SMART on FHIR requirements. We would like to schedule a 30-minute discovery call this Thursday to discuss the FHIR translation engine architecture.\n\nBest regards,\nSwarna\nPeace Haven Technologies',
         templateSlug: 'schedule_discussion',
         attachments: [
           { fileName: 'peace_haven_fhir_overview.pdf', fileSize: 102400 },

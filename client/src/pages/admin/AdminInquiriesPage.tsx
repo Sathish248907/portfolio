@@ -72,12 +72,21 @@ const teamMembers = [
   { name: 'Shyam', email: 'shyam@peacehaven.tech', role: 'Healthcare Systems Architect' },
 ];
 
-const normalizeAssigned = (assigned?: { name?: string; email?: string; role?: string } | null): { name: string; email: string; role: string } => {
+const normalizeAssigned = (
+  assigned?: { name?: string; email?: string; role?: string } | null,
+  disciplines?: string[]
+): { name: string; email: string; role: string } => {
   if (!assigned || !assigned.name || assigned.name === 'Unassigned') {
     return { name: 'Unassigned', email: '', role: 'None' };
   }
   const n = assigned.name.trim();
   if (n.includes('Alex Rivera') || n.includes('Marcus Sterling')) {
+    if (disciplines && disciplines.some((d) => /fintech/i.test(d))) {
+      return { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Principal' };
+    }
+    if (disciplines && disciplines.some((d) => /web/i.test(d))) {
+      return { name: 'Sathish', email: 'sathish@peacehaven.tech', role: 'Web Development Lead' };
+    }
     return { name: 'Unassigned', email: '', role: 'None' };
   }
   if (n.includes('Maya Chen')) {
@@ -183,7 +192,7 @@ export const AdminInquiriesPage: React.FC = () => {
       const res = await api.getAdminInquiriesWithMetrics(token || '');
       const normalizedInquiries = (res.inquiries || []).map((item) => ({
         ...item,
-        assignedTo: normalizeAssigned(item.assignedTo),
+        assignedTo: normalizeAssigned(item.assignedTo, item.selectedServices || [item.service]),
       }));
       setInquiries(normalizedInquiries);
       setMetrics(res.metrics);
@@ -207,7 +216,7 @@ export const AdminInquiriesPage: React.FC = () => {
   const handleSelectInquiry = (inquiry: ProjectInquiry) => {
     setSelectedInquiry({
       ...inquiry,
-      assignedTo: normalizeAssigned(inquiry.assignedTo),
+      assignedTo: normalizeAssigned(inquiry.assignedTo, inquiry.selectedServices || [inquiry.service]),
     });
     setNewNoteText('');
   };
@@ -933,7 +942,10 @@ export const AdminInquiriesPage: React.FC = () => {
 
                   <div className="space-y-2">
                     {(() => {
-                      const currentAssigned = normalizeAssigned(selectedInquiry.assignedTo);
+                      const currentAssigned = normalizeAssigned(
+                        selectedInquiry.assignedTo,
+                        selectedInquiry.selectedServices || [selectedInquiry.service]
+                      );
                       return (
                         <>
                           <div className="relative">

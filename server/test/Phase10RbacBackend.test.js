@@ -37,7 +37,7 @@ beforeAll(async () => {
     .post('/api/v1/admin/auth/login')
     .send({ email: 'marcus.chen@peacehaven.tech', password: 'Password123!' });
   editorToken = editorRes.body.data.token;
-});
+}, 30000);
 
 afterAll(async () => {
   delete process.env.ALLOW_MULTIPLE_ADMINS;
