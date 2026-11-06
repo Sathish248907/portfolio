@@ -1663,32 +1663,37 @@ export async function seedInitialData() {
 
     // Clean up any legacy team assignments in existing inquiries
     await Inquiry.updateMany(
-      { 'assignedTo.name': { $in: ['Alex Rivera', 'Marcus Sterling'] } },
+      { 'assignedTo.name': { $regex: /Alex Rivera|Marcus Sterling/i } },
       { $set: { assignedTo: { name: 'Unassigned', email: '', role: 'None' } } }
     );
     await Inquiry.updateMany(
-      { 'assignedTo.name': 'Maya Chen' },
+      { 'assignedTo.name': { $regex: /Maya Chen/i } },
       { $set: { assignedTo: { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Principal' } } }
     );
     await Inquiry.updateMany(
-      { 'assignedTo.name': 'David Kim' },
+      { 'assignedTo.name': { $regex: /David Kim/i } },
       { $set: { assignedTo: { name: 'Dhanush', email: 'dhanush@peacehaven.tech', role: 'Robotics & Automation Lead' } } }
     );
     await Inquiry.updateMany(
-      { 'assignedTo.name': 'Sarah Vance' },
+      { 'assignedTo.name': { $regex: /Sarah Vance/i } },
       { $set: { assignedTo: { name: 'Swarna', email: 'swarna@peacehaven.tech', role: 'Healthcare Systems Architect' } } }
     );
     await Inquiry.updateMany(
-      { 'assignedTo.name': 'Sathish & Vishal' },
+      { 'assignedTo.name': { $regex: /Sathish & Vishal/i } },
       { $set: { assignedTo: { name: 'Sathish', email: 'sathish@peacehaven.tech', role: 'Web Development Lead' } } }
     );
     await Inquiry.updateMany(
-      { 'assignedTo.name': 'Dhanush & Albin' },
+      { 'assignedTo.name': { $regex: /Dhanush & Albin/i } },
       { $set: { assignedTo: { name: 'Dhanush', email: 'dhanush@peacehaven.tech', role: 'Robotics & Automation Lead' } } }
     );
     await Inquiry.updateMany(
-      { 'assignedTo.name': 'Swarna & Shyam' },
+      { 'assignedTo.name': { $regex: /Swarna & Shyam/i } },
       { $set: { assignedTo: { name: 'Swarna', email: 'swarna@peacehaven.tech', role: 'Healthcare Systems Architect' } } }
+    );
+    // Specifically assign inquiry PH-MW3DCQE1-7653 to PH Hari (FinTech Principal)
+    await Inquiry.updateMany(
+      { referenceNumber: 'PH-MW3DCQE1-7653' },
+      { $set: { assignedTo: { name: 'PH Hari', email: 'phhari@peacehaven.tech', role: 'FinTech Principal' } } }
     );
   } catch (err) {
     console.error('[SEED ERROR] Failed to seed initial data:', err.message);
