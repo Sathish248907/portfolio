@@ -25,3 +25,4 @@ export function sanitizeInput(req, res, next) {
   if (req.params) sanitizeData(req.params);
   next();
 }
+

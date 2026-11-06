@@ -71,3 +71,4 @@ describe('Sanitize Middleware - NoSQL Injection Protection', () => {
     expect(req.body.notes).toBeNull();
   });
 });
+
