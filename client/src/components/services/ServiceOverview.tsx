@@ -16,6 +16,14 @@ interface ServiceOverviewProps {
 export const ServiceOverview: React.FC<ServiceOverviewProps> = ({ service }) => {
   const shouldReduceMotion = useReducedMotion();
 
+  const overview = service?.overview || {
+    summary: service?.shortDescription || service?.heroHeadline || '',
+    problemsSolved: [],
+    clientTypes: [],
+    solutionsOffered: [],
+    potentialOutcomes: [],
+  };
+
   const cardVariants = {
     hidden: { opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 20 },
     visible: { 
@@ -41,7 +49,7 @@ export const ServiceOverview: React.FC<ServiceOverviewProps> = ({ service }) => 
           </h2>
 
           <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-light">
-            {service.overview.summary}
+            {overview.summary}
           </p>
         </div>
 
@@ -69,7 +77,7 @@ export const ServiceOverview: React.FC<ServiceOverviewProps> = ({ service }) => 
             </div>
 
             <ul className="space-y-2.5 pt-2 text-sm text-slate-600">
-              {service.overview.problemsSolved.map((item, idx) => (
+              {(overview.problemsSolved || []).map((item, idx) => (
                 <li key={idx} className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-champagne-500 mt-2 shrink-0" />
                   <span className="leading-relaxed">{item}</span>
@@ -99,7 +107,7 @@ export const ServiceOverview: React.FC<ServiceOverviewProps> = ({ service }) => 
             </div>
 
             <ul className="space-y-2.5 pt-2 text-sm text-slate-600">
-              {service.overview.clientTypes.map((item, idx) => (
+              {(overview.clientTypes || []).map((item, idx) => (
                 <li key={idx} className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-teal-700 mt-2 shrink-0" />
                   <span className="leading-relaxed">{item}</span>
@@ -129,7 +137,7 @@ export const ServiceOverview: React.FC<ServiceOverviewProps> = ({ service }) => 
             </div>
 
             <ul className="space-y-2.5 pt-2 text-sm text-slate-600">
-              {service.overview.solutionsOffered.map((item, idx) => (
+              {(overview.solutionsOffered || []).map((item, idx) => (
                 <li key={idx} className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-teal-700 mt-2 shrink-0" />
                   <span className="leading-relaxed">{item}</span>
@@ -159,7 +167,7 @@ export const ServiceOverview: React.FC<ServiceOverviewProps> = ({ service }) => 
             </div>
 
             <ul className="space-y-2.5 pt-2 text-sm text-slate-600">
-              {service.overview.potentialOutcomes.map((item, idx) => (
+              {(overview.potentialOutcomes || []).map((item, idx) => (
                 <li key={idx} className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-champagne-600 mt-2 shrink-0" />
                   <span className="leading-relaxed">{item}</span>

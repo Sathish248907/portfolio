@@ -220,6 +220,42 @@ export async function seedInitialData() {
       { $pull: { relatedProjectSlugs: { $in: ['nexus-enterprise-cloud-portal', 'ai-resume-analyzer'] } } }
     );
 
+    // Ensure all services in MongoDB have full overview objects
+    await Service.updateOne(
+      { slug: 'web-development' },
+      {
+        $set: {
+          overview: {
+            summary: 'Modern enterprises depend on high-performance web systems to engage customers, automate transactions, and support internal business operations. Peace Haven provides comprehensive full-stack web engineering that connects sleek user experiences with scalable, secure backend systems.',
+            problemsSolved: [
+              'Brittle legacy websites that struggle during traffic surges or campaign launches',
+              'Slow page load times degrading search engine visibility and user engagement',
+              'Fragmented data silos between modern web frontends and back-office ERP/CRM systems',
+              'Inconsistent cross-device experiences that diminish enterprise credibility'
+            ],
+            clientTypes: [
+              'B2B technology and enterprise software companies',
+              'Industrial manufacturing and distribution organizations',
+              'Growing e-commerce merchants and digital storefronts',
+              'Professional services and corporate organizations'
+            ],
+            solutionsOffered: [
+              'Component-driven modern web applications built in React and TypeScript',
+              'Headless e-commerce architectures with secure payment processing',
+              'RESTful and GraphQL API design with OpenAPI documentation',
+              'Cloud-native containerized backends deployed on modern cloud infrastructure'
+            ],
+            potentialOutcomes: [
+              'Improved Core Web Vitals and search engine indexability',
+              'Flexible, modular codebase enabling rapid feature expansion',
+              'Seamless responsive usability across desktop, tablet, and mobile devices',
+              'Hardened data transmission with TLS encryption and access control'
+            ]
+          }
+        }
+      }
+    );
+
     // 3. Seed initial laboratory projects / prototypes if none exists
     const projectCount = await Project.countDocuments();
     if (projectCount === 0) {

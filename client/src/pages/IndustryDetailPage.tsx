@@ -32,11 +32,26 @@ export const IndustryDetailPage: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [slug]);
 
-  const industry = industries.find((i) => i.slug === slug || i.id === slug) || getIndustryBySlug(slug || '');
+  const rawIndustry = industries.find((i) => i.slug === slug || i.id === slug) || getIndustryBySlug(slug || '');
+  const staticFallback = getIndustryBySlug(slug || '');
 
-  if (!industry) {
+  if (!rawIndustry && !staticFallback) {
     return <Navigate to="/industries" replace />;
   }
+
+  const industry = staticFallback ? {
+    ...staticFallback,
+    ...(rawIndustry || {}),
+    overview: (rawIndustry?.overview && typeof rawIndustry.overview === 'object' && (rawIndustry.overview as any).summary) ? rawIndustry.overview : staticFallback.overview,
+    challenges: (rawIndustry?.challenges && rawIndustry.challenges.length > 0) ? rawIndustry.challenges : staticFallback.challenges,
+    capabilities: (rawIndustry?.capabilities && rawIndustry.capabilities.length > 0) ? rawIndustry.capabilities : staticFallback.capabilities,
+  } : rawIndustry!;
+
+  const overview = (typeof industry.overview === 'object' && industry.overview !== null) ? industry.overview : {
+    summary: (typeof industry.overview === 'string' && industry.overview) || industry.shortDescription || '',
+    marketContext: '',
+    keyDeliverables: []
+  };
 
   // Find linked portfolio projects
   const relatedSlugs = industry.relatedProjectSlugs || [];
@@ -138,10 +153,10 @@ export const IndustryDetailPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-7 space-y-4">
             <p className="text-slate-300 text-base leading-relaxed font-light">
-              {industry.overview.summary}
+              {overview.summary}
             </p>
             <p className="text-slate-400 text-sm leading-relaxed font-light">
-              {industry.overview.marketContext}
+              {overview.marketContext}
             </p>
           </div>
 
@@ -150,7 +165,7 @@ export const IndustryDetailPage: React.FC = () => {
               Core Engineering Deliverables
             </span>
             <ul className="space-y-2.5">
-              {industry.overview.keyDeliverables.map((item, idx) => (
+              {(overview.keyDeliverables || []).map((item, idx) => (
                 <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 font-light">
                   <CheckCircle2 className="w-4 h-4 text-champagne-400 shrink-0 mt-0.5" />
                   <span>{item}</span>

@@ -34,6 +34,13 @@ const ServiceSchema = new mongoose.Schema(
       type: String,
       default: 'Cpu',
     },
+    overview: {
+      summary: { type: String, default: '' },
+      problemsSolved: [String],
+      clientTypes: [String],
+      solutionsOffered: [String],
+      potentialOutcomes: [String],
+    },
     capabilities: [
       {
         title: String,

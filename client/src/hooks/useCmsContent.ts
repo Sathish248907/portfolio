@@ -48,7 +48,50 @@ export function useCmsServices<T = any>(fallbackServices: T[] = []) {
       try {
         const remote = await api.getPublicServices();
         if (isMounted && Array.isArray(remote) && remote.length > 0) {
-          setServices(remote as T[]);
+          const merged = fallbackServices.map((fallback: any) => {
+            const found = remote.find(
+              (r: any) =>
+                r.slug === fallback.slug ||
+                r.serviceId === fallback.id ||
+                r.id === fallback.id
+            );
+            if (found) {
+              return {
+                ...fallback,
+                ...found,
+                overview:
+                  found.overview && typeof found.overview === 'object' && found.overview.summary
+                    ? found.overview
+                    : fallback.overview,
+                approach:
+                  Array.isArray(found.approach) && found.approach.length > 0
+                    ? found.approach
+                    : fallback.approach,
+                useCases:
+                  Array.isArray(found.useCases) && found.useCases.length > 0
+                    ? found.useCases
+                    : fallback.useCases,
+                capabilities:
+                  Array.isArray(found.capabilities) && found.capabilities.length > 0
+                    ? found.capabilities
+                    : fallback.capabilities,
+                benefits:
+                  Array.isArray(found.benefits) && found.benefits.length > 0
+                    ? found.benefits
+                    : fallback.benefits,
+                faqs:
+                  Array.isArray(found.faqs) && found.faqs.length > 0
+                    ? found.faqs
+                    : fallback.faqs,
+                relatedProjectSlugs:
+                  Array.isArray(found.relatedProjectSlugs) && found.relatedProjectSlugs.length > 0
+                    ? found.relatedProjectSlugs
+                    : fallback.relatedProjectSlugs,
+              };
+            }
+            return fallback;
+          });
+          setServices(merged as T[]);
         }
       } catch {
         // preserve fallback
@@ -78,7 +121,34 @@ export function useCmsPortfolio<T = any>(fallbackProjects: T[] = []) {
       try {
         const remote = await api.getPublicProjects();
         if (isMounted && Array.isArray(remote) && remote.length > 0) {
-          setProjects(remote as T[]);
+          const merged = fallbackProjects.map((fallback: any) => {
+            const found = remote.find(
+              (r: any) =>
+                r.slug === fallback.slug ||
+                r.projectId === fallback.id ||
+                r.id === fallback.id
+            );
+            if (found) {
+              return {
+                ...fallback,
+                ...found,
+                metrics:
+                  Array.isArray(found.metrics) && found.metrics.length > 0
+                    ? found.metrics
+                    : fallback.metrics,
+                architectureHighlights:
+                  Array.isArray(found.architectureHighlights) && found.architectureHighlights.length > 0
+                    ? found.architectureHighlights
+                    : fallback.architectureHighlights,
+                keyFeatures:
+                  Array.isArray(found.keyFeatures) && found.keyFeatures.length > 0
+                    ? found.keyFeatures
+                    : fallback.keyFeatures,
+              };
+            }
+            return fallback;
+          });
+          setProjects(merged as T[]);
         }
       } catch {
         // preserve fallback
@@ -108,7 +178,42 @@ export function useCmsIndustries<T = any>(fallbackIndustries: T[] = []) {
       try {
         const remote = await api.getPublicIndustries();
         if (isMounted && Array.isArray(remote) && remote.length > 0) {
-          setIndustries(remote as T[]);
+          const merged = fallbackIndustries.map((fallback: any) => {
+            const found = remote.find(
+              (r: any) =>
+                r.slug === fallback.slug ||
+                r.industryId === fallback.id ||
+                r.id === fallback.id
+            );
+            if (found) {
+              return {
+                ...fallback,
+                ...found,
+                overview:
+                  found.overview && typeof found.overview === 'object' && found.overview.summary
+                    ? found.overview
+                    : fallback.overview,
+                challenges:
+                  Array.isArray(found.challenges) && found.challenges.length > 0
+                    ? found.challenges
+                    : fallback.challenges,
+                solutions:
+                  Array.isArray(found.solutions) && found.solutions.length > 0
+                    ? found.solutions
+                    : fallback.solutions,
+                faqs:
+                  Array.isArray(found.faqs) && found.faqs.length > 0
+                    ? found.faqs
+                    : fallback.faqs,
+                relatedProjectSlugs:
+                  Array.isArray(found.relatedProjectSlugs) && found.relatedProjectSlugs.length > 0
+                    ? found.relatedProjectSlugs
+                    : fallback.relatedProjectSlugs,
+              };
+            }
+            return fallback;
+          });
+          setIndustries(merged as T[]);
         }
       } catch {
         // preserve fallback
